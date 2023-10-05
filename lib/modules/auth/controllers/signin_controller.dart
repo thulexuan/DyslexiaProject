@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dyslexia_project/overview_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../home/homePage/home_page.dart';
 
 class SignInController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -64,8 +66,6 @@ class SignInController extends GetxController {
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         res = "success";
-        emailController.clear();
-        passwordController.clear();
       } else {
         res = 'Please enter all the fields';
       }
@@ -74,9 +74,17 @@ class SignInController extends GetxController {
       res = error.toString();
     }
     if (res == "success") {
-      Get.to(const HomePage());
+      saveEmailUsername(emailController.text.trim().toString());
+      emailController.clear();
+      passwordController.clear();
+      Get.to(const OverviewPage());
       onClose();
     }
+  }
+
+  Future<void> saveEmailUsername(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
   }
 
 }

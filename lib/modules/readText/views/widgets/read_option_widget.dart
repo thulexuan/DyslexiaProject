@@ -1,3 +1,4 @@
+import 'package:dyslexia_project/utils/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,13 @@ class ReadOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.all(30),
-        padding: const EdgeInsets.all(20),
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        width: 140,
+        height: 140,
         decoration: BoxDecoration(
-          color: Colors.teal,
+          color: Color.fromRGBO(255, 253, 208, 1),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -28,13 +31,19 @@ class ReadOptionWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          children: [
-            icon,
-            SizedBox(width: 20,),
-            Text(description),
-          ],
-        ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              icon,
+              SizedBox(width: 20,),
+              Container(
+                  padding: EdgeInsets.all(0),
+                  child: Text(description, textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium,)
+              ),
+            ],
+          ),
+      ),
     );
   }
 }

@@ -1,9 +1,8 @@
+import 'package:dyslexia_project/common_widgets/sign_in_option.dart';
 import 'package:dyslexia_project/modules/auth/controllers/signin_controller.dart';
 import 'package:dyslexia_project/modules/auth/views/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-
 
 class Login extends StatelessWidget {
 
@@ -18,23 +17,21 @@ class Login extends StatelessWidget {
           builder: (controller) {
             return Stack(
               children: [
-
-                Container(
-                  padding: EdgeInsets.only(left: 35, top: 130),
-                  child: const Text(
-                    'Welcome\nBack',
-                    style: TextStyle(color: Colors.black, fontSize: 33),
-                  ),
-                ),
                 SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.3),
+                        top: MediaQuery.of(context).size.height * 0.15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text('Đăng nhập', style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        ),
+                        SizedBox(height: 20,),
                         Container(
-                          margin: EdgeInsets.only(left: 35, right: 35),
+                          margin: const EdgeInsets.only(left: 35, right: 35),
                           child: Column(
                             children: [
                               TextField(
@@ -44,7 +41,7 @@ class Login extends StatelessWidget {
                                     prefixIcon: const Icon(Icons.email_outlined),
                                     fillColor: Colors.grey.shade100,
                                     filled: true,
-                                    hintText: "Email",
+                                    hintText: "Nhập email",
                                     labelText: "Email",
                                     errorText: controller.validEmail ? null : controller.errorEmail,
                                     border: OutlineInputBorder(
@@ -63,8 +60,8 @@ class Login extends StatelessWidget {
                                     prefixIcon: const Icon(Icons.password),
                                     fillColor: Colors.grey.shade100,
                                     filled: true,
-                                    labelText: "Password",
-                                    hintText: "Password",
+                                    labelText: "Mật khẩu",
+                                    hintText: "Điền mật khẩu",
                                     errorText: controller.validPassword ? null : controller.errorPassword,
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10)),
@@ -72,9 +69,19 @@ class Login extends StatelessWidget {
                                     )
                                 ),
 
-                              const SizedBox(
-                                height: 20,
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Quên mật khẩu?'),
+                                  ),
+                                ],
                               ),
+                              // sign in button
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
@@ -90,7 +97,7 @@ class Login extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(10.0),
                                                 side: const BorderSide(color: Colors.blue)))),
                                     child: const Text(
-                                      'Sign In',
+                                      'Đăng nhập',
                                       style: TextStyle(fontSize: 20, color: Colors.white),
                                     ),
                                   ),
@@ -100,19 +107,38 @@ class Login extends StatelessWidget {
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: const <Widget>[
+                                    Expanded(
+                                        child: Divider()
+                                    ),
+
+                                    Text("   Hoặc đăng nhập với   "),
+
+                                    Expanded(
+                                        child: Divider()
+                                    ),
+                                  ]
+                              ),
+                              SizedBox(height: 10,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  SignInOption(image_path: 'google.png'),
+                                  SizedBox(width: 20,),
+                                  SignInOption(image_path: 'apple.png')
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Chưa có tài khoản ? '),
                                   TextButton(
                                       onPressed: () {
-
                                         Get.to(() => SignUpPage());
                                       },
-                                      child: Text('Chưa có tài khoản'),
+                                      child: const Text('Đăng ký'),
                                   ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text('Quên mật khẩu'),
-                                  ),
+
                                 ],
                               )
                             ],

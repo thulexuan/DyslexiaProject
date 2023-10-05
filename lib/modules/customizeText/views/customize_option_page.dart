@@ -1,7 +1,6 @@
-import 'dart:math';
 
-import 'package:dyslexia_project/modules/home/customizeText/views/sound_customize_option_page.dart';
-import 'package:dyslexia_project/modules/home/customizeText/views/text_customize_option_page.dart';
+import 'package:dyslexia_project/modules/customizeText/views/sound_customize_option_page.dart';
+import 'package:dyslexia_project/modules/customizeText/views/text_customize_option_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomizeOptionPage extends StatefulWidget {
@@ -26,7 +25,7 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Customize Options'),
+        title: Text('Tùy chỉnh'),
       ),
       body: Column(
         children: [
@@ -40,10 +39,10 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
               unselectedLabelColor: Colors.black,
               indicatorColor: Colors.teal,
               tabs: const [
-                Tab(child: Text('Text',
+                Tab(child: Text('Văn bản',
                   style: TextStyle(fontSize: 18,),)
                 ),
-                Tab(child: Text('Sound',
+                Tab(child: Text('Âm thanh',
                   style: TextStyle(fontSize: 18,),),
                 ),
               ],

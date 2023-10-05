@@ -1,8 +1,9 @@
-import 'package:dyslexia_project/modules/home/customizeText/controllers/sound_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
+import '../controllers/sound_controller.dart';
 
 class SoundCustomizeOptionPage extends StatefulWidget {
   const SoundCustomizeOptionPage({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
           ),
           Row(
             children: <Widget>[
-              const Text('Volume'),
+              const Text('Âm lượng', style: TextStyle(fontWeight: FontWeight.bold),),
               Expanded(
                 child: Obx(() => Slider(
                   value: soundController.current_volume.value,
@@ -60,7 +61,7 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
           ),
           Row(
             children: <Widget>[
-              const Text('Rate'),
+              const Text('Tốc độ', style: TextStyle(fontWeight: FontWeight.bold)),
               Expanded(
                   child: Obx(() => Slider(
                     value: soundController.current_rate.value,
@@ -76,7 +77,7 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
           ),
           Row(
             children: <Widget>[
-              const Text('Pitch'),
+              const Text('Tông giọng', style: TextStyle(fontWeight: FontWeight.bold)),
               Expanded(
                   child: Obx(() => Slider(
                     value: soundController.current_pitch.value,

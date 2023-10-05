@@ -1,8 +1,7 @@
-import 'package:dyslexia_project/common_widgets/bottomNavigationBar.dart';
+import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'modules/home/homePage/home_page.dart';
 
 class OverviewPage extends StatefulWidget {
   const OverviewPage({Key? key}) : super(key: key);
@@ -17,13 +16,17 @@ class _OverviewPageState extends State<OverviewPage> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    ReadOptions(),
     Text(
-      'Index 1: Business',
+      'Trang sach noi',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Kiem tra',
+      style: optionStyle,
+    ),
+    Text(
+      'Cai dat',
       style: optionStyle,
     ),
   ];
@@ -37,27 +40,31 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Trang chủ',
+            icon: Icon(Icons.import_contacts),
+            label: 'Đọc',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Cá nhân',
+            icon: Icon(Icons.library_books),
+            label: 'Thư viện sách',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.quiz),
+            label: 'Kiểm tra',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Cài đặt',
-          ),
+            label: 'Cá nhân',
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );

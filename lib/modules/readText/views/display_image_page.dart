@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:dyslexia_project/modules/home/readText/views/display_text_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/recognize_text_controller.dart';
+import 'display_text_page.dart';
 
 class DisplayImagePage extends StatelessWidget {
    DisplayImagePage({Key? key}) : super(key: key);
@@ -13,19 +13,25 @@ class DisplayImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Display Image'),),
+      appBar: AppBar(title: Text('Ảnh được chọn'),),
       body: Container(
         child: Column(
           children: [
-            Obx(()=>
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                height: MediaQuery.of(context).size.height - 200,
+                child: Obx(()=>
 
-            controller.selectedImagePath.value==''?
-            const Center(child: Text("Select an image from Gallery / camera")):
-            Image.file(
-              File(controller.selectedImagePath.value),
-              width: Get.width,
-              //height: 400,
-            ),
+                controller.selectedImagePath.value==''?
+                const Center(child: Text("Select an image from Gallery / camera")):
+                Image.file(
+                  File(controller.selectedImagePath.value),
+                  width: Get.width,
+                  //height: 400,
+                ),
+                ),
+              ),
             ),
             TextButton(
                 onPressed: () async {

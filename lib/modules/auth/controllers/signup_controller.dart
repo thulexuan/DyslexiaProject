@@ -47,7 +47,13 @@ class SignUpController extends GetxController {
             imageUrl: defaultImageUrl,
             phoneNumber: phoneNumber);
 
-        await firestore.collection('users').doc(credential.user!.uid).set(user.toJson());
+        await firestore.collection('users').doc(credential.user!.uid).set({
+          "fullname": fullname,
+          "uid": credential.user!.uid,
+          "email": email,
+          "imageUrl": defaultImageUrl,
+          "phoneNumber": phoneNumber
+        });
 
         res = "success";
       }
