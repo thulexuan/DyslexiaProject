@@ -35,10 +35,10 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
             Obx(() => Container(
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               width: MediaQuery.of(context).size.width,
-              height: 100,
+              height: 170,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.7),
@@ -53,6 +53,7 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                     fontSize: textCustomizeController.currentFontSize.value.toDouble(),
                     letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
                     wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
+                    height: textCustomizeController.currentLineSpacing.value.toDouble()
                 ),
 
               ),
@@ -104,7 +105,13 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
-                          return BackgroundOption(color: textCustomizeController.backgroundColor[index],);
+                          return GestureDetector(
+                              onTap: () {
+                                textCustomizeController.currentBackgroundColor.value = 
+                                    textCustomizeController.backgroundColor_text[index];
+                              },
+                              child: BackgroundOption(color: textCustomizeController.backgroundColor[index],)
+                          );
                         },
                         itemCount: textCustomizeController.backgroundColor.length,
                         separatorBuilder: (BuildContext context, int index) {
@@ -120,10 +127,10 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                     },
                   ),
                   Divider(),
-                  TextCustomOption(currentValue: 2,
-                    option: 'Khoảng cách giữa các dòng', step: 0.1, max: 5, min: 1,
+                  TextCustomOption(currentValue: textCustomizeController.currentLineSpacing.value,
+                    option: 'Khoảng cách giữa các dòng', step: 0.1, max: 2, min: 1,
                     onChanged: (double value) {
-                      //
+                      textCustomizeController.currentLineSpacing.value = value;
                     },
                   ),
                   Divider(),

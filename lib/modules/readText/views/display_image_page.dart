@@ -20,7 +20,7 @@ class DisplayImagePage extends StatelessWidget {
             SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                height: MediaQuery.of(context).size.height - 200,
+                height: MediaQuery.of(context).size.height - 220,
                 child: Obx(()=>
 
                 controller.selectedImagePath.value==''?
@@ -32,6 +32,12 @@ class DisplayImagePage extends StatelessWidget {
                 ),
                 ),
               ),
+            ),
+            TextButton(
+                onPressed: () async {
+                  await controller.cropImage(controller.selectedImagePath.value);
+                },
+                child: Text('Crop image')
             ),
             TextButton(
                 onPressed: () async {

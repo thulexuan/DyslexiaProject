@@ -1,8 +1,10 @@
 import 'dart:io';
-import 'package:dyslexia_project/modules/common/controllers/text_to_speech.dart';
+import 'package:dyslexia_project/data/word_image_mapping.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
+import 'package:dyslexia_project/overview_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -33,6 +35,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
 
   bool isPause = true;
 
+  FlutterTts flutterTts = FlutterTts();
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,17 +54,59 @@ class _DisplayTextPageState extends State<DisplayTextPage>
     });
   }
 
+  void _showDialog(BuildContext context, String? imageUrl, String word) {
+    Navigator.of(context).push(
+      DialogRoute<void>(
+        context: context,
+        builder: (BuildContext context) =>
+            Dialog(
+                child: imageUrl != null ? Container(
+                  height: 300,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 200,
+                          child: Image.network(imageUrl!)
+                      ),
+                      Text(word),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.volume_up),
+                      )
+                    ],
+                  ),
+                ) : Container(
+                    width: 100,
+                    height: 200,
+                    child: Image.asset('assets/images/no_image.png')
+                ),
+            )
+      ),
+    );
+  }
+
+  // Widget getTextWidgets(List<dynamic> strings)
+  // {
+  //   List<Widget> list = <Widget>[];
+  //   for(var i = 0; i < strings.length; i++){
+  //     list.add(new EachWord(word: strings[i], image_url: '',));
+  //   }
+  //   return new Container(child: Wrap(children: list,),);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Đọc văn bản'),),
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: const Text('Đọc văn bản'),),
       body: Column(
         children: [
           Obx(() =>
               controller.extractedText.value.isEmpty?
               const Center(child: Text("Text Not Found")):
               Container(
-                height: MediaQuery.of(context).size.height - 200,
+                height: MediaQuery.of(context).size.height - 220,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -67,7 +114,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                               color: Colors.grey.withOpacity(0.7),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: const Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -96,16 +143,60 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                         controller: _tabController,
                         children:  [
                           SingleChildScrollView(
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: TextField(
-                                  controller: textEditingController,
-                                  maxLines: null,
-                                  style: TextStyle(
+                            child: Container(
+                              padding: const EdgeInsets.all(15),
+                              color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
+                              child: TextField(
+                                controller: textEditingController,
+                                maxLines: null,
+                                contextMenuBuilder: (BuildContext context,
+                                    EditableTextState editableTextState) {
+
+                                  final List<ContextMenuButtonItem> buttonItems = editableTextState.contextMenuButtonItems;
+                                  final TextEditingValue value = textEditingController.value;
+                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                    return buttonItem.type == ContextMenuButtonType.cut;
+                                  });
+                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                    return buttonItem.type == ContextMenuButtonType.copy;
+                                  });
+                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                    return buttonItem.type == ContextMenuButtonType.selectAll;
+                                  });
+                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                    return buttonItem.type == ContextMenuButtonType.paste;
+                                  });
+                                  buttonItems.insert(0,
+                                    ContextMenuButtonItem(
+                                      label: 'Ảnh',
+                                      onPressed: () async {
+                                        ContextMenuController.removeAny();
+                                        String? imageUrl;
+                                        if (wordImageMapping.containsKey(value.selection.textInside(value.text))) {
+                                          imageUrl = wordImageMapping["${value.selection.textInside(value.text)}"];
+                                        }
+                                        _showDialog(
+                                          context, imageUrl, value.selection.textInside(value.text)
+                                        );
+                                        print(value.selection.textInside(value.text));
+                                        print(imageUrl);
+                                      },
+                                    ),
+                                  );
+
+                                  return AdaptiveTextSelectionToolbar.buttonItems(
+                                    anchors: editableTextState.contextMenuAnchors,
+                                    buttonItems: buttonItems,
+                                  );
+                                },
+                                style: TextStyle(
                                     fontSize: textCustomizeController.currentFontSize.value.toDouble(),
-                                  ),
+                                    letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+                                    wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
+                                    height: textCustomizeController.currentLineSpacing.value.toDouble()
                                 ),
-                              )
+                              ),
+                            ),
                           ),
                           controller.selectedImagePath.value==''?
                           const Center(child: Text("Select an image from Gallery / camera")):
@@ -122,7 +213,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                 ),
               )
           ),
-          SizedBox(height: 20,
+          const SizedBox(height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,12 +221,14 @@ class _DisplayTextPageState extends State<DisplayTextPage>
               Container(
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await controller.speak(controller.words.value);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.headphones,),
-                      Text('Nghe văn bản'),
+                      const Icon(Icons.headphones,),
+                      const Text('Nghe văn bản'),
                     ],
                   ),
                 ),
@@ -144,13 +237,13 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                 width: 150,
                 child: ElevatedButton(
                     onPressed: () {
-                      Get.to(CustomizeOptionPage());
+                      Get.to(const CustomizeOptionPage());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.tune,),
-                        Text('Tùy chỉnh'),
+                        const Icon(Icons.tune,),
+                        const Text('Tùy chỉnh'),
                       ],
                     ),
                 ),
@@ -163,10 +256,12 @@ class _DisplayTextPageState extends State<DisplayTextPage>
               Container(
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(const OverviewPage());
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Icon(Icons.home,),
                       Text('Về trang chủ'),
                     ],
@@ -176,10 +271,12 @@ class _DisplayTextPageState extends State<DisplayTextPage>
               Container(
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(const ReadOptions());
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Icon(Icons.image,),
                       Text('Chọn lại ảnh'),
                     ],

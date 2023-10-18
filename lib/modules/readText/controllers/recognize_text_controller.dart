@@ -1,9 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_tesseract_ocr/android_ios.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class RecognizedTextController extends GetxController {
+
+  FlutterTts flutterTts = FlutterTts();
 
   var selectedImagePath=''.obs;
   var extractedText=''.obs;
@@ -23,6 +30,34 @@ class RecognizedTextController extends GetxController {
     }
 
 
+  }
+
+  cropImage(String pickedImage) async {
+    if (pickedImage != null) { // imageFile = File(pickedImage.path);
+      CroppedFile? cropped = await ImageCropper().cropImage(
+          sourcePath: pickedImage,
+          aspectRatioPresets:
+          [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+
+          uiSettings: [
+          AndroidUiSettings(
+          toolbarTitle: 'Crop',
+          cropGridColor: Colors.black,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+          IOSUiSettings(title: 'Crop')
+      ]);
+
+      if (cropped != null) {
+      selectedImagePath.value = cropped.path;
+      }
+    }
   }
 
   ///recognise image text method
@@ -45,10 +80,22 @@ class RecognizedTextController extends GetxController {
           for (TextLine line in block.lines) {
             for (TextElement element in line.elements) {
               extractedText.value='${extractedText.value}${element.text} ';
+              if (element != null) {
+                words.add(element.text);
+              }
             }
             extractedText.value="${extractedText.value} \n";
           }
         }
+
+        // String text = await FlutterTesseractOcr.extractText(pickedImage, language: 'vie+eng',
+        //     args: {
+        //       "psm": "4",
+        //       "preserve_interword_spaces": "1",
+        //     });
+        // extractedText.value = text;
+
+
 
         // var visionText= await textRecognizer.processImage(visionImage);
         // for(TextBlock textBlock in visionText.blocks){
@@ -64,7 +111,6 @@ class RecognizedTextController extends GetxController {
         // }
         for (int i=0;i<words.length;i++) {
           print(words[i]);
-          print('\n');
         }
         print(words.length);
       }
@@ -75,4 +121,15 @@ class RecognizedTextController extends GetxController {
       }
     }
   }
+
+  speak(List words) async {
+    await flutterTts.setLanguage('vi-VN');
+    for (int i=0;i<words.length;i++) {
+      String currentWord = words.elementAt(i).text.toString();
+      print(currentWord);
+      await flutterTts.speak(currentWord);
+    }
+
+  }
+
 }
