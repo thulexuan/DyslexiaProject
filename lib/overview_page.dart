@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class OverviewPage extends StatefulWidget {
@@ -37,14 +42,26 @@ class _OverviewPageState extends State<OverviewPage> {
     });
   }
 
+
+  final textCustomizeController = Get.put(TextCustomizeController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    textCustomizeController.getData();
+    print('----start----');
+  }
   @override
   Widget build(BuildContext context) {
+
+    print(textCustomizeController.currentFontSize.value);
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.import_contacts),
             label: 'Đọc',

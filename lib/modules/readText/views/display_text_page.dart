@@ -44,6 +44,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
     super.initState();
     textEditingController.text = controller.extractedText.value;
     _tabController = TabController(length: 2, vsync: this);
+    // textCustomizeController.getData();
   }
 
   int selectedIndex = 0;
@@ -67,7 +68,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                       Container(
                         width: 100,
                         height: 200,
-                          child: Image.network(imageUrl!)
+                          child: Image.asset(imageUrl!)
                       ),
                       Text(word),
                       IconButton(
@@ -97,6 +98,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
 
   @override
   Widget build(BuildContext context) {
+
+    print(textCustomizeController.currentFontSize.value);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('Đọc văn bản'),),

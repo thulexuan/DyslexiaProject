@@ -4,7 +4,11 @@ class User {
   final String imageUrl;
   final String fullname;
   final String phoneNumber;
-
+  final double fontSize;
+  final double letterSpacing;
+  final double wordSpacing;
+  final String fontFamily;
+  final bool isFirstTimeLogin;
 
   const User(
       {required this.email,
@@ -12,6 +16,11 @@ class User {
         required this.imageUrl,
         required this.fullname,
         required this.phoneNumber,
+        required this.fontSize,
+        required this.letterSpacing,
+        required this.wordSpacing,
+        required this.fontFamily,
+        required this.isFirstTimeLogin
         });
 
   Map<String, dynamic> toJson() => {
@@ -19,7 +28,12 @@ class User {
     "uid": uid,
     "email": email,
     "imageUrl": imageUrl,
-    "phoneNumber": phoneNumber
+    "phoneNumber": phoneNumber,
+    "fontSize" : fontSize,
+    "letterSpacing" : letterSpacing,
+    "wordSpacing" : wordSpacing,
+    "fontFamily" : fontFamily,
+    "isFirstTimeLogin" : isFirstTimeLogin
   };
 
   static User fromJson(Map<String, dynamic> json) => User(
@@ -28,5 +42,10 @@ class User {
       email: json['email'],
       imageUrl: json['imageUrl'],
       phoneNumber: json['phoneNumber'],
-      );
+      fontSize: json['fontSize'],
+      letterSpacing: json['letterSpacing'],
+      wordSpacing: json['wordSpacing'],
+      fontFamily: json['fontFamily'],
+      isFirstTimeLogin: json['isFirstTimeLogin']
+  );
 }

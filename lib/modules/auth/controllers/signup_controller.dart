@@ -45,14 +45,25 @@ class SignUpController extends GetxController {
             uid: credential.user!.uid,
             email: email,
             imageUrl: defaultImageUrl,
-            phoneNumber: phoneNumber);
+            phoneNumber: phoneNumber,
+            fontSize: 20.0,
+            letterSpacing: 0.0,
+            wordSpacing: 0.0,
+            fontFamily: 'Arial',
+            isFirstTimeLogin: true
+        );
 
         await firestore.collection('users').doc(credential.user!.uid).set({
           "fullname": fullname,
           "uid": credential.user!.uid,
           "email": email,
           "imageUrl": defaultImageUrl,
-          "phoneNumber": phoneNumber
+          "phoneNumber": phoneNumber,
+          "fontSize": 20.0,
+          "letterSpacing": 0.0,
+          "wordSpacing": 0.0,
+          "fontFamily": 'Arial',
+          "isFirstTimeLogin" : true
         });
 
         res = "success";

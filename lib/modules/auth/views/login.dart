@@ -88,7 +88,10 @@ class Login extends StatelessWidget {
                                   width: double.infinity,
                                   height: 56,
                                   child: ElevatedButton(
-                                    onPressed: () => controller.signIn(context),
+                                    onPressed: () {
+                                      controller.signIn(context);
+                                      controller.saveEmailUsername(controller.emailController.text.trim());
+                                    },
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                                         shape:

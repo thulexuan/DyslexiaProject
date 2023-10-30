@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dyslexia_project/modules/intro/first_time_login_page.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
+import 'package:dyslexia_project/modules/tests/views/test_page.dart';
 import 'package:dyslexia_project/overview_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SignInController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final textCustomizeController = Get.put(TextCustomizeController());
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var validEmail;
@@ -77,7 +83,28 @@ class SignInController extends GetxController {
       saveEmailUsername(emailController.text.trim().toString());
       emailController.clear();
       passwordController.clear();
-      Get.to(const OverviewPage());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // get isFirstTimeLogin from database. If == true -> navigate to testPage && update = false
+      // is == false -> navigate to overviewPage
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email',
+          isEqualTo: prefs.getString('email')) // add your condition here
+          .get();
+      final Object? data =
+      snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
+
+      var isFirstTimeLogin = data != null && data is Map<String, dynamic>
+          ? data['isFirstTimeLogin']
+          : 'fail to get isFirstTimeLogin' ;
+      if (isFirstTimeLogin == true) {
+        Get.to(TestPage());
+        await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
+      } else {
+        Get.to(OverviewPage());
+      }
+      // await textCustomizeController.getData();
+      // Get.to(const OverviewPage());
       onClose();
     }
   }

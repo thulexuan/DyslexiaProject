@@ -67,6 +67,7 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                     currentValue: textCustomizeController.currentFontSize.value,
                     option: 'Cỡ chữ', step: 1, max: 50, min: 10,
                     onChanged: (double value) {
+                      textCustomizeController.saveToDb('fontSize', value);
                       textCustomizeController.currentFontSize.value = value;
                       print(textCustomizeController.currentFontSize.value);
                     },

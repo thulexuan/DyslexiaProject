@@ -1,71 +1,50 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dyslexia_project/models/customizeTextQuestion.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TestController extends GetxController {
-  var selectedOption = [].obs;
-  var currentQuestionIndex = 0.obs;
 
-  var questions = <CustomizeTextQuestion>[].obs;
+  final textCustomizeController = Get.put(TextCustomizeController());
 
-  PageController pageController = PageController();
+  var arialFontFrequency = 0.obs;
+  var timesFontFrequency = 0.obs;
+  var letterSpacingNormalFrequency = 0.obs;
+  var letterSpacingExpandFrequency = 0.obs;
+  var wordSpacingNormalFrequency = 0.obs;
+  var wordSpacingExpandFrequency = 0.obs;
+  var fontSizeSmall = 0.obs;
+  var fontSizeBig = 0.obs;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    pageController = PageController();
-    getData();
-  }
+  var answers = List.generate(9, (index) => -1);
 
-  Future<void> getData() async {
-    QuerySnapshot questionData =
-    await FirebaseFirestore.instance.collection('testCustomizeText').get();
-    questions.clear();
-
-    // for (var question in questionData.docs) {
-    //
-    //
-    //   questions.add(
-    //       CustomizeTextQuestion(
-    //           id: question['id'],
-    //           question: question['question'],
-    //           content: question['content'],
-    //           options: (question["options"] as List<dynamic>).map((e) =>
-    //               CustomizeTextOption.fromJson(e)).toList(),
-    //           selectedOption: question['selectedOption'])
-    //   );
-    // }
-    questions.value = questionData.docs
-        .map((m) => CustomizeTextQuestion.fromJson(m.data() as Map<String, dynamic>))
-        .toList();
-    print("okela");
-    print(questions.value.length);
-    for (int i=0;i<questions.value.length;i++) {
-      selectedOption.value.add(10);
+  process() async {
+    for (int i=0;i<3;i++) {
+      if (0 <= i && i <= 2) {
+        if (answers[i] == 0) {
+          arialFontFrequency++;
+          fontSizeSmall++;
+        }
+        if (answers[i] == 1) {
+          arialFontFrequency++;
+          fontSizeBig++;
+        }
+        if (answers[i] == 2) {
+          timesFontFrequency++;
+          fontSizeSmall++;
+        }
+        if (answers[i] == 3) {
+          timesFontFrequency++;
+          fontSizeBig++;
+        }
+      }
+    }
+    // save to database
+    if (fontSizeBig.value > fontSizeSmall.value) {
+      textCustomizeController.saveToDb('fontSize', 36);
     }
   }
 
-  void updateSelectedOption(int questionIndex, int index) {
-    selectedOption.value[questionIndex] = index;
-  }
-
-  void chooseOption(int questionIndex, int selectedOption) {
-    print(questionIndex);
-    print(selectedOption);
-    // update field selectedOption here
-  }
-
-  void updateQuestionIndex(int index) {
-    currentQuestionIndex.value = index;
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    pageController.dispose();
-  }
 }
