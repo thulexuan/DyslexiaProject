@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
+import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'modules/profile/profile_page.dart';
 
 
 class OverviewPage extends StatefulWidget {
@@ -20,7 +23,7 @@ class _OverviewPageState extends State<OverviewPage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     ReadOptions(),
     Text(
       'Trang sach noi',
@@ -30,10 +33,7 @@ class _OverviewPageState extends State<OverviewPage> {
       'Kiem tra',
       style: optionStyle,
     ),
-    Text(
-      'Cai dat',
-      style: optionStyle,
-    ),
+    ProfilePage()
   ];
 
   void _onItemTapped(int index) {
@@ -43,6 +43,7 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
 
+  final testController = Get.put(TestController());
   final textCustomizeController = Get.put(TextCustomizeController());
 
   @override
@@ -55,7 +56,8 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
 
-    print(textCustomizeController.currentFontSize.value);
+    print(testController.letterSpacingExpandFrequency.value);
+    print(testController.wordSpacingExpandFrequency.value);
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

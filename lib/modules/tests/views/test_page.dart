@@ -33,12 +33,12 @@ class _TestPageState extends State<TestPage> {
           TestLetterPage(letter: 'ă', OuesNum: 0,),
           TestLetterPage(letter: 'm', OuesNum: 1,),
           TestLetterPage(letter: 't', OuesNum: 2,),
-          // TestOneWordPage(word: 'cũ',),
-          // TestOneWordPage(word: 'tỏ',),
-          // TestOneWordPage(word: 'làm',),
-          // TestTwoWordPage(word: 'cái kéo'),
-          // TestTwoWordPage(word: 'bút chì'),
-          // TestTwoWordPage(word: 'xe đạp'),
+          TestOneWordPage(word: 'cũ', quesNum: 3,),
+          TestOneWordPage(word: 'tỏ', quesNum: 4,),
+          TestOneWordPage(word: 'làm', quesNum: 5,),
+          TestTwoWordPage(word: 'cái kéo', quesNum: 6,),
+          TestTwoWordPage(word: 'bút chì', quesNum: 7,),
+          TestTwoWordPage(word: 'xe đạp', quesNum: 8,),
           // TestSentencePage(fontFamily: 'Arial'),
           // TestSentencePage(fontFamily: 'Times New Roman'),
           // TestMirrorPage()
@@ -61,7 +61,7 @@ class _TestPageState extends State<TestPage> {
   }
 
   Future<void> nextPage() async {
-    if (_pageController.page?.toInt() == 2) {
+    if (_pageController.page?.toInt() == 8) {
       testController.process();
       await textCustomizeController.getData();
       Navigator.push(

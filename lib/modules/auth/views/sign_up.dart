@@ -7,147 +7,194 @@ import 'package:get/get_core/src/get_main.dart';
 
 import 'login.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
    SignUpPage({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final signUpController = Get.put(SignUpController());
   final signinController = Get.put(SignInController());
+  late var isHiddenPassword;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isHiddenPassword = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(left: 35, right: 35),
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(40, 60, 40, 20),
             child: Column(
-              children: [
-                SizedBox(height: 180,),
-                Center(
-                  child: Text('Register', style: TextStyle(color: Colors.black, fontSize: 33),),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: signUpController.fullnameController,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person),
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      hintText: "Full name",
-                      labelText: "Full name",
-                      //errorText: authController.validEmail.value ? null : authController.errorEmail,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: signUpController.emailController,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      hintText: "Email",
-                      labelText: "Email",
-                      //errorText: authController.validEmail.value ? null : authController.errorEmail,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: signUpController.passwordController,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      hintText: "Password",
-                      labelText: "Password",
-                      //errorText: authController.validEmail.value ? null : authController.errorEmail,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: signUpController.confirmPasswordController,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      hintText: "Confirm password",
-                      labelText: "Confirm Password",
-                      //errorText: authController.validEmail.value ? null : authController.errorEmail,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: signUpController.phoneNumberController,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.phone_android_outlined),
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      hintText: "Phone number",
-                      labelText: "Phone number",
-                      //errorText: authController.validEmail.value ? null : authController.errorEmail,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: () => signUpController.signUp(context),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blue),
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: const BorderSide(color: Colors.blue)))),
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                children: [
+                  Center(
+                    child: Text('Đăng ký', style: TextStyle(color: Colors.black, fontSize: 33),),
+                  ),
+                  SizedBox(height: 10,),
+                  // fullname field
+                  Obx(() => TextField(
+                    controller: signUpController.fullnameController,
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person),
+                        fillColor: Colors.grey.shade100,
+                        filled: true,
+                        hintText: "Tên",
+                        labelText: "Tên",
+                        errorText: signUpController.fullNameError.value == '' ? null : signUpController.fullNameError.value,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  ),
+
+                  SizedBox(height: 10,),
+
+                  // email field
+                  Obx(() => TextField(
+                    controller: signUpController.emailController,
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.email_outlined),
+                        fillColor: Colors.grey.shade100,
+                        filled: true,
+                        hintText: "Email",
+                        labelText: "Email",
+                        errorText: signUpController.emailError.value == '' ? null : signUpController.emailError.value,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  ),
+
+                  SizedBox(height: 10,),
+
+                  // password field
+                  Obx(() => TextField(
+                    controller: signUpController.passwordController,
+                    style: TextStyle(color: Colors.black),
+                    obscureText: isHiddenPassword ? true : false,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isHiddenPassword = !isHiddenPassword;
+                            });
+                          },
+                          child: isHiddenPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                        ),
+                        fillColor: Colors.grey.shade100,
+                        filled: true,
+                        hintText: "Mật khẩu",
+                        labelText: "Mật khẩu",
+                        errorText: signUpController.passwordError.value == '' ? null : signUpController.passwordError.value,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  ),
+
+                  SizedBox(height: 10,),
+
+                  // confirm password field
+                  Obx(() => TextField(
+                    controller: signUpController.confirmPasswordController,
+                    style: TextStyle(color: Colors.black),
+                    obscureText: isHiddenPassword ? true : false,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isHiddenPassword = !isHiddenPassword;
+                            });
+                          },
+                          child: isHiddenPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                        ),
+                        fillColor: Colors.grey.shade100,
+                        filled: true,
+                        hintText: "Nhập lại mật khẩu",
+                        labelText: "Nhập lại mật khẩu",
+                        errorText: signUpController.confirmPasswordError.value == '' ? null : signUpController.confirmPasswordError.value,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  ),
+
+                  SizedBox(height: 10,),
+                  Obx(() => TextField(
+                    controller: signUpController.phoneNumberController,
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.phone_android_outlined),
+                        fillColor: Colors.grey.shade100,
+                        filled: true,
+                        hintText: "Số điện thoại",
+                        labelText: "Số điện thoại",
+                        errorText: signUpController.phoneNumberError.value == '' ? null : signUpController.phoneNumberError.value,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  ),
+
+                  SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: () => signUpController.signUp(context),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.blue),
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.blue)))),
+                        child: const Text(
+                          'Sign up',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        signinController.validEmail = true;
-                        signinController.validPassword = true;
-                        Get.to(() => Login());
-                      },
-                      child: Text('Đã có tài khoản'),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('Quên mật khẩu'),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          signinController.validEmail = true;
+                          signinController.validPassword = true;
+                          Get.to(() => Login());
+                        },
+                        child: Text('Đã có tài khoản'),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('Quên mật khẩu'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
           ),
+
         ),
-      ),
     );
   }
 }

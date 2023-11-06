@@ -70,10 +70,10 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                         height: 200,
                           child: Image.asset(imageUrl!)
                       ),
-                      Text(word),
+                      Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                       IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.volume_up),
+                          icon: Icon(Icons.volume_up, size: 30,),
                       )
                     ],
                   ),

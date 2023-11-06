@@ -21,29 +21,126 @@ class TestController extends GetxController {
   var answers = List.generate(9, (index) => -1);
 
   process() async {
-    for (int i=0;i<3;i++) {
+    for (int i=0;i<9;i++) {
+      // test letter
       if (0 <= i && i <= 2) {
-        if (answers[i] == 0) {
-          arialFontFrequency++;
-          fontSizeSmall++;
+        switch (answers[i]) {
+          case 0:
+            fontSizeSmall++;
+            arialFontFrequency++;
+            break;
+          case 1:
+            fontSizeBig++;
+            arialFontFrequency++;
+            break;
+          case 2:
+            fontSizeSmall++;
+            timesFontFrequency++;
+            break;
+          case 3:
+            fontSizeBig++;
+            timesFontFrequency++;
+            break;
         }
-        if (answers[i] == 1) {
-          arialFontFrequency++;
-          fontSizeBig++;
+      }
+      // test one-word
+      if (3 <= i && i <= 5) {
+        switch (answers[i]) {
+          case 0:
+            fontSizeSmall++;
+            arialFontFrequency++;
+            letterSpacingNormalFrequency++;
+            break;
+          case 1:
+            fontSizeBig++;
+            arialFontFrequency++;
+            letterSpacingNormalFrequency++;
+            break;
+          case 2:
+            fontSizeBig++;
+            arialFontFrequency++;
+            letterSpacingExpandFrequency++;
+            break;
+          case 3:
+            fontSizeSmall++;
+            timesFontFrequency++;
+            letterSpacingNormalFrequency++;
+            break;
+          case 4:
+            fontSizeBig++;
+            timesFontFrequency++;
+            letterSpacingNormalFrequency++;
+            break;
+          case 5:
+            fontSizeBig++;
+            timesFontFrequency++;
+            letterSpacingExpandFrequency++;
+            break;
         }
-        if (answers[i] == 2) {
-          timesFontFrequency++;
-          fontSizeSmall++;
-        }
-        if (answers[i] == 3) {
-          timesFontFrequency++;
-          fontSizeBig++;
+      }
+
+      // test 2-word
+      if (6 <=i && i <= 8) {
+        switch (answers[i]) {
+          case 0:
+            fontSizeSmall++;
+            arialFontFrequency++;
+            wordSpacingNormalFrequency++;
+            break;
+          case 1:
+            fontSizeBig++;
+            arialFontFrequency++;
+            wordSpacingNormalFrequency++;
+            break;
+          case 2:
+            fontSizeBig++;
+            arialFontFrequency++;
+            wordSpacingExpandFrequency++;
+            break;
+          case 3:
+            fontSizeSmall++;
+            timesFontFrequency++;
+            wordSpacingNormalFrequency++;
+            break;
+          case 4:
+            fontSizeBig++;
+            timesFontFrequency++;
+            wordSpacingNormalFrequency++;
+            break;
+          case 5:
+            fontSizeBig++;
+            timesFontFrequency++;
+            wordSpacingExpandFrequency++;
+            break;
         }
       }
     }
     // save to database
+
+    // save font size
     if (fontSizeBig.value > fontSizeSmall.value) {
       textCustomizeController.saveToDb('fontSize', 36);
+    } else {
+      textCustomizeController.saveToDb('fontSize', 24);
+    }
+
+    // save font family
+    if (arialFontFrequency.value > timesFontFrequency.value) {
+      textCustomizeController.saveToDb('fontFamily', 'Arial');
+    } else {
+      textCustomizeController.saveToDb('fontFamily', 'Times');
+    }
+    // save letter spacing
+    if (letterSpacingExpandFrequency.value > letterSpacingNormalFrequency.value) {
+      textCustomizeController.saveToDb('letterSpacing', 5);
+    } else {
+      textCustomizeController.saveToDb('letterSpacing', 0);
+    }
+    // save word spacing
+    if (wordSpacingExpandFrequency.value > wordSpacingNormalFrequency.value) {
+      textCustomizeController.saveToDb('wordSpacing', 10);
+    } else {
+      textCustomizeController.saveToDb('wordSpacing', 0);
     }
   }
 

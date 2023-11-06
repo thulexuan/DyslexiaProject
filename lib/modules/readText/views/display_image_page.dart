@@ -33,21 +33,33 @@ class DisplayImagePage extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-                onPressed: () async {
-                  await controller.cropImage(controller.selectedImagePath.value);
-                },
-                child: Text('Crop image')
-            ),
-            TextButton(
-                onPressed: () async {
-                  await controller.recognizedText(controller.selectedImagePath.value);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
-                  );
-                },
-                child: Text('Scan text'))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: () async {
+                      await controller.cropImage(controller.selectedImagePath.value);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Cắt ảnh', style: TextStyle(fontSize: 20),),
+                    )
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      await controller.recognizedText(controller.selectedImagePath.value);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Đọc văn bản', style: TextStyle(fontSize: 20)),
+                    ))
+              ],
+            )
+
           ],
         ),
 

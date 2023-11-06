@@ -1,21 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TextCustomizeController extends GetxController {
+class UserController extends GetxController {
+  var fullName = ''.obs;
+  var email = ''.obs;
+  var phoneNumber = ''.obs;
 
-  var currentFontSize = 10.0.obs;
-  var currentTextColor = "black".obs;
-  var currentBackgroundColor = "white".obs;
-  var currentFontStyle = "";
-  var currentCharacterSpacing = 1.0.obs;
-  var currentWordSpacing = 1.0.obs;
-  var currentLineSpacing = 1.0.obs;
-
-  Future<void> getData() async {
+  Future<void> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -28,15 +21,26 @@ class TextCustomizeController extends GetxController {
     final Object? data =
     snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
 
-    var fontSize = data != null && data is Map<String, dynamic>
-        ? data['fontSize']
-        : -1.0 ;
+    var user_fullName = data != null && data is Map<String, dynamic>
+        ? data['fullname']
+        : 'no name' ;
 
-    currentFontSize.value = fontSize.toDouble();
-    update();
+    var user_phone = data != null && data is Map<String, dynamic>
+        ? data['phoneNumber']
+        : 'no phone' ;
+
+    var user_email = data != null && data is Map<String, dynamic>
+        ? data['email']
+        : 'no email' ;;
+
+    fullName.value = user_fullName;
+    email.value = user_email;
+    phoneNumber.value = user_phone;
+
   }
 
-  // save value to database when have change from user
+  // update data
+
   Future<void> saveToDb(String fieldName, dynamic value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -48,30 +52,12 @@ class TextCustomizeController extends GetxController {
 
     if (snapshot.docs.isNotEmpty) {
       await snapshot.docs[0]
-        .reference
-        .update({
+          .reference
+          .update({
         fieldName : value
       });
     }
 
 
   }
-
-  List<Color> backgroundColor = [
-    Colors.white,
-    Colors.yellowAccent,
-    Colors.pink,
-    Colors.blue
-  ];
-
-  List<String> backgroundColor_text = [
-    'white',
-    'yellow',
-    'pink',
-    'blue'
-  ];
-
-
-
-
 }

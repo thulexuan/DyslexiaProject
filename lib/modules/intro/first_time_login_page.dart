@@ -22,12 +22,16 @@ class FirstTimeLoginPage extends StatelessWidget {
                 child: Image.asset('assets/images/take_test_1.png', fit: BoxFit.fill,),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text('Bạn có muốn làm bài test?', style: TextStyle(fontSize: 20),),
+            ),
             SizedBox(
               width: 210,
               height: 50,
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(TestPage());
+                    Get.to(const TestPage());
                   },
                   child: Row(
                     children: const [
@@ -46,7 +50,7 @@ class FirstTimeLoginPage extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(OverviewPage());
+                  Get.to(const OverviewPage());
                 },
                 child: Row(
                   children: const [

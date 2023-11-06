@@ -27,10 +27,10 @@ class _TestElementItemState extends State<TestElementItem> {
   Widget build(BuildContext context) {
     print(widget.isSelected);
     return Container(
-      width: 120,
-      height: 80,
+      width: 150,
+      height: 60,
       decoration: BoxDecoration(
-        color: widget.isSelected == true ? Colors.blue : Colors.white,
+        color: widget.isSelected == true ? Colors.yellow : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10))
       ),
       child: Center(
@@ -42,7 +42,7 @@ class _TestElementItemState extends State<TestElementItem> {
                 letterSpacing: widget.letterSpacing,
                 wordSpacing: widget.wordSpacing,
                 fontWeight: widget.isSelected == true ? FontWeight.bold : FontWeight.normal,
-                color: widget.isSelected == true ? Colors.white : Colors.black
+                color: Colors.black
             ),
             textAlign: TextAlign.center,
           )

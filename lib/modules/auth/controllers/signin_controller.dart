@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dyslexia_project/modules/intro/first_time_login_page.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
-import 'package:dyslexia_project/modules/tests/views/test_page.dart';
 import 'package:dyslexia_project/overview_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dyslexia_project/models/user.dart' as userModel;
+
+import '../../intro/intro_screen.dart';
+import '../views/login.dart';
 
 
 class SignInController extends GetxController {
@@ -17,12 +20,14 @@ class SignInController extends GetxController {
   final textCustomizeController = Get.put(TextCustomizeController());
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   var validEmail;
   var validPassword;
+  var checkValid;
 
-  String errorEmail = "check your email";
-  String errorPassword = "check your password";
+  String errorEmail = "Kiểm tra lại email";
+  String errorPassword = "Kiểm tra lại mật khẩu";
 
 
   @override
@@ -31,6 +36,7 @@ class SignInController extends GetxController {
     super.onInit();
     validEmail = true;
     validPassword = true;
+    checkValid = true;
     update();
   }
 
@@ -52,22 +58,15 @@ class SignInController extends GetxController {
     String email = emailController.text;
     String password = passwordController.text;
 
-    if (email.isEmpty) {
-      validEmail = false;
+    if (email.isEmpty || password.isEmpty || password.length < 6) {
+      checkValid = false;
       update();
     } else {
-      validEmail = true;
-      update();
-    }
-    if (password.length < 6 || password.isEmpty) {
-      validPassword = false;
-      update();
-    } else {
-      validPassword = true;
+      checkValid = true;
       update();
     }
     try {
-      if (validEmail && validPassword) {
+      if (/*validEmail && validPassword*/ checkValid == true) {
         await _auth.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
@@ -79,6 +78,8 @@ class SignInController extends GetxController {
     } catch (error) {
       res = error.toString();
     }
+    print(checkValid);
+    print(res);
     if (res == "success") {
       saveEmailUsername(emailController.text.trim().toString());
       emailController.clear();
@@ -98,10 +99,10 @@ class SignInController extends GetxController {
           ? data['isFirstTimeLogin']
           : 'fail to get isFirstTimeLogin' ;
       if (isFirstTimeLogin == true) {
-        Get.to(TestPage());
+        Get.to(const IntroScreen());
         await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
       } else {
-        Get.to(OverviewPage());
+        Get.to(const OverviewPage());
       }
       // await textCustomizeController.getData();
       // Get.to(const OverviewPage());
@@ -113,5 +114,114 @@ class SignInController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', email);
   }
+
+  signInWithGoogle() async {
+
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    String res = '';
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final QuerySnapshot userRef = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email',
+          isEqualTo: userCredential.user?.email ?? '')
+          .get();
+
+      if (userRef.docs.isEmpty) {
+        userModel.User user = userModel.User(
+            fullname: userCredential.user?.displayName ?? 'no name',
+            uid: userCredential.user?.uid ?? 'no',
+            email: userCredential.user?.email ?? 'no',
+            imageUrl: userCredential.user?.photoURL ?? 'no',
+            phoneNumber: userCredential.user?.phoneNumber ?? 'no',
+            fontSize: 20.0,
+            letterSpacing: 0.0,
+            wordSpacing: 0.0,
+            fontFamily: 'Arial',
+            isFirstTimeLogin: true
+        );
+
+        await firestore.collection('users').doc(userCredential.user!.uid).set({
+          "fullname": userCredential.user?.displayName ?? 'no name',
+          "uid": userCredential.user?.uid ?? 'no',
+          "email": userCredential.user?.email ?? 'no',
+          "imageUrl": userCredential.user?.photoURL ?? 'no',
+          "phoneNumber": userCredential.user?.phoneNumber ?? 'no',
+          "fontSize": 20.0,
+          "letterSpacing": 0.0,
+          "wordSpacing": 0.0,
+          "fontFamily": 'Arial',
+          "isFirstTimeLogin" : true
+        });
+
+        res = "success";
+
+      } else {
+        res = "success";
+      }
+    }
+    catch (err) {
+      print(err.toString());
+    }
+
+    // if successfully login -> navigate page
+    if (res == "success") {
+      saveEmailUsername(googleUser?.email ?? 'no');
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+          .where('email', isEqualTo: prefs.getString('email')).get();
+
+      final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
+
+      var isFirstTimeLogin = data != null && data is Map<String, dynamic>
+          ? data['isFirstTimeLogin']
+          : 'fail to get isFirstTimeLogin' ;
+      if (isFirstTimeLogin == true) {
+        Get.to(const IntroScreen());
+        await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
+      } else {
+        Get.to(const OverviewPage());
+      }
+      // await textCustomizeController.getData();
+      // Get.to(const OverviewPage());
+      onClose();
+    }
+
+  }
+
+  signOut() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      List<UserInfo> providerData = user.providerData;
+      if (providerData.isNotEmpty) {
+        for (var userInfo in providerData) {
+          String signInMethod = userInfo.providerId;
+          print('Sign-in method: $signInMethod');
+          if (signInMethod == "google.com") {
+            await GoogleSignIn().signOut();
+          } else {
+            await _auth.signOut();
+          }
+        }
+      }
+    }
+
+  }
+
 
 }

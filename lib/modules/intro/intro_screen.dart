@@ -25,11 +25,11 @@ class _IntroScreenState extends State<IntroScreen> {
         ],
         showSkipButton: true,
         skip: const Icon(Icons.skip_next),
-        next: const Text("Next"),
-        done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w700)),
+        next: const Text("Tiếp"),
+        done: const Text("Xong", style: TextStyle(fontWeight: FontWeight.w700)),
         onDone: () {
           // On Done button pressed
-          Get.to(FirstTimeLoginPage());
+          Get.to(const FirstTimeLoginPage());
         },
         onSkip: () {
           // On Skip button pressed

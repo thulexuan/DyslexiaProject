@@ -1,5 +1,6 @@
 import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
-import 'package:dyslexia_project/modules/tests/views/testElementItem.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/questionItem.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/testElementItem.dart';
 import 'package:dyslexia_project/overview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,44 +42,10 @@ class _TestLetterPageState extends State<TestLetterPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.yellowAccent,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 5), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.volume_up, size: 40,)
-                  ),
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.question_mark, size: 35,),
-                      Flexible(
-                          child: Text('Hãy chọn chữ bạn cho là dễ nhìn nhất', style: TextStyle(fontSize: 20),)
-                      )
-                    ],
-                  )
-
-                ]
-             ),
-            ),
-            SizedBox(height: 50,),
+            SizedBox(height: 30,),
+            QuestionItem(),
+            SizedBox(height: 80,),
             
             // display choices
 
@@ -101,6 +68,7 @@ class _TestLetterPageState extends State<TestLetterPage> {
                         setState(() {
                           selectedIndex = 0;
                         });
+                        testController.answers[widget.OuesNum] = 0;
                       },
                       child: TestElementItem(
                           word: letters[0].word,
@@ -117,6 +85,7 @@ class _TestLetterPageState extends State<TestLetterPage> {
                         setState(() {
                           selectedIndex = 1;
                         });
+                        testController.answers[widget.OuesNum] = 1;
                       },
                       child: TestElementItem(
                         word: letters[1].word,
@@ -136,6 +105,7 @@ class _TestLetterPageState extends State<TestLetterPage> {
                         setState(() {
                           selectedIndex = 2;
                         });
+                        testController.answers[widget.OuesNum] = 2;
                       },
                       child: TestElementItem(
                         word: letters[2].word,
@@ -152,6 +122,7 @@ class _TestLetterPageState extends State<TestLetterPage> {
                         setState(() {
                           selectedIndex = 3;
                         });
+                        testController.answers[widget.OuesNum] = 3;
                       },
                       child: TestElementItem(
                         word: letters[3].word,

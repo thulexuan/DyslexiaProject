@@ -1,4 +1,9 @@
+import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/questionItem.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/testElementItem.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../../models/testElement.dart';
 
 class TestOneWordPage extends StatefulWidget {
@@ -7,13 +12,18 @@ class TestOneWordPage extends StatefulWidget {
   State<TestOneWordPage> createState() => _TestOneWordPageState();
 
   String word;
+  final quesNum;
 
   TestOneWordPage({
-    required this.word
+    required this.word,
+    required this.quesNum
 });
 }
 
 class _TestOneWordPageState extends State<TestOneWordPage> {
+
+  final testController = Get.put(TestController());
+  int selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -29,39 +39,122 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text('Test One Word Page'),),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 700,
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.volume_up)
-            ),
-            SizedBox(height: 20,),
-            Text('Hãy chọn chữ bạn cho là dễ nhìn nhất'),
+            SizedBox(height: 30,),
+            QuestionItem(),
             SizedBox(height: 60,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
-                    Text(words[0].word, style: TextStyle(fontSize: words[0].fontSize, fontFamily: words[0].fontFamily, letterSpacing: words[0].letterSpacing, wordSpacing: words[0].wordSpacing),),
-                    SizedBox(height: 40,),
-                    Text(words[1].word, style: TextStyle(fontSize: words[1].fontSize, fontFamily: words[1].fontFamily, letterSpacing: words[1].letterSpacing, wordSpacing: words[1].wordSpacing),),
-                    SizedBox(height: 40,),
-                    Text(words[2].word, style: TextStyle(fontSize: words[2].fontSize, fontFamily: words[2].fontFamily, letterSpacing: words[2].letterSpacing, wordSpacing: words[2].wordSpacing),),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 0;
+                        });
+                        testController.answers[widget.quesNum] = 0;
+                      },
+                      child: TestElementItem(
+                        word: words[0].word,
+                        fontSize: words[0].fontSize,
+                        letterSpacing: words[0].letterSpacing,
+                        wordSpacing: words[0].wordSpacing,
+                        isSelected: selectedIndex == 0 ? true : false,
+                        fontFamily: words[0].fontFamily,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 1;
+                        });
+                        testController.answers[widget.quesNum] = 1;
+                      },
+                      child: TestElementItem(
+                        word: words[1].word,
+                        fontSize: words[1].fontSize,
+                        letterSpacing: words[1].letterSpacing,
+                        wordSpacing: words[1].wordSpacing,
+                        isSelected: selectedIndex == 1 ? true : false,
+                        fontFamily: words[1].fontFamily,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 2;
+                        });
+                        testController.answers[widget.quesNum] = 2;
+                      },
+                      child: TestElementItem(
+                        word: words[2].word,
+                        fontSize: words[2].fontSize,
+                        letterSpacing: words[2].letterSpacing,
+                        wordSpacing: words[2].wordSpacing,
+                        isSelected: selectedIndex == 2 ? true : false,
+                        fontFamily: words[2].fontFamily,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
-                    Text(words[3].word, style: TextStyle(fontSize: words[3].fontSize, fontFamily: words[3].fontFamily, letterSpacing: words[3].letterSpacing, wordSpacing: words[3].wordSpacing),),
-                    SizedBox(height: 40,),
-                    Text(words[4].word, style: TextStyle(fontSize: words[4].fontSize, fontFamily: words[4].fontFamily, letterSpacing: words[4].letterSpacing, wordSpacing: words[4].wordSpacing),),
-                    SizedBox(height: 40,),
-                    Text(words[5].word, style: TextStyle(fontSize: words[5].fontSize, fontFamily: words[5].fontFamily, letterSpacing: words[5].letterSpacing, wordSpacing: words[5].wordSpacing),),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 3;
+                        });
+                        testController.answers[widget.quesNum] = 3;
+                      },
+                      child: TestElementItem(
+                        word: words[3].word,
+                        fontSize: words[3].fontSize,
+                        letterSpacing: words[3].letterSpacing,
+                        wordSpacing: words[3].wordSpacing,
+                        isSelected: selectedIndex == 3 ? true : false,
+                        fontFamily: words[3].fontFamily,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 4;
+                        });
+                        testController.answers[widget.quesNum] = 4;
+                      },
+                      child: TestElementItem(
+                        word: words[4].word,
+                        fontSize: words[4].fontSize,
+                        letterSpacing: words[4].letterSpacing,
+                        wordSpacing: words[4].wordSpacing,
+                        isSelected: selectedIndex == 4 ? true : false,
+                        fontFamily: words[4].fontFamily,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 5;
+                        });
+                        testController.answers[widget.quesNum] = 5;
+                      },
+                      child: TestElementItem(
+                        word: words[5].word,
+                        fontSize: words[5].fontSize,
+                        letterSpacing: words[5].letterSpacing,
+                        wordSpacing: words[5].wordSpacing,
+                        isSelected: selectedIndex == 5 ? true : false,
+                        fontFamily: words[5].fontFamily,
+                      ),
+                    ),
                   ],
                 ),
               ],

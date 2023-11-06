@@ -1,12 +1,27 @@
 import 'package:dyslexia_project/common_widgets/sign_in_option.dart';
 import 'package:dyslexia_project/modules/auth/controllers/signin_controller.dart';
+import 'package:dyslexia_project/modules/auth/views/forgot_password_page.dart';
 import 'package:dyslexia_project/modules/auth/views/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
 
-  // final authController = Get.put(SignInController());
+class Login extends StatefulWidget {
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+  late var isHiddenPassword;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isHiddenPassword = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +58,7 @@ class Login extends StatelessWidget {
                                     filled: true,
                                     hintText: "Nhập email",
                                     labelText: "Email",
-                                    errorText: controller.validEmail ? null : controller.errorEmail,
+                                    errorText: controller.checkValid == true ? null : controller.errorEmail,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
@@ -52,35 +67,46 @@ class Login extends StatelessWidget {
                               const SizedBox(
                                 height: 30,
                               ),
+
+                              // fill password
+
                               TextField(
                                 controller: controller.passwordController,
                                 style: TextStyle(color: Colors.black),
-                                obscureText: true,
+                                obscureText: isHiddenPassword ? true : false,
                                 decoration: InputDecoration(
                                     prefixIcon: const Icon(Icons.password),
+                                    suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isHiddenPassword = !isHiddenPassword;
+                                          });
+                                        },
+                                        child: isHiddenPassword ? const Icon(Icons.visibility_off) : Icon(Icons.visibility)
+                                    ),
                                     fillColor: Colors.grey.shade100,
                                     filled: true,
                                     labelText: "Mật khẩu",
                                     hintText: "Điền mật khẩu",
-                                    errorText: controller.validPassword ? null : controller.errorPassword,
+                                    errorText: controller.checkValid == true ? null : controller.errorPassword,
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10)),
 
                                     )
                                 ),
 
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Get.to(ForgotPasswordPage());
+                                    },
                                     child: const Text('Quên mật khẩu?'),
                                   ),
                                 ],
                               ),
+
                               // sign in button
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -126,15 +152,20 @@ class Login extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SignInOption(image_path: 'google.png'),
-                                  SizedBox(width: 20,),
+                                  GestureDetector(
+                                      onTap: () async {
+                                        await controller.signInWithGoogle();
+                                      },
+                                      child: SignInOption(image_path: 'google.png')
+                                  ),
+                                  const SizedBox(width: 20,),
                                   SignInOption(image_path: 'apple.png')
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Chưa có tài khoản ? '),
+                                  const Text('Chưa có tài khoản ? '),
                                   TextButton(
                                       onPressed: () {
                                         Get.to(() => SignUpPage());
