@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dyslexia_project/modules/common/controllers/custom_textediting_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,8 @@ class DisplayImagePage extends StatelessWidget {
    DisplayImagePage({Key? key}) : super(key: key);
 
   final controller = Get.put(RecognizedTextController());
+  CustomEditingController customEditingController = CustomEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +43,8 @@ class DisplayImagePage extends StatelessWidget {
                     onPressed: () async {
                       await controller.cropImage(controller.selectedImagePath.value);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Cắt ảnh', style: TextStyle(fontSize: 20),),
                     )
                 ),
@@ -53,8 +56,8 @@ class DisplayImagePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
                       );
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Đọc văn bản', style: TextStyle(fontSize: 20)),
                     ))
               ],

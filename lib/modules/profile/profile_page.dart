@@ -3,6 +3,7 @@ import 'package:dyslexia_project/modules/auth/controllers/signin_controller.dart
 import 'package:dyslexia_project/modules/auth/views/login.dart';
 import 'package:dyslexia_project/modules/common/controllers/user_controller.dart';
 import 'package:dyslexia_project/modules/profile/change_password_page.dart';
+import 'package:dyslexia_project/modules/profile/do_exam_process.dart';
 import 'package:dyslexia_project/modules/profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -114,6 +115,27 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             const Divider(),
+
+            ListTile(
+              onTap: () {
+                Get.to(DoExamProcess());
+              },
+              leading: const Icon(
+                Icons.school,
+                size: 25,
+                color: Colors.blue,
+              ),
+              title: const Text(
+                'Bài kiểm tra đã làm',
+              ),
+              trailing: const Icon(
+                Icons.chevron_right,
+                size: 25,
+                color: Colors.blue,
+              ),
+            ),
+
+            Divider(),
 
             ListTile(
               onTap: () {

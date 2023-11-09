@@ -44,7 +44,7 @@ class _TestTwoWordPageState extends State<TestTwoWordPage> {
         child: Column(
           children: [
             SizedBox(height: 30,),
-            QuestionItem(),
+            QuestionItem(question: 'Hãy chọn chữ bạn cho là dễ nhìn nhất',),
             SizedBox(height: 10,),
             Column(
               children: [

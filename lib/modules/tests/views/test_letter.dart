@@ -44,7 +44,7 @@ class _TestLetterPageState extends State<TestLetterPage> {
         child: Column(
           children: [
             SizedBox(height: 30,),
-            QuestionItem(),
+            QuestionItem(question: 'Hãy chọn chữ bạn cho là dễ nhìn nhất',),
             SizedBox(height: 80,),
             
             // display choices

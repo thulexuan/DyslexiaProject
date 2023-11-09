@@ -1,78 +1,113 @@
 import 'package:dyslexia_project/common_widgets/test_element.dart';
+import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/sentence_item.dart';
+import 'package:dyslexia_project/modules/tests/views/common_widgets/testElementItem.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../models/testElement.dart';
+import 'common_widgets/questionItem.dart';
 
 class TestSentencePage extends StatefulWidget {
 
   @override
   State<TestSentencePage> createState() => _TestSentencePageState();
 
-  String sentence = "câu này không có nghĩa";
-  String fontFamily;
+  String sentence;
+  int quesNum;
+  double fontSize;
 
   TestSentencePage({
-     required this.fontFamily
+    required this.sentence,
+    required this.quesNum,
+    required this.fontSize
 });
+
 }
 
 class _TestSentencePageState extends State<TestSentencePage> {
+
+  final testController = Get.put(TestController());
+  int selectedIndex = -1;
+
   @override
   Widget build(BuildContext context) {
 
     List<TestElement> sentences  = [
-      TestElement(word: widget.sentence, fontSize: 24, fontFamily: widget.fontFamily, letterSpacing: 0, wordSpacing: 0, isSelected: false,),
-      TestElement(word: widget.sentence, fontSize: 30, fontFamily: widget.fontFamily, letterSpacing: 0, wordSpacing: 0, isSelected: false,),
-      TestElement(word: widget.sentence, fontSize: 35, fontFamily: widget.fontFamily, letterSpacing: 0, wordSpacing: 0, isSelected: false,),
-      TestElement(word: widget.sentence, fontSize: 35, fontFamily: widget.fontFamily, letterSpacing: 0, wordSpacing: 0, isSelected: false,),
+      TestElement(word: widget.sentence, fontSize: 24, fontFamily: "Arial", letterSpacing: 0, wordSpacing: 0, isSelected: false,),
+      TestElement(word: widget.sentence, fontSize: 24, fontFamily: "Times New Roman", letterSpacing: 0, wordSpacing: 0, isSelected: false,),
+      TestElement(word: widget.sentence, fontSize: 35, fontFamily: "Arial", letterSpacing: 0, wordSpacing: 0, isSelected: false,),
+      TestElement(word: widget.sentence, fontSize: 35, fontFamily: "Times New Roman", letterSpacing: 0, wordSpacing: 0, isSelected: false,),
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text('Test Sentence Page'),),
-      body: Container(
+      body: Center(
         child: Column(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height - 800,
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.volume_up, size: 40,)
-                ),
                 SizedBox(height: 30,),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                            child: Text(widget.sentence, style: TextStyle(fontSize: sentences[0].fontSize, fontFamily: widget.fontFamily, letterSpacing: sentences[0].letterSpacing, wordSpacing: sentences[0].wordSpacing),)),
+                QuestionItem(question: 'Hãy chọn câu bạn cho là dễ nhìn nhất',),
+                SizedBox(height: 10,),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 0;
+                        });
+                        testController.answers[widget.quesNum] = 0;
+                      },
+                      child: SentenceItem(
+                          sentence: widget.sentence,
+                          fontFamily: 'Arial',
+                          fontSize: widget.fontSize,
+                          isSelected: selectedIndex == 0 ? true : false
                       ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                            child: Text(widget.sentence, style: TextStyle(fontSize: sentences[1].fontSize, fontFamily: widget.fontFamily, letterSpacing: sentences[1].letterSpacing, wordSpacing: sentences[1].wordSpacing),)),
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       selectedIndex = 1;
+                    //     });
+                    //     testController.answers[widget.quesNum] = 1;
+                    //   },
+                    //   child: SentenceItem(
+                    //       sentence: widget.sentence,
+                    //       fontFamily: sentences[1].fontFamily,
+                    //       fontSize: sentences[1].fontSize,
+                    //       isSelected: selectedIndex == 1 ? true : false
+                    //   ),
+                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = 1;
+                        });
+                        testController.answers[widget.quesNum] = 1;
+                      },
+                      child: SentenceItem(
+                          sentence: widget.sentence,
+                          fontFamily: 'Times New Roman',
+                          fontSize: widget.fontSize,
+                          isSelected: selectedIndex == 1 ? true : false
                       ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                            child: Text(widget.sentence, style: TextStyle(fontSize: sentences[2].fontSize, fontFamily: widget.fontFamily, letterSpacing: sentences[2].letterSpacing, wordSpacing: sentences[2].wordSpacing),)),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                            child: Text(widget.sentence, style: TextStyle(fontSize: sentences[3].fontSize, fontFamily: widget.fontFamily, letterSpacing: sentences[3].letterSpacing, wordSpacing: sentences[3].wordSpacing, color: Colors.black.withOpacity(0.5)),)),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 200,)
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       selectedIndex = 3;
+                    //     });
+                    //     testController.answers[widget.quesNum] = 3;
+                    //   },
+                    //   child: SentenceItem(
+                    //       sentence: widget.sentence,
+                    //       fontFamily: sentences[3].fontFamily,
+                    //       fontSize: sentences[3].fontSize,
+                    //       isSelected: selectedIndex == 3 ? true : false
+                    //   ),
+                    // )
+                  ],
+                )
               ],
             ),
       )

@@ -1,7 +1,15 @@
+import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class QuestionItem extends StatelessWidget {
-  const QuestionItem({Key? key}) : super(key: key);
+
+  String question;
+
+  QuestionItem({
+    required this.question
+});
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +32,24 @@ class QuestionItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // loa phát yêu cầu
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.volume_up, size: 40, color: Colors.white,)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/pointing.gif', width: 60, height: 60,),
+                IconButton(
+                    onPressed: () {
+                      SoundFunction().speak(question, 0.5, 0.5, 0.8, 'vi-vn-x-gft-network');
+                    },
+                    icon: const Icon(Icons.volume_up, size: 50, color: Colors.white,)
+                ),
+              ],
             ),
             const SizedBox(height: 10,),
             Row(
-              children: const [
+              children: [
                 Icon(Icons.question_mark, size: 35, color: Colors.white,),
                 Flexible(
-                    child: Text('Hãy chọn chữ bạn cho là dễ nhìn nhất', style: TextStyle(fontSize: 20, color: Colors.white),)
+                    child: Text(question, style: TextStyle(fontSize: 20, color: Colors.white),)
                 )
               ],
             )

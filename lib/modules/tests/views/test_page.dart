@@ -39,9 +39,11 @@ class _TestPageState extends State<TestPage> {
           TestTwoWordPage(word: 'cái kéo', quesNum: 6,),
           TestTwoWordPage(word: 'bút chì', quesNum: 7,),
           TestTwoWordPage(word: 'xe đạp', quesNum: 8,),
-          // TestSentencePage(fontFamily: 'Arial'),
-          // TestSentencePage(fontFamily: 'Times New Roman'),
-          // TestMirrorPage()
+          TestSentencePage(fontSize: 24, sentence: 'Câu này không nghĩa', quesNum: 9,),
+          TestSentencePage(fontSize: 35, sentence: 'Câu này không nghĩa', quesNum: 10,),
+          TestMirrorPage(letter: 'd', quesNum: 11,),
+          TestMirrorPage(letter: 'q', quesNum: 12,),
+          TestMirrorPage(letter: 'n', quesNum: 13,),
         ],
       ),
       bottomNavigationBar: Row(
@@ -52,7 +54,9 @@ class _TestPageState extends State<TestPage> {
           //   child: Text('Previous'),
           // ),
           ElevatedButton(
-            onPressed: nextPage,
+            onPressed: () async {
+              await nextPage();
+            },
             child: Text('Tiếp tục'),
           )
         ],
@@ -61,13 +65,15 @@ class _TestPageState extends State<TestPage> {
   }
 
   Future<void> nextPage() async {
-    if (_pageController.page?.toInt() == 8) {
-      testController.process();
+    if (_pageController.page?.toInt() == 13) {
+      print(testController.answers);
+      await testController.process();
       await textCustomizeController.getData();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const OverviewPage()),
       );
+      print(textCustomizeController.currentCharacterSpacing.value);
     } else {
       _pageController.nextPage(
           duration: Duration(milliseconds: 400),
@@ -75,7 +81,7 @@ class _TestPageState extends State<TestPage> {
       );
     }
 
-    print(testController.answers);
+
   }
 
   // void previousPage(){

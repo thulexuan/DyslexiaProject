@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:dyslexia_project/data/word_image_mapping.dart';
+import 'package:dyslexia_project/modules/common/controllers/custom_textediting_controller.dart';
+import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:dyslexia_project/overview_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../customizeText/controllers/sound_controller.dart';
 import '../../customizeText/controllers/text_customize_controller.dart';
@@ -30,21 +30,22 @@ class _DisplayTextPageState extends State<DisplayTextPage>
   final controller = Get.put(RecognizedTextController());
   final textCustomizeController = Get.put(TextCustomizeController());
   final soundCustomizeController = Get.put(SoundController());
-  final textEditingController = TextEditingController();
+  // final textEditingController = TextEditingController();
+  CustomEditingController customTextEditingController = CustomEditingController();
   late TabController _tabController;
 
   bool isPause = true;
 
   FlutterTts flutterTts = FlutterTts();
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    textEditingController.text = controller.extractedText.value;
+    // textEditingController.text = controller.extractedText.value;
+    customTextEditingController.text = controller.extractedText.value;
     _tabController = TabController(length: 2, vsync: this);
-    // textCustomizeController.getData();
+    textCustomizeController.getData();
   }
 
   int selectedIndex = 0;
@@ -72,7 +73,15 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                       ),
                       Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            SoundFunction().speak(
+                                word,
+                                soundCustomizeController.current_volume.value,
+                                soundCustomizeController.current_rate.value,
+                                soundCustomizeController.current_pitch.value,
+                                soundCustomizeController.voiceNameCodeList[soundCustomizeController.voiceSelectedIndex.value]
+                            );
+                          },
                           icon: Icon(Icons.volume_up, size: 30,),
                       )
                     ],
@@ -87,19 +96,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
     );
   }
 
-  // Widget getTextWidgets(List<dynamic> strings)
-  // {
-  //   List<Widget> list = <Widget>[];
-  //   for(var i = 0; i < strings.length; i++){
-  //     list.add(new EachWord(word: strings[i], image_url: '',));
-  //   }
-  //   return new Container(child: Wrap(children: list,),);
-  // }
 
   @override
   Widget build(BuildContext context) {
-
-    print(textCustomizeController.currentFontSize.value);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -151,13 +150,13 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                               padding: const EdgeInsets.all(15),
                               color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
                               child: TextField(
-                                controller: textEditingController,
+                                controller: customTextEditingController,
                                 maxLines: null,
                                 contextMenuBuilder: (BuildContext context,
                                     EditableTextState editableTextState) {
 
                                   final List<ContextMenuButtonItem> buttonItems = editableTextState.contextMenuButtonItems;
-                                  final TextEditingValue value = textEditingController.value;
+                                  final TextEditingValue value = customTextEditingController.value;
                                   buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
                                     return buttonItem.type == ContextMenuButtonType.cut;
                                   });
@@ -180,7 +179,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                                           imageUrl = wordImageMapping["${value.selection.textInside(value.text)}"];
                                         }
                                         _showDialog(
-                                          context, imageUrl, value.selection.textInside(value.text)
+                                            context, imageUrl, value.selection.textInside(value.text)
                                         );
                                         print(value.selection.textInside(value.text));
                                         print(imageUrl);
@@ -194,7 +193,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                                   );
                                 },
                                 style: TextStyle(
+                                    color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
                                     fontSize: textCustomizeController.currentFontSize.value.toDouble(),
+                                    fontFamily: textCustomizeController.currentFontStyle.value,
                                     letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
                                     wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
                                     height: textCustomizeController.currentLineSpacing.value.toDouble()
@@ -226,7 +227,13 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                 width: 150,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await controller.speak(controller.words.value);
+                    SoundFunction().speak(
+                        customTextEditingController.text,
+                        soundCustomizeController.current_volume.value,
+                        soundCustomizeController.current_rate.value,
+                        soundCustomizeController.current_pitch.value,
+                        soundCustomizeController.voiceNameCodeList[soundCustomizeController.voiceSelectedIndex.value]
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

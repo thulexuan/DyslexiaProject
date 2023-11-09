@@ -7,8 +7,14 @@ class User {
   final double fontSize;
   final double letterSpacing;
   final double wordSpacing;
+  final double lineSpacing;
   final String fontFamily;
+  final String backgroundColor;
+  final String textColor;
   final bool isFirstTimeLogin;
+  final List<dynamic> doneExams;
+  final List<dynamic> resultDoneExams;
+  final List<dynamic> errorWords;
 
   const User(
       {required this.email,
@@ -19,8 +25,14 @@ class User {
         required this.fontSize,
         required this.letterSpacing,
         required this.wordSpacing,
+        required this.lineSpacing,
         required this.fontFamily,
-        required this.isFirstTimeLogin
+        required this.backgroundColor,
+        required this.textColor,
+        required this.isFirstTimeLogin,
+        required this.doneExams,
+        required this.resultDoneExams,
+        required this.errorWords
         });
 
   Map<String, dynamic> toJson() => {
@@ -32,8 +44,14 @@ class User {
     "fontSize" : fontSize,
     "letterSpacing" : letterSpacing,
     "wordSpacing" : wordSpacing,
+    "lineSpacing" : lineSpacing,
     "fontFamily" : fontFamily,
-    "isFirstTimeLogin" : isFirstTimeLogin
+    "backgroundColor" : backgroundColor,
+    "textColor" : textColor,
+    "isFirstTimeLogin" : isFirstTimeLogin,
+    "doneExams" : doneExams,
+    "resultDoneExams" : resultDoneExams,
+    "errorWords" : errorWords
   };
 
   static User fromJson(Map<String, dynamic> json) => User(
@@ -45,7 +63,13 @@ class User {
       fontSize: json['fontSize'],
       letterSpacing: json['letterSpacing'],
       wordSpacing: json['wordSpacing'],
+      lineSpacing: json['lineSpacing'],
       fontFamily: json['fontFamily'],
-      isFirstTimeLogin: json['isFirstTimeLogin']
+      backgroundColor: json['backgroundColor'],
+      textColor: json['textColor'],
+      isFirstTimeLogin: json['isFirstTimeLogin'],
+      doneExams: json['doneExams'],
+      resultDoneExams: json['resultDoneExams'],
+      errorWords: json['errorWords']
   );
 }

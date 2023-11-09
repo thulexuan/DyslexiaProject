@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,10 +19,15 @@ class TestController extends GetxController {
   var fontSizeSmall = 0.obs;
   var fontSizeBig = 0.obs;
 
-  var answers = List.generate(9, (index) => -1);
+  var answers = List.generate(14, (index) => -1);
 
-  process() async {
-    for (int i=0;i<9;i++) {
+  Future<void> process() async {
+
+    List<String> errorWords = [];
+    List<String> type_1 = ['d', 'b', 'p', 'q'];
+    List<String> type_2 = ['m', 'n', 'u'];
+
+    for (int i=0;i<14;i++) {
       // test letter
       if (0 <= i && i <= 2) {
         switch (answers[i]) {
@@ -114,6 +120,53 @@ class TestController extends GetxController {
             break;
         }
       }
+
+      // test with sentence
+      if (i == 9 || i == 10) {
+        switch (answers[i]) {
+          case 0:
+            arialFontFrequency++;
+            break;
+          case 1:
+            timesFontFrequency++;
+            break;
+        }
+      }
+
+      // test mirror letter
+
+      if (i >= 11 && i <= 13) {
+        
+        switch (answers[i]) {
+          case 1:
+            arialFontFrequency++;
+            fontSizeSmall++;
+            break;
+          case 4:
+            timesFontFrequency++;
+            fontSizeSmall++;
+            break;
+          case 7:
+            arialFontFrequency++;
+            fontSizeBig++;
+            break;
+          case 10:
+            timesFontFrequency++;
+            fontSizeBig++;
+            break;
+          default: 
+            if (i==11 || i==12) {
+              bool isExist = type_1.every((element) => errorWords.contains(element));
+              if (!isExist) {
+                errorWords.addAll(type_1);
+              }
+            }
+            if (i == 13) {
+              errorWords.addAll(type_2);
+            }
+        }
+        
+      }
     }
     // save to database
 
@@ -138,10 +191,18 @@ class TestController extends GetxController {
     }
     // save word spacing
     if (wordSpacingExpandFrequency.value > wordSpacingNormalFrequency.value) {
-      textCustomizeController.saveToDb('wordSpacing', 10);
+      textCustomizeController.saveToDb('wordSpacing', 21);
     } else {
       textCustomizeController.saveToDb('wordSpacing', 0);
     }
+
+    // save errorWords in mirror letter test
+
+    if (errorWords.isNotEmpty) {
+      textCustomizeController.saveToDb('errorWords', errorWords);
+    }
+
   }
+
 
 }

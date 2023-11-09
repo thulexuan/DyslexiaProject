@@ -150,8 +150,14 @@ class SignInController extends GetxController {
             fontSize: 20.0,
             letterSpacing: 0.0,
             wordSpacing: 0.0,
+            lineSpacing: 1.1,
             fontFamily: 'Arial',
-            isFirstTimeLogin: true
+            backgroundColor: 'white',
+            textColor: 'black',
+            isFirstTimeLogin: true,
+            doneExams: [],
+            resultDoneExams: [],
+            errorWords: []
         );
 
         await firestore.collection('users').doc(userCredential.user!.uid).set({
@@ -163,8 +169,14 @@ class SignInController extends GetxController {
           "fontSize": 20.0,
           "letterSpacing": 0.0,
           "wordSpacing": 0.0,
+          "lineSpacing" : 1.1,
           "fontFamily": 'Arial',
-          "isFirstTimeLogin" : true
+          "backgroundColor" : 'white',
+          "textColor" : 'black',
+          "isFirstTimeLogin" : true,
+          "doneExams" : [],
+          "resultDoneExams" : [],
+          "errorWords" : []
         });
 
         res = "success";

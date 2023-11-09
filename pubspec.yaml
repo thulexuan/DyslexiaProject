@@ -35,6 +35,9 @@ dependencies:
   intl: any
   introduction_screen: ^3.1.8
   google_sign_in: ^6.1.5
+  percent_indicator: ^4.2.3
+  highlight_text: ^1.7.0
+
 
 
 
@@ -66,6 +69,24 @@ flutter:
     - family: Heuristica
       fonts:
         - asset: fonts/Heuristica-Regular.otf
+    - family: Courier
+      fonts:
+        - asset: fonts/VPSCOURT.TTF
+    - family: Verdana
+      fonts:
+        - asset: fonts/verdana.ttf
+    - family: Helvetica
+      fonts:
+        - asset: fonts/Helvetica.ttf
+    - family: Comic Sans
+      fonts:
+        - asset: fonts/comicsans.ttf
+    - family: CMU
+      fonts:
+        - asset: fonts/cmunbmr.ttf
+    - family: Open Dyslexic
+      fonts:
+        - asset: fonts/open-dyslexic.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

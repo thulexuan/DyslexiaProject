@@ -24,14 +24,17 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    textCustomizeController.getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(textCustomizeController.backgroundColorSelectedIndex.value);
     return Container(
       color: Colors.white,
       child: Column(
           children: [
+            // preview field
             Obx(() => Container(
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               width: MediaQuery.of(context).size.width,
@@ -50,7 +53,9 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
               ),
               child: Text('Đây là bản xem trước',
                 style: TextStyle(
+                    color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
                     fontSize: textCustomizeController.currentFontSize.value.toDouble(),
+                    fontFamily: textCustomizeController.currentFontStyle.value,
                     letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
                     wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
                     height: textCustomizeController.currentLineSpacing.value.toDouble()
@@ -85,12 +90,29 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                     color: Colors.grey.shade200,
                     child: ListView.separated(
                         itemBuilder: (BuildContext context, int index) {
-                          return Text('font style');
+                          return GestureDetector(
+                              onTap: () {
+                                textCustomizeController.fontFamilySelectedIndex.value = index;
+                                textCustomizeController.currentFontStyle.value = textCustomizeController.fontFamilyList[index];
+                                textCustomizeController.saveToDb('fontFamily', textCustomizeController.currentFontStyle.value);
+                              },
+                              child: Obx(() => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(textCustomizeController.fontFamilyList[index],
+                                  style: TextStyle(
+                                      fontFamily: textCustomizeController.fontFamilyList[index],
+                                      color: textCustomizeController.fontFamilySelectedIndex.value == index ? Colors.red : Colors.black,
+                                      fontWeight: textCustomizeController.fontFamilySelectedIndex.value == index ? FontWeight.bold : FontWeight.normal
+                                  ),
+                                ),
+                              )
+                              )
+                          );
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return Divider();
+                          return Divider(thickness: 2.0,);
                         },
-                        itemCount: 10),
+                        itemCount: textCustomizeController.fontFamilyList.length),
                   ),
                   Divider(),
                   const Padding(
@@ -108,10 +130,12 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                               onTap: () {
+                                textCustomizeController.backgroundColorSelectedIndex.value = index;
                                 textCustomizeController.currentBackgroundColor.value = 
                                     textCustomizeController.backgroundColor_text[index];
+                                textCustomizeController.saveToDb('backgroundColor', textCustomizeController.backgroundColor_text[index]);
                               },
-                              child: BackgroundOption(color: textCustomizeController.backgroundColor[index],)
+                              child: Obx(() => BackgroundOption(color: textCustomizeController.backgroundColor[index], isSelected: textCustomizeController.backgroundColorSelectedIndex.value == index,))
                           );
                         },
                         itemCount: textCustomizeController.backgroundColor.length,
@@ -121,10 +145,45 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                       )
                   ),
                   Divider(),
+
+                  // text color options
+
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text('Màu chữ', style: TextStyle(fontWeight: FontWeight.bold))
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
+                      height: 50,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                              onTap: () {
+                                textCustomizeController.textColorSelectedIndex.value = index;
+                                textCustomizeController.currentTextColor.value =
+                                textCustomizeController.textColor_text[index];
+                                textCustomizeController.saveToDb('textColor', textCustomizeController.textColor_text[index]);
+                              },
+                              child: Obx(() => BackgroundOption(color: textCustomizeController.textColor[index], isSelected: textCustomizeController.textColorSelectedIndex.value == index,))
+                          );
+                        },
+                        itemCount: textCustomizeController.textColor.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(width: 10,);
+                        },
+                      )
+                  ),
+                  Divider(),
+
                   TextCustomOption(currentValue: textCustomizeController.currentCharacterSpacing.value,
-                    option: 'Khoảng cách giữa các ký tự', step: 0.1, max: 5, min: 1,
+                    option: 'Khoảng cách giữa các ký tự', step: 1, max: 10, min: 0,
                     onChanged: (double value) {
                       textCustomizeController.currentCharacterSpacing.value = value;
+                      textCustomizeController.saveToDb('letterSpacing', value);
                     },
                   ),
                   Divider(),
@@ -132,13 +191,15 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                     option: 'Khoảng cách giữa các dòng', step: 0.1, max: 2, min: 1,
                     onChanged: (double value) {
                       textCustomizeController.currentLineSpacing.value = value;
+                      textCustomizeController.saveToDb('lineSpacing', value);
                     },
                   ),
                   Divider(),
                   TextCustomOption(currentValue: textCustomizeController.currentWordSpacing.value,
-                    option: 'Khoảng cách giữa các từ', step: 0.1, max: 5, min: 1,
+                    option: 'Khoảng cách giữa các từ', step: 5, max: 30, min: 0,
                     onChanged: (double value) {
                       textCustomizeController.currentWordSpacing.value = value;
+                      textCustomizeController.saveToDb('wordSpacing', value);
                     },
                   ),
                 ],

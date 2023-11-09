@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'modules/exams/views/exam_collection_page.dart';
 import 'modules/profile/profile_page.dart';
 
 
@@ -25,14 +26,11 @@ class _OverviewPageState extends State<OverviewPage> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     ReadOptions(),
-    Text(
+    const Text(
       'Trang sach noi',
       style: optionStyle,
     ),
-    Text(
-      'Kiem tra',
-      style: optionStyle,
-    ),
+    ExamCollectionPage(),
     ProfilePage()
   ];
 
@@ -56,8 +54,6 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
 
-    print(testController.letterSpacingExpandFrequency.value);
-    print(testController.wordSpacingExpandFrequency.value);
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
