@@ -99,241 +99,243 @@ class _DisplayTextPageState extends State<DisplayTextPage>
   Widget build(BuildContext context) {
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text('Đọc văn bản'),),
-      body: Column(
-        children: [
-          Obx(() =>
-              controller.extractedText.value.isEmpty?
-              const Center(child: Text("Text Not Found")):
-              Container(
-                height: MediaQuery.of(context).size.height - 220,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.7),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3), // changes position of shadow
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(() =>
+                controller.extractedText.value.isEmpty?
+                const Center(child: Text("Text Not Found")):
+                Container(
+                  height: MediaQuery.of(context).size.height - 220,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: TabBar(
+                          controller: _tabController,
+                          labelColor: Colors.teal,
+                          unselectedLabelColor: Colors.black,
+                          indicatorColor: Colors.teal,
+                          tabs: const [
+                            Tab(child: Text('Văn bản',
+                              style: TextStyle(fontSize: 18,),)
+                            ),
+                            Tab(child: Text('Ảnh',
+                              style: TextStyle(fontSize: 18,),),
                             ),
                           ],
                         ),
-                child: Column(
-                  children: [
-                    Container(
-                      child: TabBar(
-                        controller: _tabController,
-                        labelColor: Colors.teal,
-                        unselectedLabelColor: Colors.black,
-                        indicatorColor: Colors.teal,
-                        tabs: const [
-                          Tab(child: Text('Văn bản',
-                            style: TextStyle(fontSize: 18,),)
-                          ),
-                          Tab(child: Text('Ảnh',
-                            style: TextStyle(fontSize: 18,),),
-                          ),
-                        ],
                       ),
-                    ),
-                    Expanded(
-                      // width: double.maxFinite,
-                      // height: MediaQuery.of(context).size.height - 170,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children:  [
-                          SingleChildScrollView(
-                            child: Container(
-                              padding: const EdgeInsets.all(15),
-                              color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
-                              child: TextField(
-                                controller: customTextEditingController,
-                                maxLines: null,
-                                contextMenuBuilder: (BuildContext context,
-                                    EditableTextState editableTextState) {
+                      Expanded(
+                        // width: double.maxFinite,
+                        // height: MediaQuery.of(context).size.height - 170,
+                        child: TabBarView(
+                          controller: _tabController,
+                          children:  [
+                            SingleChildScrollView(
+                              child: Container(
+                                padding: const EdgeInsets.all(15),
+                                color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
+                                child: TextField(
+                                  controller: customTextEditingController,
+                                  maxLines: null,
+                                  contextMenuBuilder: (BuildContext context,
+                                      EditableTextState editableTextState) {
 
-                                  final List<ContextMenuButtonItem> buttonItems = editableTextState.contextMenuButtonItems;
-                                  final TextEditingValue value = customTextEditingController.value;
-                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
-                                    return buttonItem.type == ContextMenuButtonType.cut;
-                                  });
-                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
-                                    return buttonItem.type == ContextMenuButtonType.copy;
-                                  });
-                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
-                                    return buttonItem.type == ContextMenuButtonType.selectAll;
-                                  });
-                                  buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
-                                    return buttonItem.type == ContextMenuButtonType.paste;
-                                  });
-                                  buttonItems.insert(0,
-                                    ContextMenuButtonItem(
-                                      label: 'Ảnh',
-                                      onPressed: () async {
-                                        ContextMenuController.removeAny();
-                                        String? imageUrl;
-                                        if (wordImageMapping.containsKey(value.selection.textInside(value.text))) {
-                                          imageUrl = wordImageMapping["${value.selection.textInside(value.text)}"];
-                                        }
-                                        _showDialog(
-                                            context, imageUrl, value.selection.textInside(value.text)
-                                        );
-                                        print(value.selection.textInside(value.text));
-                                        print(imageUrl);
-                                      },
-                                    ),
-                                  );
+                                    final List<ContextMenuButtonItem> buttonItems = editableTextState.contextMenuButtonItems;
+                                    final TextEditingValue value = customTextEditingController.value;
+                                    buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                      return buttonItem.type == ContextMenuButtonType.cut;
+                                    });
+                                    buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                      return buttonItem.type == ContextMenuButtonType.copy;
+                                    });
+                                    buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                      return buttonItem.type == ContextMenuButtonType.selectAll;
+                                    });
+                                    buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                                      return buttonItem.type == ContextMenuButtonType.paste;
+                                    });
+                                    buttonItems.insert(0,
+                                      ContextMenuButtonItem(
+                                        label: 'Ảnh',
+                                        onPressed: () async {
+                                          ContextMenuController.removeAny();
+                                          String? imageUrl;
+                                          if (wordImageMapping.containsKey(value.selection.textInside(value.text))) {
+                                            imageUrl = wordImageMapping["${value.selection.textInside(value.text)}"];
+                                          }
+                                          _showDialog(
+                                              context, imageUrl, value.selection.textInside(value.text)
+                                          );
+                                          print(value.selection.textInside(value.text));
+                                          print(imageUrl);
+                                        },
+                                      ),
+                                    );
 
-                                  return AdaptiveTextSelectionToolbar.buttonItems(
-                                    anchors: editableTextState.contextMenuAnchors,
-                                    buttonItems: buttonItems,
-                                  );
-                                },
-                                style: TextStyle(
-                                    color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
-                                    fontSize: textCustomizeController.currentFontSize.value.toDouble(),
-                                    fontFamily: textCustomizeController.currentFontStyle.value,
-                                    letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
-                                    wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
-                                    height: textCustomizeController.currentLineSpacing.value.toDouble()
+                                    return AdaptiveTextSelectionToolbar.buttonItems(
+                                      anchors: editableTextState.contextMenuAnchors,
+                                      buttonItems: buttonItems,
+                                    );
+                                  },
+                                  style: TextStyle(
+                                      color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+                                      fontSize: textCustomizeController.currentFontSize.value.toDouble(),
+                                      fontFamily: textCustomizeController.currentFontStyle.value,
+                                      letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+                                      wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
+                                      height: textCustomizeController.currentLineSpacing.value.toDouble()
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          controller.selectedImagePath.value==''?
-                          const Center(child: Text("Select an image from Gallery / camera")):
-                          Image.file(
-                            File(controller.selectedImagePath.value),
-                            width: Get.width,
-                            //height: 400,
-                          ),
-                        ],
+                            controller.selectedImagePath.value==''?
+                            const Center(child: Text("Select an image from Gallery / camera")):
+                            Image.file(
+                              File(controller.selectedImagePath.value),
+                              width: Get.width,
+                              //height: 400,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                  ],
-                ),
-              )
-          ),
-          const SizedBox(height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    SoundFunction().speak(
-                        customTextEditingController.text,
-                        textCustomizeController.current_volume.value,
-                        textCustomizeController.current_rate.value,
-                        textCustomizeController.current_pitch.value,
-                        textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(Icons.headphones,),
-                      Text('Nghe văn bản'),
                     ],
                   ),
-                ),
-              ),
-              Container(
-                width: 150,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(const CustomizeOptionPage());
+                )
+            ),
+            const SizedBox(height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      SoundFunction().speak(
+                          customTextEditingController.text,
+                          textCustomizeController.current_volume.value,
+                          textCustomizeController.current_rate.value,
+                          textCustomizeController.current_pitch.value,
+                          textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
+                      );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
-                        Icon(Icons.tune,),
-                        Text('Tùy chỉnh'),
+                        Icon(Icons.headphones,),
+                        Text('Nghe văn bản'),
                       ],
                     ),
-                ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(const OverviewPage());
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(Icons.home,),
-                      Text('Về trang chủ'),
-                    ],
                   ),
                 ),
-              ),
-              Container(
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(const ReadOptions());
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(Icons.image,),
-                      Text('Chọn lại ảnh'),
-                    ],
+                Container(
+                  width: 150,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Get.to(const CustomizeOptionPage());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Icon(Icons.tune,),
+                          Text('Tùy chỉnh'),
+                        ],
+                      ),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(const OverviewPage());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Icon(Icons.home,),
+                        Text('Về trang chủ'),
+                      ],
+                    ),
                   ),
                 ),
-              )
-            ],
-          )
+                Container(
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(const ReadOptions());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Icon(Icons.image,),
+                        Text('Chọn lại ảnh'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )
 
-          // Container(
-          //   margin: EdgeInsets.all(15),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       IconButton(
-          //           icon: Icon(Icons.camera_alt_sharp),
-          //         onPressed: () {
-          //           Navigator.push(
-          //             context,
-          //             MaterialPageRoute(builder: (context) =>  ReadOptions()),
-          //           );
-          //         },
-          //       ),
-          //       IconButton(
-          //           icon: isPause ? Icon(Icons.play_circle) : Icon(Icons.pause),
-          //           onPressed: () {
-          //             setState(() {
-          //               isPause = !isPause;
-          //             });
-          //             isPause ? TextToSpeech().pause() : TextToSpeech().speakNormal(textEditingController.text,
-          //                 soundCustomizeController.current_volume.value,
-          //                 soundCustomizeController.current_rate.value,
-          //                 soundCustomizeController.current_pitch.value);
-          //           }
-          //       ),
-          //       IconButton(
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(builder: (context) =>  CustomizeOptionPage()),
-          //             );
-          //           },
-          //           icon: Icon(Icons.toc),
-          //       )
-          //     ],
-          //   ),
-          // )
-        ],
+            // Container(
+            //   margin: EdgeInsets.all(15),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       IconButton(
+            //           icon: Icon(Icons.camera_alt_sharp),
+            //         onPressed: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(builder: (context) =>  ReadOptions()),
+            //           );
+            //         },
+            //       ),
+            //       IconButton(
+            //           icon: isPause ? Icon(Icons.play_circle) : Icon(Icons.pause),
+            //           onPressed: () {
+            //             setState(() {
+            //               isPause = !isPause;
+            //             });
+            //             isPause ? TextToSpeech().pause() : TextToSpeech().speakNormal(textEditingController.text,
+            //                 soundCustomizeController.current_volume.value,
+            //                 soundCustomizeController.current_rate.value,
+            //                 soundCustomizeController.current_pitch.value);
+            //           }
+            //       ),
+            //       IconButton(
+            //           onPressed: () {
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(builder: (context) =>  CustomizeOptionPage()),
+            //             );
+            //           },
+            //           icon: Icon(Icons.toc),
+            //       )
+            //     ],
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
 
