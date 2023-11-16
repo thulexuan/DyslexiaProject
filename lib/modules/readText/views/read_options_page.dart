@@ -1,3 +1,4 @@
+import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/readText/views/widgets/read_option_widget.dart';
 import 'package:dyslexia_project/overview_page.dart';
 import 'package:dyslexia_project/utils/color.dart';
@@ -20,6 +21,7 @@ class _ReadOptionsState extends State<ReadOptions> {
 
   @override
   Widget build(BuildContext context) {
+    SoundFunction().stopSpeaking();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -27,8 +29,8 @@ class _ReadOptionsState extends State<ReadOptions> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 200,
-              height: 200,
+              // width: 200,
+              // height: 200,
               child: Image.asset('assets/images/read_book.jpg', fit: BoxFit.contain,),
             ),
             Container(

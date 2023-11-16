@@ -22,22 +22,14 @@ class SignInController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  var validEmail;
-  var validPassword;
-  var checkValid;
-
-  String errorEmail = "Kiểm tra lại email";
-  String errorPassword = "Kiểm tra lại mật khẩu";
+  var emailError = ''.obs;
+  var passwordError = ''.obs;
 
 
   @override
   void onInit(){
     // Get called when controller is created
     super.onInit();
-    validEmail = true;
-    validPassword = true;
-    checkValid = true;
-    update();
   }
 
   @override
@@ -58,27 +50,31 @@ class SignInController extends GetxController {
     String email = emailController.text;
     String password = passwordController.text;
 
-    if (email.isEmpty || password.isEmpty || password.length < 6) {
-      checkValid = false;
-      update();
+    if (email.isEmpty) {
+      emailError.value = 'Kiểm tra lại email';
     } else {
-      checkValid = true;
-      update();
+      emailError.value = '';
     }
+
+    if (password.isEmpty || password.length < 6) {
+      passwordError.value = 'Kiểm tra lại mật khẩu';
+    } else {
+      passwordError.value = '';
+    }
+
     try {
-      if (/*validEmail && validPassword*/ checkValid == true) {
+      if (emailError.value == '' && passwordError.value == '') {
         await _auth.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
         res = "success";
-      } else {
-        res = 'Please enter all the fields';
       }
 
     } catch (error) {
       res = error.toString();
+      passwordError.value = 'Kiểm tra lại mật khẩu';
     }
-    print(checkValid);
+
     print(res);
     if (res == "success") {
       saveEmailUsername(emailController.text.trim().toString());
@@ -157,7 +153,9 @@ class SignInController extends GetxController {
             isFirstTimeLogin: true,
             doneExams: [],
             resultDoneExams: [],
-            errorWords: []
+            errorWords: [],
+            voiceName: 'vi-vn-x-gft-network',
+            pitch: 0.8
         );
 
         await firestore.collection('users').doc(userCredential.user!.uid).set({
@@ -176,7 +174,9 @@ class SignInController extends GetxController {
           "isFirstTimeLogin" : true,
           "doneExams" : [],
           "resultDoneExams" : [],
-          "errorWords" : []
+          "errorWords" : [],
+          "voiceName" : 'vi-vn-x-gft-network',
+          "pitch" : 0.8
         });
 
         res = "success";

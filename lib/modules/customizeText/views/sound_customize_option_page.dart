@@ -1,4 +1,5 @@
 import 'package:dyslexia_project/modules/common/controllers/sound.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/customizeText/views/components/voice_option_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SoundCustomizeOptionPage extends StatefulWidget {
 class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
 
   final textEditingController = TextEditingController();
-  final soundController = Get.put(SoundController());
+  final textCustomizeController = Get.put(TextCustomizeController());
 
   @override
   void initState() {
@@ -49,15 +50,15 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
               const Text('Âm lượng', style: TextStyle(fontWeight: FontWeight.bold),),
               Expanded(
                 child: Obx(() => Slider(
-                  value: soundController.current_volume.value,
+                  value: textCustomizeController.current_volume.value,
                   min: 0,
                   max: 1,
                   onChanged: (double value) {
-                    soundController.current_volume.value = value;
+                    textCustomizeController.current_volume.value = value;
                   },
                 ),)
               ),
-              Obx(() => Text(soundController.current_volume.value.toStringAsFixed(1).toString()),)
+              Obx(() => Text(textCustomizeController.current_volume.value.toStringAsFixed(1).toString()),)
             ],
           ),
           Row(
@@ -65,15 +66,15 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
               const Text('Tốc độ', style: TextStyle(fontWeight: FontWeight.bold)),
               Expanded(
                   child: Obx(() => Slider(
-                    value: soundController.current_rate.value,
+                    value: textCustomizeController.current_rate.value,
                     min: 0,
                     max: 1,
                     onChanged: (double value) {
-                      soundController.current_rate.value = value;
+                      textCustomizeController.current_rate.value = value;
                     },
                   ),)
               ),
-              Obx(() => Text(soundController.current_rate.value.toStringAsFixed(1).toString()),)
+              Obx(() => Text(textCustomizeController.current_rate.value.toStringAsFixed(1).toString()),)
             ],
           ),
           Row(
@@ -81,15 +82,16 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
               const Text('Tông giọng', style: TextStyle(fontWeight: FontWeight.bold)),
               Expanded(
                   child: Obx(() => Slider(
-                    value: soundController.current_pitch.value,
+                    value: textCustomizeController.current_pitch.value,
                     min: 0,
                     max: 1,
                     onChanged: (double value) {
-                      soundController.current_pitch.value = value;
+                      textCustomizeController.current_pitch.value = value;
+                      textCustomizeController.saveToDb('pitch', value);
                     },
                   ),)
               ),
-              Obx(() => Text(soundController.current_pitch.value.toStringAsFixed(1).toString()),)
+              Obx(() => Text(textCustomizeController.current_pitch.value.toStringAsFixed(1).toString()),)
             ],
           ),
           const Padding(
@@ -99,13 +101,14 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
           const Divider(thickness: 2.0,),
           Expanded(
               child: ListView.separated(
-                  itemCount: soundController.voiceNameCodeList.length,
+                  itemCount: textCustomizeController.voiceNameCodeList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Obx(() => GestureDetector(
                         onTap: () {
-                          soundController.voiceSelectedIndex.value = index;
+                          textCustomizeController.saveToDb('voiceName', textCustomizeController.voiceNameCodeList[index]);
+                          textCustomizeController.voiceSelectedIndex.value = index;
                         },
-                        child: VoiceOptionItem(voiceName: 'Giọng số ${index+1}', isSelected: soundController.voiceSelectedIndex.value == index,)
+                        child: VoiceOptionItem(voiceName: 'Giọng số ${index+1}', isSelected: textCustomizeController.voiceSelectedIndex.value == index,)
                     )
                     );
                   },
@@ -121,10 +124,10 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
                 onPressed: () {
                   SoundFunction().speak(
                       textEditingController.text,
-                      soundController.current_volume.value,
-                      soundController.current_rate.value,
-                      soundController.current_pitch.value,
-                      soundController.voiceNameCodeList[soundController.voiceSelectedIndex.value]
+                      textCustomizeController.current_volume.value,
+                      textCustomizeController.current_rate.value,
+                      textCustomizeController.current_pitch.value,
+                      textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
                   );
                 },
                 child: Row(

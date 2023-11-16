@@ -63,7 +63,9 @@ class SignUpController extends GetxController {
             isFirstTimeLogin: true,
             doneExams: [],
             resultDoneExams: [],
-            errorWords: []
+            errorWords: [],
+            voiceName: 'vi-vn-x-gft-network',
+            pitch: 0.8
         );
 
         await firestore.collection('users').doc(credential.user!.uid).set({
@@ -82,7 +84,9 @@ class SignUpController extends GetxController {
           "isFirstTimeLogin" : true,
           "doneExams" : [],
           "resultDoneExams" : [],
-          "errorWords" : []
+          "errorWords" : [],
+          "voiceName" : 'vi-vn-x-gft-network',
+          "pitch" : 0.8
         });
 
         res = "success";

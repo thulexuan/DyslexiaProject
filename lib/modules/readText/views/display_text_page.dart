@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 
-import '../../customizeText/controllers/sound_controller.dart';
 import '../../customizeText/controllers/text_customize_controller.dart';
 import '../../customizeText/views/customize_option_page.dart';
 import '../controllers/recognize_text_controller.dart';
@@ -29,7 +28,6 @@ class _DisplayTextPageState extends State<DisplayTextPage>
     with SingleTickerProviderStateMixin{
   final controller = Get.put(RecognizedTextController());
   final textCustomizeController = Get.put(TextCustomizeController());
-  final soundCustomizeController = Get.put(SoundController());
   // final textEditingController = TextEditingController();
   CustomEditingController customTextEditingController = CustomEditingController();
   late TabController _tabController;
@@ -76,10 +74,10 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                           onPressed: () {
                             SoundFunction().speak(
                                 word,
-                                soundCustomizeController.current_volume.value,
-                                soundCustomizeController.current_rate.value,
-                                soundCustomizeController.current_pitch.value,
-                                soundCustomizeController.voiceNameCodeList[soundCustomizeController.voiceSelectedIndex.value]
+                                textCustomizeController.current_volume.value,
+                                textCustomizeController.current_rate.value,
+                                textCustomizeController.current_pitch.value,
+                                textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
                             );
                           },
                           icon: Icon(Icons.volume_up, size: 30,),
@@ -229,17 +227,17 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                   onPressed: () async {
                     SoundFunction().speak(
                         customTextEditingController.text,
-                        soundCustomizeController.current_volume.value,
-                        soundCustomizeController.current_rate.value,
-                        soundCustomizeController.current_pitch.value,
-                        soundCustomizeController.voiceNameCodeList[soundCustomizeController.voiceSelectedIndex.value]
+                        textCustomizeController.current_volume.value,
+                        textCustomizeController.current_rate.value,
+                        textCustomizeController.current_pitch.value,
+                        textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
                     );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(Icons.headphones,),
-                      const Text('Nghe văn bản'),
+                    children: const [
+                      Icon(Icons.headphones,),
+                      Text('Nghe văn bản'),
                     ],
                   ),
                 ),
@@ -252,9 +250,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(Icons.tune,),
-                        const Text('Tùy chỉnh'),
+                      children: const [
+                        Icon(Icons.tune,),
+                        Text('Tùy chỉnh'),
                       ],
                     ),
                 ),

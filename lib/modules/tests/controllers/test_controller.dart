@@ -181,7 +181,7 @@ class TestController extends GetxController {
     if (arialFontFrequency.value > timesFontFrequency.value) {
       textCustomizeController.saveToDb('fontFamily', 'Arial');
     } else {
-      textCustomizeController.saveToDb('fontFamily', 'Times');
+      textCustomizeController.saveToDb('fontFamily', 'Times New Roman');
     }
     // save letter spacing
     if (letterSpacingExpandFrequency.value > letterSpacingNormalFrequency.value) {

@@ -20,6 +20,29 @@ class TextCustomizeController extends GetxController {
   var backgroundColorSelectedIndex = 0.obs;
   var textColorSelectedIndex = 0.obs;
 
+
+  var current_volume = 0.5.obs;
+  var current_rate = 0.5.obs;
+  var current_pitch = 0.8.obs;
+  var current_voice_name = ''.obs;
+
+  var voiceSelectedIndex = 0.obs;
+
+  List<String> voiceNameCodeList = [
+    'vi-vn-x-vid-local',
+    'vi-vn-x-vic-local',
+    'vi-vn-x-gft-network',
+    'vi-vn-x-vie-local',
+    'vi-vn-x-vic-network',
+    'vi-vn-x-gft-local',
+    'vi-vn-x-vid-network',
+    'vi-vn-x-vif-local',
+    'vi-vn-x-vif-network',
+    'vi-VN-language',
+    'vi-vn-x-vie-network'
+  ];
+
+
   Future<void> getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -55,6 +78,10 @@ class TextCustomizeController extends GetxController {
         ? data['lineSpacing']
         : 0.0 ;
 
+    current_voice_name.value = data != null && data is Map<String, dynamic>
+        ? data['voiceName']
+        : 'vi-vn-x-vic-network' ;
+
     currentFontSize.value = fontSize.toDouble();
     currentCharacterSpacing.value = letterSpacing.toDouble();
     currentWordSpacing.value = wordSpacing.toDouble();
@@ -63,6 +90,7 @@ class TextCustomizeController extends GetxController {
     fontFamilySelectedIndex.value = fontFamilyList.indexOf(currentFontStyle.value);
     backgroundColorSelectedIndex.value = backgroundColor_text.indexOf(currentBackgroundColor.value);
     textColorSelectedIndex.value = textColor_text.indexOf(currentTextColor.value);
+    voiceSelectedIndex.value = voiceNameCodeList.indexOf(current_voice_name.value);
   }
 
   // save value to database when have change from user

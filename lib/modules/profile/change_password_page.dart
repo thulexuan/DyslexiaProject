@@ -1,4 +1,5 @@
 import 'package:dyslexia_project/modules/profile/profile_page.dart';
+import 'package:dyslexia_project/overview_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 actions: [
                   TextButton(
                       onPressed: () {
-                        Get.to(ProfilePage());
+                        Get.to(OverviewPage());
                       },
                       child: Text('Okay')
                   )

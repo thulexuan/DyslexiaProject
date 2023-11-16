@@ -37,6 +37,7 @@ dependencies:
   google_sign_in: ^6.1.5
   percent_indicator: ^4.2.3
   highlight_text: ^1.7.0
+  flutter_launcher_icons: ^0.13.1
 
 
 
@@ -48,6 +49,10 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon/launcher_icon.jpg"
 
 flutter:
 

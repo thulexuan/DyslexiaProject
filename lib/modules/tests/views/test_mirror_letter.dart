@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../common/controllers/sound.dart';
+
 class TestMirrorPage extends StatefulWidget {
 
   @override
@@ -34,10 +36,11 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
     };
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
@@ -55,9 +58,17 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // loa phát yêu cầu
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.volume_up, size: 40, color: Colors.white,)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/pointing.gif', width: 60, height: 60,),
+                      IconButton(
+                          onPressed: () {
+                            SoundFunction().speak('Hãy chọn chữ ${widget.letter} mà bạn thấy dễ đọc nhất', 1.0, 0.5, 0.8, 'vi-vn-x-gft-network');
+                          },
+                          icon: const Icon(Icons.volume_up, size: 40, color: Colors.white,)
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10,),
                   Row(
@@ -95,7 +106,7 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
                 ]
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 50,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

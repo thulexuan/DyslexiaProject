@@ -42,6 +42,7 @@ class _TestSentencePageState extends State<TestSentencePage> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
               children: [

@@ -107,7 +107,8 @@ class CustomEditingController extends TextEditingController {
           return TextSpan(
             text: letter,
             style: style?.copyWith(
-              color: Colors.black,
+              letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+              color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
             ),
           );
         }

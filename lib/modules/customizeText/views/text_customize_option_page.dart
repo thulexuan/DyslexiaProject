@@ -96,16 +96,16 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                                 textCustomizeController.currentFontStyle.value = textCustomizeController.fontFamilyList[index];
                                 textCustomizeController.saveToDb('fontFamily', textCustomizeController.currentFontStyle.value);
                               },
-                              child: Obx(() => Padding(
+                              child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(textCustomizeController.fontFamilyList[index],
+                                child: Obx(() => Text(textCustomizeController.fontFamilyList[index],
                                   style: TextStyle(
                                       fontFamily: textCustomizeController.fontFamilyList[index],
                                       color: textCustomizeController.fontFamilySelectedIndex.value == index ? Colors.red : Colors.black,
                                       fontWeight: textCustomizeController.fontFamilySelectedIndex.value == index ? FontWeight.bold : FontWeight.normal
                                   ),
                                 ),
-                              )
+                                )
                               )
                           );
                         },

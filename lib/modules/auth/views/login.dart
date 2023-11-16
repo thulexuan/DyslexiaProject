@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
                           margin: const EdgeInsets.only(left: 35, right: 35),
                           child: Column(
                             children: [
-                              TextField(
+                              Obx(() => TextField(
                                 controller: controller.emailController,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
@@ -58,10 +58,11 @@ class _LoginState extends State<Login> {
                                     filled: true,
                                     hintText: "Nhập email",
                                     labelText: "Email",
-                                    errorText: controller.checkValid == true ? null : controller.errorEmail,
+                                    errorText: controller.emailError.value == '' ? null : controller.emailError.value,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
+                              ),
                               ),
 
                               const SizedBox(
@@ -70,11 +71,11 @@ class _LoginState extends State<Login> {
 
                               // fill password
 
-                              TextField(
-                                controller: controller.passwordController,
-                                style: TextStyle(color: Colors.black),
-                                obscureText: isHiddenPassword ? true : false,
-                                decoration: InputDecoration(
+                              Obx(() => TextField(
+                                  controller: controller.passwordController,
+                                  style: TextStyle(color: Colors.black),
+                                  obscureText: isHiddenPassword ? true : false,
+                                  decoration: InputDecoration(
                                     prefixIcon: const Icon(Icons.password),
                                     suffixIcon: GestureDetector(
                                         onTap: () {
@@ -88,12 +89,13 @@ class _LoginState extends State<Login> {
                                     filled: true,
                                     labelText: "Mật khẩu",
                                     hintText: "Điền mật khẩu",
-                                    errorText: controller.checkValid == true ? null : controller.errorPassword,
+                                    errorText: controller.passwordError.value == '' ? null : controller.passwordError.value,
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10)),
 
-                                    )
-                                ),
+                                  )
+                              ),
+                              ),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,

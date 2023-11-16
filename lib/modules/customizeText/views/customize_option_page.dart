@@ -1,4 +1,5 @@
 
+import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/customizeText/views/sound_customize_option_page.dart';
 import 'package:dyslexia_project/modules/customizeText/views/text_customize_option_page.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
 
   @override
   Widget build(BuildContext context) {
+    SoundFunction().stopSpeaking();
     return Scaffold(
       appBar: AppBar(
         title: Text('Tùy chỉnh'),

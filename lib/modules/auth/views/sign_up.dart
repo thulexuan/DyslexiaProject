@@ -164,7 +164,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(color: Colors.blue)))),
                         child: const Text(
-                          'Sign up',
+                          'Đăng ký',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       ),
@@ -178,8 +178,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          signinController.validEmail = true;
-                          signinController.validPassword = true;
                           Get.to(() => Login());
                         },
                         child: Text('Đã có tài khoản'),
