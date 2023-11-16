@@ -40,7 +40,7 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: MediaQuery.of(context).size.height / 10),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
@@ -196,7 +196,7 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
               ),
             ],
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: MediaQuery.of(context).size.height / 8,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

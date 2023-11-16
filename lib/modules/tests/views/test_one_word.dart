@@ -43,9 +43,9 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 30,),
+            SizedBox(height: MediaQuery.of(context).size.height / 10,),
             QuestionItem(question: 'Hãy chọn chữ bạn cho là dễ nhìn nhất',),
-            SizedBox(height: 60,),
+            SizedBox(height: MediaQuery.of(context).size.height / 8,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -67,7 +67,7 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
                         fontFamily: words[0].fontFamily,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: MediaQuery.of(context).size.height / 25,),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -84,7 +84,7 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
                         fontFamily: words[1].fontFamily,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: MediaQuery.of(context).size.height / 25,),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -121,7 +121,7 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
                         fontFamily: words[3].fontFamily,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: MediaQuery.of(context).size.height / 25,),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -138,7 +138,7 @@ class _TestOneWordPageState extends State<TestOneWordPage> {
                         fontFamily: words[4].fontFamily,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: MediaQuery.of(context).size.height / 25,),
                     GestureDetector(
                       onTap: () {
                         setState(() {

@@ -24,6 +24,7 @@ class _ReadOptionsState extends State<ReadOptions> {
     SoundFunction().stopSpeaking();
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(title: Text('Đọc văn bản'), automaticallyImplyLeading: false,),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +46,8 @@ class _ReadOptionsState extends State<ReadOptions> {
                 GestureDetector(
                     onTap: () {
                       controller.getImage(ImageSource.camera);
+                      print(controller.selectedImagePath.value);
+                      print('end test');
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>  DisplayImagePage()),

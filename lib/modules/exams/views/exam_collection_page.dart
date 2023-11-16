@@ -41,7 +41,7 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Bài kiểm tra')),
+      appBar: AppBar(title: Text('Bài kiểm tra'), automaticallyImplyLeading: false,),
       body: GridView.count(
         padding: EdgeInsets.all(20.0),
         crossAxisCount: 2,

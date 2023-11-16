@@ -46,7 +46,7 @@ class _TestSentencePageState extends State<TestSentencePage> {
       body: Center(
         child: Column(
               children: [
-                SizedBox(height: 30,),
+                SizedBox(height: MediaQuery.of(context).size.height / 10,),
                 QuestionItem(question: 'Hãy chọn câu bạn cho là dễ nhìn nhất',),
                 SizedBox(height: 10,),
                 Column(

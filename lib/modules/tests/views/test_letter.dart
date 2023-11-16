@@ -43,9 +43,9 @@ class _TestLetterPageState extends State<TestLetterPage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 30,),
+            SizedBox(height: MediaQuery.of(context).size.height / 10,),
             QuestionItem(question: 'Hãy chọn chữ bạn cho là dễ nhìn nhất',),
-            SizedBox(height: 80,),
+            SizedBox(height: MediaQuery.of(context).size.height / 8,),
             
             // display choices
 

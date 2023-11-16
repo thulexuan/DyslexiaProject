@@ -24,15 +24,16 @@ class DisplayImagePage extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
                 height: MediaQuery.of(context).size.height - 220,
-                child: Obx(()=>
-
+                child: Obx(() =>
                 controller.selectedImagePath.value==''?
-                const Center(child: Text("Select an image from Gallery / camera")):
+                const Center(child: Text("Select an image from Gallery / camera"))
+                    :
                 Image.file(
                   File(controller.selectedImagePath.value),
                   width: Get.width,
                   //height: 400,
                 ),
+
                 ),
               ),
             ),

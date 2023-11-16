@@ -1,7 +1,8 @@
-import 'dart:math';
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_tesseract_ocr/android_ios.dart';
+import 'package:image/image.dart' as img;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -18,10 +19,10 @@ class RecognizedTextController extends GetxController {
 
   ///get image method
   getImage(ImageSource imageSource) async{
-    print("oke");
+    print("get image oke");
     final pickedFile= await ImagePicker().pickImage(source: imageSource);
     if(pickedFile!=null){
-      selectedImagePath.value=pickedFile.path;
+      selectedImagePath.value = pickedFile.path;
     }
     else{
       Get.snackbar(
@@ -33,9 +34,15 @@ class RecognizedTextController extends GetxController {
   }
 
   cropImage(String pickedImage) async {
+
     if (pickedImage != null) { // imageFile = File(pickedImage.path);
+
+      File pickedFile = File(pickedImage);
+
       CroppedFile? cropped = await ImageCropper().cropImage(
-          sourcePath: pickedImage,
+          sourcePath: pickedFile.path,
+          maxHeight: 4096,
+          maxWidth: 4096,
           aspectRatioPresets:
           [
             CropAspectRatioPreset.square,
@@ -47,11 +54,11 @@ class RecognizedTextController extends GetxController {
 
           uiSettings: [
           AndroidUiSettings(
-          toolbarTitle: 'Crop',
+          toolbarTitle: 'Cắt ảnh',
           cropGridColor: Colors.black,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false),
-          IOSUiSettings(title: 'Crop')
+          IOSUiSettings(title: 'Cắt ảnh')
       ]);
 
       if (cropped != null) {

@@ -57,7 +57,12 @@ class _TestPageState extends State<TestPage> {
             onPressed: () async {
               await nextPage();
             },
-            child: Text('Tiếp tục'),
+            child: Row(
+              children: [
+                Text('Tiếp tục'),
+                Icon(Icons.keyboard_double_arrow_right)
+              ],
+            ),
           )
         ],
       ),

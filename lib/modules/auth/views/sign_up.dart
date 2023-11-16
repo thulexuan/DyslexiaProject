@@ -32,8 +32,9 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(40, 60, 40, 20),
+            padding: EdgeInsets.fromLTRB(40, MediaQuery.of(context).size.height / 8, 40, 20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
                     child: Text('Đăng ký', style: TextStyle(color: Colors.black, fontSize: 33),),
