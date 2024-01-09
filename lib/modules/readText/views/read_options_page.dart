@@ -30,8 +30,8 @@ class _ReadOptionsState extends State<ReadOptions> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              // width: 200,
-              // height: 200,
+              width: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery.of(context).size.height / 3,
               child: Image.asset('assets/images/read_book.jpg', fit: BoxFit.contain,),
             ),
             Container(

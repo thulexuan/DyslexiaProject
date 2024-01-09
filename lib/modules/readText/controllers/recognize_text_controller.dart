@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:http/http.dart' as http;
 
 class RecognizedTextController extends GetxController {
 
@@ -31,6 +33,57 @@ class RecognizedTextController extends GetxController {
     }
 
 
+  }
+
+  Future<Map<String, dynamic>> recognizeTextByAPI(String pickedImage) async {
+
+    print('start');
+    // Create a multipart request
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://ocr-tool-dd06f654802f.herokuapp.com/api/v1/extract_text'),
+    );
+
+    // request.headers.addAll({
+    //   'Content-Type': 'multipart/form-data',
+    //   'Apikey': '0d1d50c8-3c1b-4453-bf87-27b556c29169',
+    //   'Accept': 'application/json',
+    //   'language': 'VIE'
+    // });
+
+    // Add the file to the request
+    request.files.add(await http.MultipartFile.fromPath('image', pickedImage));
+
+    // Add other fields to the request
+    // request.fields['type'] = 'ocr';
+    // request.fields['lang'] = 'auto';
+    // request.fields['retain'] = 'true';
+
+
+    try {
+      // Send the request
+      final response = await request.send();
+
+      print(response.statusCode);
+
+      // Check if the request was successful (status code 2xx)
+      if (response.statusCode == 200) {
+        // Decode and return the response
+        final resultString = await response.stream.bytesToString();
+        print(json.decode(resultString));
+        extractedText.value = json.decode(resultString)['text'];
+        return json.decode(resultString);
+      } else {
+        // Handle the error
+        print('Failed to call API. Status code: ${response.statusCode}');
+        print(await response.stream.bytesToString());
+        throw Exception('Failed to call API.');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      print('Error: $error');
+      throw Exception('Failed to call API.');
+    }
   }
 
   cropImage(String pickedImage) async {

@@ -160,8 +160,8 @@ class _LoginState extends State<Login> {
                                       },
                                       child: SignInOption(image_path: 'google.png')
                                   ),
-                                  const SizedBox(width: 20,),
-                                  SignInOption(image_path: 'apple.png')
+                                  // const SizedBox(width: 20,),
+                                  // SignInOption(image_path: 'apple.png')
                                 ],
                               ),
                               Row(
