@@ -18,6 +18,7 @@ class RecognizedTextController extends GetxController {
   var selectedImagePath=''.obs;
   var extractedText=''.obs;
   RxList words = [].obs;
+  var ocrDone = true.obs;
 
   ///get image method
   getImage(ImageSource imageSource) async{
@@ -55,6 +56,7 @@ class RecognizedTextController extends GetxController {
 
       // Check if the request was successful (status code 2xx)
       if (response.statusCode == 200) {
+        ocrDone.value = true;
         // Decode and return the response
         final resultString = await response.stream.bytesToString();
         print(json.decode(resultString));
@@ -62,6 +64,7 @@ class RecognizedTextController extends GetxController {
         return json.decode(resultString);
       } else {
         // Handle the error
+        ocrDone.value = false;
         print('Failed to call API. Status code: ${response.statusCode}');
         print(await response.stream.bytesToString());
         throw Exception('Failed to call API.');

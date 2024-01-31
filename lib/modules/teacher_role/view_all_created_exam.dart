@@ -76,7 +76,7 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
 
   deleteExam(String examCode) async {
     try {
-
+      // delete examCode trong examCreated của user
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').where('email',
           isEqualTo: prefs.getString('email')).get();
@@ -95,7 +95,7 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
           "examCreated" : examCreated
         });
       }
-
+      // delete exam có examCode trong examCollection
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
           .where("examCode", isEqualTo: examCode).get();
 
@@ -105,10 +105,24 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
 
         // Delete the document
         await documentReference.delete();
-
         print('Document deleted successfully!');
       } else {
         print('No document found with the specified field value.');
+      }
+      // delete kết quả làm bài có examCode đó của các user
+      QuerySnapshot querySnapshotUsers = await FirebaseFirestore.instance.collection('users').get();
+      for (var querySnapshotUser in querySnapshotUsers.docs) { // for từng user
+        // tất cả doneExams của mỗi user
+        List<dynamic> doneExamsOfEachUser = List.from(querySnapshotUser['doneExams']);
+        for (var doneExamOfEachUser in doneExamsOfEachUser.toList()) { // for từng doneExam của mỗi user
+          if (doneExamOfEachUser is Map && doneExamOfEachUser['examCode'] == examCode) {
+            doneExamsOfEachUser.remove(doneExamOfEachUser);
+          }
+        }
+        // update lại user
+        await querySnapshotUser.reference.update({
+          'doneExams' : doneExamsOfEachUser
+        });
       }
     } catch (e) {
       print('Error deleting document: $e');

@@ -28,7 +28,6 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
         totalQuesOfEachExam.add(data['totalQues']);
         examCodes.add(data['examCode']);
       });
-
     }
   }
 

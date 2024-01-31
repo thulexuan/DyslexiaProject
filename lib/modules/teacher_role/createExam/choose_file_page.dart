@@ -179,9 +179,6 @@ class _CreateExamPageState extends State<CreateExamPage> {
 
     // save to database
 
-    print('alo');
-    print(questionsOfExam[0]['options'][1]);
-
     List<Map<String, dynamic>> questions = [];
 
     for (var question in questionsOfExam) {
@@ -190,29 +187,16 @@ class _CreateExamPageState extends State<CreateExamPage> {
       questions.add(qMap);
     }
 
-
-    // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-    //     .collection('examCollection')
-    //     .orderBy('examNumber', descending: true).limit(1)
-    //     .get();
-    //
-    // var examNumberMax = 0;
-    // // print(examNumberMax);
-    // if (querySnapshot.docs.isNotEmpty) {
-    //   examNumberMax = querySnapshot.docs.first.get('examNumber');
-    // }
-    // // print(examNumberMax);
-    // setState(() {
-    //   examNumber = examNumberMax + 1;
-    // });
-
+    // add examCode to examCreated of user
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
         .where('email', isEqualTo: prefs.getString('email')).get();
 
     final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
     var examCreated = data != null && data is Map<String, dynamic> ? data['examCreated'] : [];
-    examCreated.add(examCode);
+    if (!examCreated.contains(examCode)) {
+      examCreated.add(examCode);
+    }
 
     if (snapshot.docs.isNotEmpty) {
       await snapshot.docs[0].reference.update({
@@ -220,9 +204,12 @@ class _CreateExamPageState extends State<CreateExamPage> {
       });
     }
 
+    // get authorName
     setState(() {
       authorName = data != null && data is Map<String, dynamic> ? data['fullname'] : '';
     });
+
+    // create exam to save to db
 
     Exam exam = Exam(questions: questions, text: text, totalQues: questionsOfExam.length, authorName: authorName, examCode: examCode);
 
@@ -230,7 +217,57 @@ class _CreateExamPageState extends State<CreateExamPage> {
 
     Map<String, dynamic> examMap = exam.toJson();
 
+    // check if examCode exists. If exist -> update else add to db
+    // get list of examCode
+    QuerySnapshot exams = await FirebaseFirestore.instance.collection('examCollection').get();
+    var examCodeList = [];
+
+    for (QueryDocumentSnapshot exam in exams.docs) {
+      Map<String, dynamic> data = exam.data() as Map<String, dynamic>;
+      examCodeList.add(data['examCode']);
+    }
+
+    print(examCodeList);
+
+    // check if examCode is in examCodeList
+
+    if (examCodeList.contains(examCode)) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
+          .where("examCode", isEqualTo: examCode).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Get the reference to the first matching document
+        DocumentReference documentReference = querySnapshot.docs.first.reference;
+        // Delete the document
+        await documentReference.delete();
+        print('Document deleted successfully!');
+      }
+    }
+
     await examCollection.add(examMap);
+    showDialogAddExam(context, examCode);
     print('add successfully');
+  }
+
+  Future<void> showDialogAddExam(BuildContext context, String examCode) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('Thêm bài kiểm tra mã ${examCode} thành công'),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Có'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
   }
 }

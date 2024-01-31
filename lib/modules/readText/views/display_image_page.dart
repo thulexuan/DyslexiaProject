@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dyslexia_project/modules/common/controllers/custom_textediting_controller.dart';
+import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,6 +67,9 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
                         setState(() {
                           isRecognizerLoading = false;
                         });
+                        if (controller.ocrDone.value == false) {
+                          showDialogOCRFail(context);
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
@@ -86,6 +90,28 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
             ),
         ],
       ),
+    );
+  }
+
+  Future<void> showDialogOCRFail(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('Thử lại'),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Okay'),
+                onPressed: () {
+                  Get.to(const ReadOptions());
+                },
+              ),
+            ],
+          );
+        }
     );
   }
 }

@@ -47,6 +47,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
   int selectedIndex = 0;
 
   bool highlightMirrorLetterOption = true;
+  bool showImageOption = false;
 
 
   @override
@@ -73,6 +74,24 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                             setState(() {
                               highlightMirrorLetterOption = newValue;
                               customTextEditingController.highlightMirrorLetterOption = newValue;
+                            });
+                          },
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Text('Hiển thị hình ảnh'),
+                      StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
+                        return Switch(
+                          value: showImageOption,
+                          onChanged: (newValue) {
+                            setState(() {
+                              showImageOption = newValue;
                             });
                           },
                         );
@@ -154,7 +173,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                                     buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
                                       return buttonItem.type == ContextMenuButtonType.paste;
                                     });
-                                    buttonItems.insert(0,
+                                    showImageOption ? buttonItems.insert(0,
                                       ContextMenuButtonItem(
                                         label: 'Ảnh',
                                         onPressed: () async {
@@ -170,7 +189,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                                           print(imageUrl);
                                         },
                                       ),
-                                    );
+                                    ) : null;
 
                                     return AdaptiveTextSelectionToolbar.buttonItems(
                                       anchors: editableTextState.contextMenuAnchors,
