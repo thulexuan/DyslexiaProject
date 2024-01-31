@@ -19,6 +19,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final signinController = Get.put(SignInController());
   late var isHiddenPassword;
 
+  List<String> list = <String>['Học sinh', 'Giáo viên'];
+  var role;
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -32,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(40, MediaQuery.of(context).size.height / 8, 40, 20),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 8, MediaQuery.of(context).size.width / 10, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -133,6 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
 
                   SizedBox(height: 10,),
+
                   Obx(() => TextField(
                     controller: signUpController.phoneNumberController,
                     style: TextStyle(color: Colors.black),
@@ -148,6 +154,33 @@ class _SignUpPageState extends State<SignUpPage> {
                         )),
                   ),
                   ),
+
+                  SizedBox(height: 18,),
+
+                  DropdownMenu<String>(
+                      initialSelection: list.first,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      inputDecorationTheme: InputDecorationTheme(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        fillColor: Colors.grey.shade100,
+                        filled: true
+                      ),
+                      controller: signUpController.roleController,
+                      label: const Text('Vai trò', style: TextStyle(fontSize: 20),),
+                      onSelected: (String? newRole) {
+                        setState(() {
+                          role = newRole;
+                          signUpController.roleController.text = newRole!;
+                          print(signUpController.roleController.text);
+                        });
+                      },
+                      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+                        return DropdownMenuEntry<String>(value: value, label: value);
+                      }).toList(),
+                  ),
+                  
 
                   SizedBox(height: 10,),
                   Padding(

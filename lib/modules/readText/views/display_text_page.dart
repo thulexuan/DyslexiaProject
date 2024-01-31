@@ -3,7 +3,7 @@ import 'package:dyslexia_project/data/word_image_mapping.dart';
 import 'package:dyslexia_project/modules/common/controllers/custom_textediting_controller.dart';
 import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
@@ -24,15 +24,14 @@ class DisplayTextPage extends StatefulWidget {
 });
 }
 
-class _DisplayTextPageState extends State<DisplayTextPage>
-    with SingleTickerProviderStateMixin{
+class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProviderStateMixin{
   final controller = Get.put(RecognizedTextController());
   final textCustomizeController = Get.put(TextCustomizeController());
-  // final textEditingController = TextEditingController();
   CustomEditingController customTextEditingController = CustomEditingController();
   late TabController _tabController;
 
   bool isPause = true;
+
 
   FlutterTts flutterTts = FlutterTts();
 
@@ -40,7 +39,6 @@ class _DisplayTextPageState extends State<DisplayTextPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    // textEditingController.text = controller.extractedText.value;
     customTextEditingController.text = controller.extractedText.value;
     _tabController = TabController(length: 2, vsync: this);
     textCustomizeController.getData();
@@ -48,65 +46,51 @@ class _DisplayTextPageState extends State<DisplayTextPage>
 
   int selectedIndex = 0;
 
-  void onTap(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
-  void _showDialog(BuildContext context, String? imageUrl, String word) {
-    Navigator.of(context).push(
-      DialogRoute<void>(
-        context: context,
-        builder: (BuildContext context) =>
-            Dialog(
-                child: imageUrl != null ? Container(
-                  height: 300,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 200,
-                          child: Image.asset(imageUrl!)
-                      ),
-                      Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                      IconButton(
-                          onPressed: () {
-                            SoundFunction().speak(
-                                word,
-                                textCustomizeController.current_volume.value,
-                                textCustomizeController.current_rate.value,
-                                textCustomizeController.current_pitch.value,
-                                textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
-                            );
-                          },
-                          icon: Icon(Icons.volume_up, size: 30,),
-                      )
-                    ],
-                  ),
-                ) : Container(
-                    width: 100,
-                    height: 200,
-                    child: Image.asset('assets/images/no_image.png')
-                ),
-            )
-      ),
-    );
-  }
+  bool highlightMirrorLetterOption = true;
 
 
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: const Text('Đọc văn bản'),),
+      appBar: AppBar(
+        title: const Text('Đọc văn bản'),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Text('Highlight chữ gương'),
+                      StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
+                        return Switch(
+                          value: highlightMirrorLetterOption,
+                          onChanged: (newValue) {
+                            setState(() {
+                              highlightMirrorLetterOption = newValue;
+                              customTextEditingController.highlightMirrorLetterOption = newValue;
+                            });
+                          },
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Obx(() =>
                 controller.extractedText.value.isEmpty?
-                const Center(child: Text("Text Not Found")):
+                const Center(child: Text("Không đọc được văn bản")) :
                 Container(
                   height: MediaQuery.of(context).size.height - 220,
                           decoration: BoxDecoration(
@@ -144,6 +128,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                         child: TabBarView(
                           controller: _tabController,
                           children:  [
+                            // display text
                             SingleChildScrollView(
                               child: Container(
                                 padding: const EdgeInsets.all(15),
@@ -151,6 +136,7 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                                 child: TextField(
                                   controller: customTextEditingController,
                                   maxLines: null,
+                                  // tap to word for understanding its meaning
                                   contextMenuBuilder: (BuildContext context,
                                       EditableTextState editableTextState) {
 
@@ -202,8 +188,9 @@ class _DisplayTextPageState extends State<DisplayTextPage>
                                 ),
                               ),
                             ),
+                            // display image
                             controller.selectedImagePath.value==''?
-                            const Center(child: Text("Select an image from Gallery / camera")):
+                            const Center(child: Text("Chụp ảnh hoặc chọn ảnh từ thư viện ảnh")):
                             Image.file(
                               File(controller.selectedImagePath.value),
                               width: Get.width,
@@ -296,162 +283,58 @@ class _DisplayTextPageState extends State<DisplayTextPage>
               ],
             )
 
-            // Container(
-            //   margin: EdgeInsets.all(15),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       IconButton(
-            //           icon: Icon(Icons.camera_alt_sharp),
-            //         onPressed: () {
-            //           Navigator.push(
-            //             context,
-            //             MaterialPageRoute(builder: (context) =>  ReadOptions()),
-            //           );
-            //         },
-            //       ),
-            //       IconButton(
-            //           icon: isPause ? Icon(Icons.play_circle) : Icon(Icons.pause),
-            //           onPressed: () {
-            //             setState(() {
-            //               isPause = !isPause;
-            //             });
-            //             isPause ? TextToSpeech().pause() : TextToSpeech().speakNormal(textEditingController.text,
-            //                 soundCustomizeController.current_volume.value,
-            //                 soundCustomizeController.current_rate.value,
-            //                 soundCustomizeController.current_pitch.value);
-            //           }
-            //       ),
-            //       IconButton(
-            //           onPressed: () {
-            //             Navigator.push(
-            //               context,
-            //               MaterialPageRoute(builder: (context) =>  CustomizeOptionPage()),
-            //             );
-            //           },
-            //           icon: Icon(Icons.toc),
-            //       )
-            //     ],
-            //   ),
-            // )
+
           ],
         ),
       ),
     );
-
-
-    // return Scaffold(
-    //   appBar: AppBar(title: Text('Đọc văn bản'),),
-    //   body: Column(
-    //     children: [
-    //
-    //       Container(
-    //         height: MediaQuery.of(context).size.height - 250,
-    //         decoration: BoxDecoration(
-    //           color: Colors.white,
-    //           boxShadow: [
-    //             BoxShadow(
-    //               color: Colors.grey.withOpacity(0.7),
-    //               spreadRadius: 5,
-    //               blurRadius: 7,
-    //               offset: Offset(0, 3), // changes position of shadow
-    //             ),
-    //           ],
-    //         ),
-    //         child: SingleChildScrollView(
-    //           child: selectedIndex == 0 ? Padding(
-    //             padding: const EdgeInsets.all(10.0),
-    //             child: TextField(
-    //               controller: textEditingController,
-    //               maxLines: null,
-    //             ),
-    //           ) : Image.file(
-    //             File(controller.selectedImagePath.value),
-    //             width: Get.width,
-    //           ),
-    //         ),
-    //       ),
-    //       // choose between image or text
-    //       Container(
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             ElevatedButton(
-    //                 onPressed: () => onTap(0),
-    //                 child: Text('Text')
-    //             ),
-    //             SizedBox(width: 10,),
-    //             ElevatedButton(
-    //                 onPressed: () => onTap(1),
-    //                 child: Text('Image')
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //         children: [
-    //           TextButton(
-    //             onPressed: () {  },
-    //             child: Container(
-    //               child: Row(
-    //                 children: [
-    //                   Icon(
-    //                     Icons.headphones,
-    //                   ),
-    //                   Text(' Nghe văn bản')
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //           TextButton(
-    //             onPressed: () {  },
-    //             child: Container(
-    //               child: Row(
-    //                 children: [
-    //                   Icon(
-    //                     Icons.tune,
-    //                   ),
-    //                   Text(' Tùy chỉnh')
-    //                 ],
-    //               ),
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //         children: [
-    //           TextButton(
-    //             onPressed: () {  },
-    //             child: Container(
-    //               child: Row(
-    //                 children: [
-    //                   Icon(
-    //                     Icons.home,
-    //                   ),
-    //                   Text(' Quay về trang chủ')
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //           TextButton(
-    //             onPressed: () {  },
-    //             child: Container(
-    //               child: Row(
-    //                 children: [
-    //                   Icon(
-    //                     Icons.image,
-    //                   ),
-    //                   Text(' Chọn lại ảnh')
-    //                 ],
-    //               ),
-    //             ),
-    //           )
-    //         ],
-    //       )
-    //     ],
-    //   ),
-    // );
   }
+
+  void onTap(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  void _showDialog(BuildContext context, String? imageUrl, String word) {
+    Navigator.of(context).push(
+      DialogRoute<void>(
+          context: context,
+          builder: (BuildContext context) =>
+              Dialog(
+                child: imageUrl != null ? Container(
+                  height: 300,
+                  child: Column(
+                    children: [
+                      Container(
+                          width: 100,
+                          height: 200,
+                          child: Image.asset(imageUrl!)
+                      ),
+                      Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                      IconButton(
+                        onPressed: () {
+                          SoundFunction().speak(
+                              word,
+                              textCustomizeController.current_volume.value,
+                              textCustomizeController.current_rate.value,
+                              textCustomizeController.current_pitch.value,
+                              textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
+                          );
+                        },
+                        icon: Icon(Icons.volume_up, size: 30,),
+                      )
+                    ],
+                  ),
+                ) : Container(
+                    width: 100,
+                    height: 200,
+                    child: Image.asset('assets/images/no_image.png')
+                ),
+              )
+      ),
+    );
+  }
+
+
 }

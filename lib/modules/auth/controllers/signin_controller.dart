@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/white_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dyslexia_project/models/user.dart' as userModel;
 
 import '../../intro/intro_screen.dart';
+import '../../teacher_role/overview_page_teacher.dart';
 import '../views/login.dart';
 
 
@@ -91,15 +93,28 @@ class SignInController extends GetxController {
       final Object? data =
       snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
 
-      var isFirstTimeLogin = data != null && data is Map<String, dynamic>
-          ? data['isFirstTimeLogin']
-          : 'fail to get isFirstTimeLogin' ;
-      if (isFirstTimeLogin == true) {
-        Get.to(const IntroScreen());
-        await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
+      var role = data != null && data is Map<String, dynamic> ? data['role'] : 'Học sinh' ;
+
+      if (role == 'Học sinh') {
+        var isFirstTimeLogin = data != null && data is Map<String, dynamic>
+            ? data['isFirstTimeLogin']
+            : 'fail to get isFirstTimeLogin' ;
+        if (isFirstTimeLogin == true) {
+          Get.to(const IntroScreen());
+          await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
+        } else {
+          Get.to(const OverviewPage());
+        }
+      } else if (role == 'Giáo viên') {
+        Get.to(const OverviewTeacherPage());
+        var isFirstTimeLogin = data != null && data is Map<String, dynamic> ? data['isFirstTimeLogin'] : 'fail to get isFirstTimeLogin' ;
+        if (isFirstTimeLogin == true) {
+          await snapshot.docs[0].reference.update({"isFirstTimeLogin": false});
+        }
       } else {
-        Get.to(const OverviewPage());
+        Get.to(const WhitePage());
       }
+
       // await textCustomizeController.getData();
       // Get.to(const OverviewPage());
       onClose();
@@ -155,7 +170,9 @@ class SignInController extends GetxController {
             resultDoneExams: [],
             errorWords: [],
             voiceName: 'vi-vn-x-gft-network',
-            pitch: 0.8
+            pitch: 0.8,
+            role: 'Học sinh',
+            examCreated: []
         );
 
         await firestore.collection('users').doc(userCredential.user!.uid).set({
@@ -176,7 +193,9 @@ class SignInController extends GetxController {
           "resultDoneExams" : [],
           "errorWords" : [],
           "voiceName" : 'vi-vn-x-gft-network',
-          "pitch" : 0.8
+          "pitch" : 0.8,
+          "role" : "Học sinh",
+          "examCreated" : []
         });
 
         res = "success";

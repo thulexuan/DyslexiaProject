@@ -13,9 +13,9 @@ class EachExamController extends GetxController {
 
   var isDone = false.obs;
 
-  Future<void> getExamDetail(int examNumber) async {
+  Future<void> getExamDetail(String examCode) async {
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('examCollection').where('examNumber', isEqualTo: examNumber).get();
+        .collection('examCollection').where('examCode', isEqualTo: examCode).get();
 
     // get data from the first document in the snapshot
     final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};

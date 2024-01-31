@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'modules/exams/views/exam_collection_page.dart';
-import 'modules/profile/profile_page.dart';
+import '../../exams/views/exam_collection_page.dart';
+import '../../profile/profile_page.dart';
 
 
 class OverviewPage extends StatefulWidget {
@@ -23,8 +23,7 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     ReadOptions(),
     // const Text(

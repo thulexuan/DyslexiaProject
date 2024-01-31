@@ -1,16 +1,13 @@
 import 'package:dyslexia_project/modules/auth/views/login.dart';
-import 'package:dyslexia_project/modules/customizeText/views/customize_option_page.dart';
-import 'package:dyslexia_project/modules/customizeText/views/sound_customize_option_page.dart';
-import 'package:dyslexia_project/modules/tests/views/test_letter.dart';
-import 'package:dyslexia_project/modules/tests/views/test_line_spacing_page.dart';
-import 'package:dyslexia_project/modules/tests/views/test_sentence_page.dart';
 import 'package:dyslexia_project/test.dart';
 import 'package:dyslexia_project/utils/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'modules/tests/views/test_mirror_letter.dart';
+import 'modules/auth/views/sign_up.dart';
+import 'modules/profile/done_process_detail.dart';
+import 'modules/teacher_role/overview_page_teacher.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

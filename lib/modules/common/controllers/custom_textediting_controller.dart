@@ -9,6 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomEditingController extends TextEditingController {
 
+  bool highlightMirrorLetterOption;
+
+  CustomEditingController({String? text, this.highlightMirrorLetterOption = true})
+      : super(text: text);
+
   final textCustomizeController = Get.put(TextCustomizeController());
 
   var errorWords = [].obs;
@@ -98,11 +103,21 @@ class CustomEditingController extends TextEditingController {
     List<List<TextSpan>> wordSpans = words.map((word) {
       List<TextSpan> letterSpans = word.runes.map((rune) {
         String letter = String.fromCharCode(rune);
-        if (errorWords.contains(letter)) {
-          return TextSpan(
-            text: letter,
-            style: mapping[letter],
-          );
+        if (highlightMirrorLetterOption == true) {
+          if (errorWords.contains(letter)) {
+            return TextSpan(
+              text: letter,
+              style: mapping[letter],
+            );
+          } else {
+            return TextSpan(
+              text: letter,
+              style: style?.copyWith(
+                letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+                color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+              ),
+            );
+          }
         } else {
           return TextSpan(
             text: letter,

@@ -10,10 +10,12 @@ import '../exam_detail_page.dart';
 
 class ExamItem extends StatefulWidget {
 
-  int examNum;
+  String examCode;
+  int examNumber;
 
   ExamItem({
-    required this.examNum,
+    required this.examCode,
+    required this.examNumber
 });
 
   @override
@@ -27,7 +29,7 @@ class _ExamItemState extends State<ExamItem> {
 
   Future<void> getListExams() async {
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('examCollection').where('examNumber', isEqualTo: widget.examNum).get();
+        .collection('examCollection').where('examCode', isEqualTo: widget.examCode).get();
 
     final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
 
@@ -36,7 +38,7 @@ class _ExamItemState extends State<ExamItem> {
     });
   }
 
-  // get doneExams list -> check if doneExams list contain examNum
+  // get doneExams list -> check if doneExams list contain doneExam which has examNumber = widget.examNum
   // if yes -> setState(isDone == true) else setSate(isDone == false)
 
   Future<void> getDoneExams() async {
@@ -52,18 +54,15 @@ class _ExamItemState extends State<ExamItem> {
     final Object? data =
     snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
 
-    List doneExams = data != null && data is Map<String, dynamic>
-        ? data['doneExams']
-        : [];
+    List<dynamic> doneExams = data != null && data is Map<String, dynamic> ? data['doneExams'] : [];
 
-    if (doneExams.contains(widget.examNum)) {
-      setState(() {
-        isDone = true;
-      });
-    } else {
-      setState(() {
-        isDone = false;
-      });
+    for (var doneExam in doneExams) {
+      if (doneExam['examCode'] == widget.examCode) {
+        setState(() {
+          isDone = true;
+        });
+        break;
+      }
     }
   }
 
@@ -80,7 +79,7 @@ class _ExamItemState extends State<ExamItem> {
 
     return GestureDetector(
       onTap: () {
-        Get.to(ExamDetailPage(examNumber: widget.examNum,));
+        Get.to(ExamDetailPage(examCode: widget.examCode,));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -107,7 +106,11 @@ class _ExamItemState extends State<ExamItem> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Bài kiểm tra số ' + (widget.examNum+1).toString(), style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
+              child: Text('Mã bài: ' + (widget.examCode), style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),

@@ -14,6 +14,7 @@ class SignUpController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController roleController = TextEditingController(text: 'Học sinh');
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -37,6 +38,7 @@ class SignUpController extends GetxController {
     String password = passwordController.text;
     String confirmPassword = confirmPasswordController.text;
     String phoneNumber = phoneNumberController.text;
+    String role = roleController.text;
 
     String res = '';
 
@@ -65,7 +67,9 @@ class SignUpController extends GetxController {
             resultDoneExams: [],
             errorWords: [],
             voiceName: 'vi-vn-x-gft-network',
-            pitch: 0.8
+            pitch: 0.8,
+            role: role,
+            examCreated: []
         );
 
         await firestore.collection('users').doc(credential.user!.uid).set({
@@ -86,7 +90,9 @@ class SignUpController extends GetxController {
           "resultDoneExams" : [],
           "errorWords" : [],
           "voiceName" : 'vi-vn-x-gft-network',
-          "pitch" : 0.8
+          "pitch" : 0.8,
+          "role" : role,
+          "examCreated" : []
         });
 
         res = "success";

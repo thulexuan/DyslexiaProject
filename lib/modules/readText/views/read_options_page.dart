@@ -1,6 +1,6 @@
 import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/readText/views/widgets/read_option_widget.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
 import 'package:dyslexia_project/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,7 +47,6 @@ class _ReadOptionsState extends State<ReadOptions> {
                     onTap: () {
                       controller.getImage(ImageSource.camera);
                       print(controller.selectedImagePath.value);
-                      print('end test');
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>  DisplayImagePage()),

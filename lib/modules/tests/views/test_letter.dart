@@ -1,7 +1,7 @@
 import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
 import 'package:dyslexia_project/modules/tests/views/common_widgets/questionItem.dart';
 import 'package:dyslexia_project/modules/tests/views/common_widgets/testElementItem.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../models/testElement.dart';

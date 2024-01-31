@@ -1,7 +1,7 @@
 import 'package:dyslexia_project/modules/exams/controllers/each_exam_controller.dart';
 import 'package:dyslexia_project/modules/exams/views/component/review_each_question.dart';
 import 'package:dyslexia_project/modules/exams/views/exam_collection_page.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

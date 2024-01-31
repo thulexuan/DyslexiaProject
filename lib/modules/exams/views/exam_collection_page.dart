@@ -13,6 +13,7 @@ class ExamCollectionPage extends StatefulWidget {
 class _ExamCollectionPageState extends State<ExamCollectionPage> {
 
   int numOfExams  = 0;
+  List<dynamic> examCodes = [];
   List totalQuesOfEachExam = [];
 
   Future<void> getListExams() async {
@@ -25,6 +26,7 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       setState(() {
         totalQuesOfEachExam.add(data['totalQues']);
+        examCodes.add(data['examCode']);
       });
 
     }
@@ -45,11 +47,11 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
       body: GridView.count(
         padding: EdgeInsets.all(20.0),
         crossAxisCount: 2,
-        childAspectRatio: 3/4.3,
+        childAspectRatio: 3/5,
         crossAxisSpacing: 20,
         mainAxisSpacing: 30,
         children: List.generate(numOfExams, (index) {
-          return ExamItem(examNum: index,);
+          return ExamItem(examCode: examCodes[index], examNumber: index,);
         }),
       ),
     );

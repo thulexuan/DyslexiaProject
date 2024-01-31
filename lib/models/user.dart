@@ -12,11 +12,13 @@ class User {
   final String backgroundColor;
   final String textColor;
   final bool isFirstTimeLogin;
-  final List<dynamic> doneExams;
+  final List<Map<String, dynamic>> doneExams;
   final List<dynamic> resultDoneExams;
   final List<dynamic> errorWords;
   final String voiceName;
   final double pitch;
+  final String role;
+  final List<dynamic> examCreated;
 
   const User(
       {required this.email,
@@ -36,7 +38,9 @@ class User {
         required this.resultDoneExams,
         required this.errorWords,
         required this.voiceName,
-        required this.pitch
+        required this.pitch,
+        required this.role,
+        required this.examCreated
         });
 
   Map<String, dynamic> toJson() => {
@@ -57,7 +61,9 @@ class User {
     "resultDoneExams" : resultDoneExams,
     "errorWords" : errorWords,
     "voiceName" : voiceName,
-    "pitch" : pitch
+    "pitch" : pitch,
+    "role" : role,
+    "examCreated" : examCreated
   };
 
   static User fromJson(Map<String, dynamic> json) => User(
@@ -78,6 +84,8 @@ class User {
       resultDoneExams: json['resultDoneExams'],
       errorWords: json['errorWords'],
       voiceName: json['voiceName'],
-      pitch: json['pitch']
+      pitch: json['pitch'],
+      role: json['role'],
+      examCreated: json['examCreated']
   );
 }

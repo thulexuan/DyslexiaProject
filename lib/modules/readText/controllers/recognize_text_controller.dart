@@ -41,24 +41,11 @@ class RecognizedTextController extends GetxController {
     // Create a multipart request
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('https://ocr-tool-dd06f654802f.herokuapp.com/api/v1/extract_text'),
+      Uri.parse('https://ocr-tool-9a06e61add2f.herokuapp.com/api/v1/extract_text'),
     );
-
-    // request.headers.addAll({
-    //   'Content-Type': 'multipart/form-data',
-    //   'Apikey': '0d1d50c8-3c1b-4453-bf87-27b556c29169',
-    //   'Accept': 'application/json',
-    //   'language': 'VIE'
-    // });
 
     // Add the file to the request
     request.files.add(await http.MultipartFile.fromPath('image', pickedImage));
-
-    // Add other fields to the request
-    // request.fields['type'] = 'ocr';
-    // request.fields['lang'] = 'auto';
-    // request.fields['retain'] = 'true';
-
 
     try {
       // Send the request
@@ -182,14 +169,5 @@ class RecognizedTextController extends GetxController {
     }
   }
 
-  speak(List words) async {
-    await flutterTts.setLanguage('vi-VN');
-    for (int i=0;i<words.length;i++) {
-      String currentWord = words.elementAt(i).text.toString();
-      print(currentWord);
-      await flutterTts.speak(currentWord);
-    }
-
-  }
 
 }

@@ -5,7 +5,7 @@ import 'package:dyslexia_project/modules/tests/views/test_letter.dart';
 import 'package:dyslexia_project/modules/tests/views/test_mirror_letter.dart';
 import 'package:dyslexia_project/modules/tests/views/test_one_word.dart';
 import 'package:dyslexia_project/modules/tests/views/test_sentence_page.dart';
-import 'package:dyslexia_project/overview_page.dart';
+import 'package:dyslexia_project/modules/common/views/overview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
