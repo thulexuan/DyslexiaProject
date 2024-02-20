@@ -118,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             ListTile(
               onTap: () {
-                Get.to(DoExamProcess());
+                Get.to(DoExamProcess(email: userController.email.value,));
               },
               leading: const Icon(
                 Icons.school,

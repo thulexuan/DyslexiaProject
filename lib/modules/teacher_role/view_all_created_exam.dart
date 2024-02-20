@@ -110,7 +110,7 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
         print('No document found with the specified field value.');
       }
       // delete kết quả làm bài có examCode đó của các user
-      QuerySnapshot querySnapshotUsers = await FirebaseFirestore.instance.collection('users').get();
+      QuerySnapshot querySnapshotUsers = await FirebaseFirestore.instance.collection('users').get(); // get all users
       for (var querySnapshotUser in querySnapshotUsers.docs) { // for từng user
         // tất cả doneExams của mỗi user
         List<dynamic> doneExamsOfEachUser = List.from(querySnapshotUser['doneExams']);

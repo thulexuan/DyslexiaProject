@@ -1,4 +1,5 @@
 import 'package:dyslexia_project/modules/teacher_role/view_all_created_exam.dart';
+import 'package:dyslexia_project/modules/teacher_role/view_students_results.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -78,6 +79,21 @@ class SettingPage extends StatelessWidget {
             ),
           ),
           const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                const Icon(Icons.book),
+                const SizedBox(width: 30,),
+                GestureDetector(
+                    onTap: () {
+                      Get.to( ViewAllStudentsResults());
+                    },
+                    child: const Text('Xem kết quả làm bài của học sinh')
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

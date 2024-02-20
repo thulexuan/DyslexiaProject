@@ -9,7 +9,9 @@ import '../exams/views/exam_detail_page.dart';
 import 'done_process_detail.dart';
 
 class DoExamProcess extends StatefulWidget {
-  const DoExamProcess({Key? key}) : super(key: key);
+  DoExamProcess({Key? key, required this.email}) : super(key: key);
+
+  String email;
 
   @override
   State<DoExamProcess> createState() => _DoExamProcessState();
@@ -19,12 +21,12 @@ class _DoExamProcessState extends State<DoExamProcess> {
 
   List<dynamic> doneExams = [];
 
-  Future<void> getDoneExams() async {
+  Future<void> getDoneExams(String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('email',
-        isEqualTo: prefs.getString('email')) // add your condition here
+        isEqualTo: email) // add your condition here
         .get();
 
     // get data from the first document in the snapshot
@@ -40,14 +42,15 @@ class _DoExamProcessState extends State<DoExamProcess> {
   @override
   void initState() {
     super.initState();
-    getDoneExams();
+    getDoneExams(widget.email);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.email);
     return Scaffold(
       appBar: AppBar(title: const Text('Bài kiểm tra đã làm'),),
-      body: Column(
+      body: doneExams.length == 0 ? Text('Chưa làm bài kiểm tra nào') : Column(
         children: [
           for (var doneExam in doneExams)
             Row(
