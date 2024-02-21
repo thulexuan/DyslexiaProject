@@ -42,7 +42,7 @@ class RecognizedTextController extends GetxController {
     // Create a multipart request
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('https://ocr-tool-9a06e61add2f.herokuapp.com/api/v1/extract_text'),
+      Uri.parse('https://myocrtool-6fhsw25akq-uc.a.run.app/api/v1/extract_text'),
     );
 
     // Add the file to the request
