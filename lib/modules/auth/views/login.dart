@@ -15,6 +15,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   late var isHiddenPassword;
+  final signInController = Get.put(SignInController());
 
   @override
   void initState() {
@@ -27,167 +28,148 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: GetBuilder<SignInController>(
-          init: SignInController(),
-          builder: (controller) {
-            return Stack(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width / 10, 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text('Đăng nhập', style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                        Container(
-                          margin: const EdgeInsets.only(left: 35, right: 35),
-                          child: Column(
-                            children: [
-                              Obx(() => TextField(
-                                controller: controller.emailController,
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.email_outlined),
-                                    fillColor: Colors.grey.shade100,
-                                    filled: true,
-                                    hintText: "Nhập email",
-                                    labelText: "Email",
-                                    errorText: controller.emailError.value == '' ? null : controller.emailError.value,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                              ),
-                              ),
+                Center(
+                  child: Text('Đăng nhập', style: Theme.of(context).textTheme.headlineSmall,),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                Obx(() => TextField(
+                  controller: signInController.emailController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.width / 16,),
+                      ),
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      hintText: "Nhập email",
+                      labelText: "Email",
+                      errorText: signInController.emailError.value == '' ? null : signInController.emailError.value,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+                ),
 
-                              const SizedBox(
-                                height: 30,
-                              ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                // fill password
 
-                              // fill password
+                Obx(() => TextField(
+                    controller: signInController.passwordController,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    obscureText: isHiddenPassword ? true : false,
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.password, size: MediaQuery.of(context).size.width / 16,),
+                      ),
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isHiddenPassword = !isHiddenPassword;
+                            });
+                          },
+                          child: isHiddenPassword ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,),
+                          ) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,)
+                      ),
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      labelText: "Mật khẩu",
+                      hintText: "Điền mật khẩu",
+                      errorText: signInController.passwordError.value == '' ? null : signInController.passwordError.value,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
 
-                              Obx(() => TextField(
-                                  controller: controller.passwordController,
-                                  style: TextStyle(color: Colors.black),
-                                  obscureText: isHiddenPassword ? true : false,
-                                  decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.password),
-                                    suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isHiddenPassword = !isHiddenPassword;
-                                          });
-                                        },
-                                        child: isHiddenPassword ? const Icon(Icons.visibility_off) : Icon(Icons.visibility)
-                                    ),
-                                    fillColor: Colors.grey.shade100,
-                                    filled: true,
-                                    labelText: "Mật khẩu",
-                                    hintText: "Điền mật khẩu",
-                                    errorText: controller.passwordError.value == '' ? null : controller.passwordError.value,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-
-                                  )
-                              ),
-                              ),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.to(ForgotPasswordPage());
-                                    },
-                                    child: const Text('Quên mật khẩu?'),
-                                  ),
-                                ],
-                              ),
-
-                              // sign in button
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  height: 56,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      controller.signIn(context);
-                                      controller.saveEmailUsername(controller.emailController.text.trim());
-                                    },
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                                        shape:
-                                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                side: const BorderSide(color: Colors.blue)))),
-                                    child: const Text(
-                                      'Đăng nhập',
-                                      style: TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                  children: const <Widget>[
-                                    Expanded(
-                                        child: Divider()
-                                    ),
-
-                                    Text("   Hoặc đăng nhập với   "),
-
-                                    Expanded(
-                                        child: Divider()
-                                    ),
-                                  ]
-                              ),
-                              SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () async {
-                                        await controller.signInWithGoogle();
-                                      },
-                                      child: SignInOption(image_path: 'google.png')
-                                  ),
-                                  // const SizedBox(width: 20,),
-                                  // SignInOption(image_path: 'apple.png')
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('Chưa có tài khoản ? '),
-                                  TextButton(
-                                      onPressed: () {
-                                        Get.to(() => SignUpPage());
-                                      },
-                                      child: const Text('Đăng ký'),
-                                  ),
-
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                    )
+                ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Get.to(ForgotPasswordPage());
+                      },
+                      child: Text('Quên mật khẩu?', style: Theme.of(context).textTheme.bodySmall,),
+                    ),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                // sign in button
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 12,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        signInController.signIn(context);
+                        signInController.saveEmailUsername(signInController.emailController.text.trim());
+                      },
+                      style: Theme.of(context).elevatedButtonTheme.style,
+                      child: Text(
+                        'Đăng nhập',
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: Divider()
+                      ),
+
+                      Text("   Hoặc đăng nhập với   ", style: Theme.of(context).textTheme.bodyMedium,),
+
+                      Expanded(
+                          child: Divider()
+                      ),
+                    ]
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                        onTap: () async {
+                          await signInController.signInWithGoogle();
+                        },
+                        child: SignInOption(image_path: 'google.png')
+                    ),
+                    // const SizedBox(width: 20,),
+                    // SignInOption(image_path: 'apple.png')
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Chưa có tài khoản ? ', style: Theme.of(context).textTheme.bodyMedium,),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => SignUpPage());
+                      },
+                      child: Text('Đăng ký', style: Theme.of(context).textTheme.bodySmall),
+                    ),
+
+                  ],
+                )
               ],
-            );
-          }
-        ),
+
+            ),
+          ),
+        )
       );
 
   }

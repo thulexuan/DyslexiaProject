@@ -39,7 +39,7 @@ class _OneQuestionItemState extends State<OneQuestionItem> with AutomaticKeepAli
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(widget.listQuestions[widget.questionNum]['questionDetail'], style: TextStyle(fontWeight: FontWeight.bold),),
+            Text(widget.listQuestions[widget.questionNum]['questionDetail'], style: Theme.of(context).textTheme.bodyLarge,),
 
             // 3 options here
 

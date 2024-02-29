@@ -57,7 +57,8 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text('Đọc văn bản'),
+        title: Text('Đọc văn bản', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
         actions: [
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
@@ -111,7 +112,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                 controller.extractedText.value.isEmpty?
                 const Center(child: Text("Không đọc được văn bản")) :
                 Container(
-                  height: MediaQuery.of(context).size.height - 220,
+                  height: MediaQuery.of(context).size.height * 5 / 6,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -229,7 +230,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.2,
                   child: ElevatedButton(
                     onPressed: () async {
                       SoundFunction().speak(
@@ -240,62 +241,75 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                           textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
                       );
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.headphones,),
-                        Text('Nghe văn bản'),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.headphones, size: MediaQuery.of(context).size.width / 16,),
+                          Text('Nghe văn bản', style: Theme.of(context).textTheme.labelSmall,),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.4,
                   child: ElevatedButton(
                       onPressed: () {
                         Get.to(const CustomizeOptionPage());
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Icon(Icons.tune,),
-                          Text('Tùy chỉnh'),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.tune, size: MediaQuery.of(context).size.width / 16),
+                            Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall),
+                          ],
+                        ),
                       ),
                   ),
                 )
               ],
             ),
+            SizedBox(height: MediaQuery.of(context).size.height / 40,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.2,
                   child: ElevatedButton(
                     onPressed: () {
                       Get.to(const OverviewPage());
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.home,),
-                        Text('Về trang chủ'),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.home, size: MediaQuery.of(context).size.width / 16),
+                          Text('Về trang chủ', style: Theme.of(context).textTheme.labelSmall),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width / 2.4,
                   child: ElevatedButton(
                     onPressed: () {
                       Get.to(const ReadOptions());
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.image,),
-                        Text('Chọn lại ảnh'),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.image, size: MediaQuery.of(context).size.width / 16),
+                          Text('Chọn lại ảnh', style: Theme.of(context).textTheme.labelSmall),
+                        ],
+                      ),
                     ),
                   ),
                 )

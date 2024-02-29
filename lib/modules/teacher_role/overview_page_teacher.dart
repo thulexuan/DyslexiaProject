@@ -37,13 +37,17 @@ class _OverviewTeacherPageState extends State<OverviewTeacherPage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: MediaQuery.of(context).size.width / 20,
+        unselectedFontSize: MediaQuery.of(context).size.width / 20,
+        selectedIconTheme: IconThemeData(size: MediaQuery.of(context).size.width / 20),
+        unselectedIconTheme: IconThemeData(size: MediaQuery.of(context).size.width / 20),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.import_contacts),
             label: 'Tạo bài kiểm tra',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.import_contacts),
+            icon: Icon(Icons.settings),
             label: 'Cài đặt',
           ),
         ],

@@ -41,7 +41,8 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Các bài kiểm tra đã tạo'),),
+      appBar: AppBar(title: Text('Các bài kiểm tra đã tạo', style: Theme.of(context).textTheme.labelSmall,),
+      toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -53,14 +54,14 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      child: const Icon(Icons.launch),
+                      child: Icon(Icons.launch, size: MediaQuery.of(context).size.width / 16,),
                       onTap: () {
                         Get.to(ViewCreatedExam(examCode: examCode,));
                       },
                     ),
-                    Text('Bài kiểm tra mã ${examCode}'),
+                    Text('Bài kiểm tra mã ${examCode}', style: Theme.of(context).textTheme.bodyLarge,),
                     GestureDetector(
-                      child: const Icon(Icons.delete),
+                      child: Icon(Icons.delete, size: MediaQuery.of(context).size.width / 16),
                       onTap: () {
                         showDialogDeleteExam(context, examCode);
                       },
@@ -134,13 +135,13 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Bạn chắc chắn muốn xóa bài kiểm tra này?'),
+            content: Text('Bạn chắc chắn muốn xóa bài kiểm tra này?', style: Theme.of(context).textTheme.bodyMedium,),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Có'),
+                child: Text('Có', style: Theme.of(context).textTheme.bodySmall,),
                 onPressed: () {
                   deleteExam(examCode);
                   setState(() {
@@ -153,7 +154,7 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Không'),
+                child: Text('Không', style: Theme.of(context).textTheme.bodySmall),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

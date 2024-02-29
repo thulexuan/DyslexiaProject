@@ -9,12 +9,12 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:dyslexia_project/models/user.dart' as userModel;
 
 class SignUpController extends GetxController {
-  TextEditingController fullnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController roleController = TextEditingController(text: 'Học sinh');
+  // TextEditingController fullnameController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
+  // TextEditingController confirmPasswordController = TextEditingController();
+  // TextEditingController phoneNumberController = TextEditingController();
+  // TextEditingController roleController = TextEditingController(text: 'Học sinh');
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -29,24 +29,30 @@ class SignUpController extends GetxController {
   var passwordError = ''.obs;
   var confirmPasswordError = ''.obs;
 
+  var role = ''.obs;
+
+  // void setRole(String? newRole) {
+  //   role.value = newRole ?? '';
+  //   roleController.text = newRole ?? '';
+  // }
 
   final defaultImageUrl = "https://img.freepik.com/free-vector/cute-corgi-dog-sitting-cartoon-vector-icon-illustration-animal-nature-icon-concept-isolated-premium-vector-flat-cartoon-style_138676-4181.jpg?w=2000";
 
-  signUp(BuildContext context) async {
-    String fullname = fullnameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
-    String confirmPassword = confirmPasswordController.text;
-    String phoneNumber = phoneNumberController.text;
-    String role = roleController.text;
+  signUp(String fullname, String email, String password, String confirmPassword, String phoneNumber, String role) async {
+    // String fullname = fullnameController.text;
+    // String email = emailController.text;
+    // String password = passwordController.text;
+    // String confirmPassword = confirmPasswordController.text;
+    // String phoneNumber = phoneNumberController.text;
+    // String role = roleController.text;
 
     String res = '';
 
     try {
-      checkAllFields();
+      checkAllFields(fullname, email, password, confirmPassword, phoneNumber);
       print(passwordError.value);
       if (fullNameError.value == '' && emailError.value == '' && passwordError.value == ''
-      && confirmPasswordError.value == '' && phoneNumberError.value == '') {
+          && confirmPasswordError.value == '' && phoneNumberError.value == '') {
         UserCredential credential = await auth.createUserWithEmailAndPassword(email: email, password: password);
 
         userModel.User user = userModel.User(
@@ -113,13 +119,94 @@ class SignUpController extends GetxController {
 
   }
 
+  // signUp(BuildContext context) async {
+  //   String fullname = fullnameController.text;
+  //   String email = emailController.text;
+  //   String password = passwordController.text;
+  //   String confirmPassword = confirmPasswordController.text;
+  //   String phoneNumber = phoneNumberController.text;
+  //   String role = roleController.text;
+  //
+  //   String res = '';
+  //
+  //   try {
+  //     checkAllFields();
+  //     print(passwordError.value);
+  //     if (fullNameError.value == '' && emailError.value == '' && passwordError.value == ''
+  //     && confirmPasswordError.value == '' && phoneNumberError.value == '') {
+  //       UserCredential credential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+  //
+  //       userModel.User user = userModel.User(
+  //           fullname: fullname,
+  //           uid: credential.user!.uid,
+  //           email: email,
+  //           imageUrl: defaultImageUrl,
+  //           phoneNumber: phoneNumber,
+  //           fontSize: 20.0,
+  //           letterSpacing: 0.0,
+  //           wordSpacing: 0.0,
+  //           lineSpacing: 1.5,
+  //           fontFamily: 'Arial',
+  //           backgroundColor: 'white',
+  //           textColor: 'black',
+  //           isFirstTimeLogin: true,
+  //           doneExams: [],
+  //           resultDoneExams: [],
+  //           errorWords: [],
+  //           voiceName: 'vi-vn-x-gft-network',
+  //           pitch: 0.8,
+  //           role: role,
+  //           examCreated: []
+  //       );
+  //
+  //       await firestore.collection('users').doc(credential.user!.uid).set({
+  //         "fullname": fullname,
+  //         "uid": credential.user!.uid,
+  //         "email": email,
+  //         "imageUrl": defaultImageUrl,
+  //         "phoneNumber": phoneNumber,
+  //         "fontSize": 20.0,
+  //         "letterSpacing": 0.0,
+  //         "wordSpacing": 0.0,
+  //         "lineSpacing" : 1.5,
+  //         "fontFamily": 'Arial',
+  //         "backgroundColor" : 'white',
+  //         "textColor" : 'black',
+  //         "isFirstTimeLogin" : true,
+  //         "doneExams" : [],
+  //         "resultDoneExams" : [],
+  //         "errorWords" : [],
+  //         "voiceName" : 'vi-vn-x-gft-network',
+  //         "pitch" : 0.8,
+  //         "role" : role,
+  //         "examCreated" : []
+  //       });
+  //
+  //       res = "success";
+  //     }
+  //   } catch(err) {
+  //     res = err.toString();
+  //   }
+  //   print(res);
+  //   if (res == "success") {
+  //     Get.to(() => Login());
+  //   } else {
+  //     if (res == "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
+  //       emailError.value = 'Email đã tồn tại';
+  //     } else {
+  //       emailError.value = '';
+  //     }
+  //   }
+  //
+  // }
+
   // check valid before consider whether email is already exist
-  checkAllFields() {
-    String fullname = fullnameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
-    String confirmPassword = confirmPasswordController.text;
-    String phoneNumber = phoneNumberController.text;
+  checkAllFields(String fullname, String email, String password, String confirmPassword, String phoneNumber) {
+    // String fullname = fullnameController.text;
+    // String email = emailController.text;
+    // String password = passwordController.text;
+    // String confirmPassword = confirmPasswordController.text;
+    // String phoneNumber = phoneNumberController.text;
 
     // check fullname
 
@@ -160,9 +247,9 @@ class SignUpController extends GetxController {
     }
   }
 
-  checkConfirmPassword() {
-    String confirmPassword = confirmPasswordController.text;
-    String password = passwordController.text;
+  checkConfirmPassword(String password, String confirmPassword) {
+    // String confirmPassword = confirmPasswordController.text;
+    // String password = passwordController.text;
 
     if (confirmPassword != password) {
       checkPassword.value = false;

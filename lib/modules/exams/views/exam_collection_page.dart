@@ -42,11 +42,13 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Bài kiểm tra'), automaticallyImplyLeading: false,),
+      appBar: AppBar(toolbarHeight: MediaQuery.of(context).size.height / 12,
+        title: Text('Bài kiểm tra', style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),), automaticallyImplyLeading: false,
+      ),
       body: GridView.count(
         padding: EdgeInsets.all(20.0),
         crossAxisCount: 2,
-        childAspectRatio: 3/5,
+        childAspectRatio: 4/5,
         crossAxisSpacing: 20,
         mainAxisSpacing: 30,
         children: List.generate(numOfExams, (index) {

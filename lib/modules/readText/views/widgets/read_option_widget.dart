@@ -17,8 +17,8 @@ class ReadOptionWidget extends StatelessWidget {
     return Center(
       child: Container(
         padding: const EdgeInsets.all(8),
-        width: 140,
-        height: 140,
+        width: MediaQuery.of(context).size.height / 4,
+        height: MediaQuery.of(context).size.height / 4,
         decoration: BoxDecoration(
           color: Color.fromRGBO(255, 253, 208, 1),
           borderRadius: BorderRadius.circular(10),
@@ -39,7 +39,7 @@ class ReadOptionWidget extends StatelessWidget {
               Container(
                   padding: EdgeInsets.all(0),
                   child: Text(description, textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium,)
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20))
               ),
             ],
           ),

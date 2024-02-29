@@ -49,8 +49,10 @@ class _DoExamProcessState extends State<DoExamProcess> {
   Widget build(BuildContext context) {
     print(widget.email);
     return Scaffold(
-      appBar: AppBar(title: const Text('Bài kiểm tra đã làm'),),
-      body: doneExams.length == 0 ? Text('Chưa làm bài kiểm tra nào') : Column(
+      appBar: AppBar(title: Text('Bài kiểm tra đã làm', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
+      ),
+      body: doneExams.length == 0 ? Text('Chưa làm bài kiểm tra nào', style: Theme.of(context).textTheme.bodyLarge,) : Column(
         children: [
           for (var doneExam in doneExams)
             Row(
@@ -60,14 +62,14 @@ class _DoExamProcessState extends State<DoExamProcess> {
                     onTap: () {
                       Get.to(ExamDetailPage(examCode: doneExam['examCode'],));
                     },
-                    child: const Icon(Icons.launch)
+                    child: Icon(Icons.launch, size: MediaQuery.of(context).size.width / 16,)
                 ),
-                Text('Bài kiểm tra mã ${doneExam['examCode']}'),
+                Text('Bài kiểm tra mã ${doneExam['examCode']}', style: Theme.of(context).textTheme.bodyLarge,),
                 TextButton(
                     onPressed: () {
                       Get.to(DoneProcessDetailPage(examCode: doneExam['examCode'], doneProcesses: doneExam['doneProcess'],));
                     },
-                    child: const Text('Xem kết quả')
+                    child: Text('Xem kết quả', style: Theme.of(context).textTheme.bodySmall,)
                 )
               ],
             )

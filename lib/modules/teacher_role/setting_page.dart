@@ -16,13 +16,13 @@ class SettingPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Bạn muốn đăng xuất khỏi ứng dụng?'),
+            content: Text('Bạn muốn đăng xuất khỏi ứng dụng?', style: Theme.of(context).textTheme.bodyMedium,),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Có'),
+                child: Text('Có', style: Theme.of(context).textTheme.bodySmall,),
                 onPressed: () {
                   signInController.signOut();
                   Get.to(Login());
@@ -32,7 +32,7 @@ class SettingPage extends StatelessWidget {
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Không'),
+                child: Text('Không', style: Theme.of(context).textTheme.bodySmall,),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -46,14 +46,15 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cài đặt'),),
+      appBar: AppBar(title: Text('Cài đặt', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                const Icon(Icons.logout),
+                Icon(Icons.logout, size: MediaQuery.of(context).size.width / 16,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () => showDialogSignOut(context),
@@ -67,7 +68,7 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                const Icon(Icons.book),
+                Icon(Icons.book, size: MediaQuery.of(context).size.width / 16,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () {
@@ -83,7 +84,7 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                const Icon(Icons.book),
+                Icon(Icons.book, size: MediaQuery.of(context).size.width / 16,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () {

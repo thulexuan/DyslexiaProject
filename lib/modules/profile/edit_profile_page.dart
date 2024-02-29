@@ -34,7 +34,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chỉnh sửa thông tin'),),
+      appBar: AppBar(title: Text('Chỉnh sửa thông tin', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
+      ),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

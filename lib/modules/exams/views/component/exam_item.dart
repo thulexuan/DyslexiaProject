@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/exams/controllers/each_exam_controller.dart';
+import 'package:dyslexia_project/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -99,26 +100,26 @@ class _ExamItemState extends State<ExamItem> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                width: 100,
-                height: 100,
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.width / 4,
                 child: Image.asset('assets/images/take_test_1.png', fit: BoxFit.contain,),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Mã bài: ' + (widget.examCode), style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text('Mã bài: ' + (widget.examCode), style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 20), overflow: TextOverflow.ellipsis, maxLines: 2,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-              child: Text('Số câu: ' + totalQues.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text('Số câu: ' + totalQues.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 20)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Text(isDone ? 'Đã làm' : 'Chưa làm', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red), textAlign: TextAlign.justify,),
+              child: Text(isDone ? 'Đã làm' : 'Chưa làm', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: MediaQuery.of(context).size.width / 20), textAlign: TextAlign.justify,),
             ),
           ],
         ),

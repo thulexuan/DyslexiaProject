@@ -21,14 +21,14 @@ class QuestionOption extends StatelessWidget {
         ),
         width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
           child: Row(
             children: [
-              Icon(isSelected == true ? Icons.radio_button_checked : Icons.radio_button_off),
+              Icon(isSelected == true ? Icons.radio_button_checked : Icons.radio_button_off, size: MediaQuery.of(context).size.width / 16,),
               SizedBox(width: 8,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(content, style: TextStyle(fontSize: 20),),
+                child: Text(content, style: Theme.of(context).textTheme.bodyMedium,),
               )
             ],
           ),

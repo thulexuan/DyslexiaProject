@@ -24,11 +24,11 @@ class ReviewEachQuestion extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: 'Câu ${questionNum+1} : ',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20)
+                    style: Theme.of(context).textTheme.bodyLarge
                   ),
                   TextSpan(
                     text: (userAnswer == correctAnswer ? 'Đúng' : 'Sai'),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: userAnswer == correctAnswer ? Colors.green : Colors.red)
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, fontWeight: FontWeight.bold, color: userAnswer == correctAnswer ? Colors.green : Colors.red)
                   )
                 ]
               )

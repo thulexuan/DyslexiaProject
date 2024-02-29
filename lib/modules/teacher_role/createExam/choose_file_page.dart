@@ -29,20 +29,25 @@ class _CreateExamPageState extends State<CreateExamPage> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text('Tạo bài kiểm tra'),
+        title: Text('Tạo bài kiểm tra', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: MediaQuery.of(context).size.height / 60,),
             ElevatedButton(
                 onPressed: () {
                   pickAndDisplayContent();
                 },
-                child: Text('Chọn file')
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Chọn file', style: Theme.of(context).textTheme.labelSmall,),
+                )
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text('Nội dung file', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+              child: Text('Nội dung file', style: Theme.of(context).textTheme.bodyLarge,),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -67,7 +72,7 @@ class _CreateExamPageState extends State<CreateExamPage> {
                     child: TextField(
                         controller: controller,
                         maxLines: null,
-                        style: TextStyle(fontSize: 18,),
+                        style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ),
@@ -78,7 +83,7 @@ class _CreateExamPageState extends State<CreateExamPage> {
                   createExam(controller.text);
                   isCreated = true;
                 },
-                child: const Text('Tạo bài kiểm tra')
+                child: Text('Tạo bài kiểm tra', style: Theme.of(context).textTheme.labelSmall,)
             ),
             isCreated ? ElevatedButton(
                 onPressed: () {
@@ -88,7 +93,10 @@ class _CreateExamPageState extends State<CreateExamPage> {
                   );
                   print(examCode);
                 },
-                child: const Text('Xem bài kiểm tra được tạo')
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Xem bài kiểm tra được tạo', style: Theme.of(context).textTheme.labelSmall),
+                )
             ) : const Text(''),
 
           ],

@@ -66,7 +66,9 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Bài kiểm tra mã ' + (widget.examCode).toString()),),
+      appBar: AppBar(title: Text('Bài kiểm tra mã ' + (widget.examCode).toString(), style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
+      ),
       body: Column(
         children: [
 
@@ -93,7 +95,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
                 child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Obx(() => Text(each_exam_controller.long_text.value)),
+                      child: Obx(() => Text(each_exam_controller.long_text.value, style: Theme.of(context).textTheme.bodyMedium,)),
                     )
                 ),
               ),
@@ -111,9 +113,9 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
               ),
               child: Column(
                 children: [
-                  Text('Trả lời các câu hỏi sau'),
+                  Text('Trả lời các câu hỏi sau', style: Theme.of(context).textTheme.bodyMedium,),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2 - 120,
+                    height: MediaQuery.of(context).size.height / 3,
                     child: Obx(() => PageView.builder(
                       controller: controller,
                       // onPageChanged: (int page) {
@@ -132,12 +134,12 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
                     children: [
                       ElevatedButton(
                           onPressed: () => previousPage(),
-                          child: Icon(Icons.keyboard_double_arrow_left)
+                          child: Icon(Icons.keyboard_double_arrow_left, size: MediaQuery.of(context).size.width / 16)
                       ),
                       SizedBox(width: 10,),
                       ElevatedButton(
                           onPressed: () => nextPage(),
-                          child: Icon(Icons.keyboard_double_arrow_right)
+                          child: Icon(Icons.keyboard_double_arrow_right, size: MediaQuery.of(context).size.width / 16,)
                       ),
                     ],
                   )

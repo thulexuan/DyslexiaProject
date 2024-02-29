@@ -30,7 +30,9 @@ class _DoneProcessDetailPageState extends State<DoneProcessDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Kết quả bài kiểm tra số ${widget.examCode}'),),
+      appBar: AppBar(title: Text('Kết quả bài kiểm tra số ${widget.examCode}', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -87,14 +89,14 @@ class _DoneProcessDetailPageState extends State<DoneProcessDetailPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Chi tiết lần làm bài'),
-            content: Text('Ngày làm: $formattedDate\n \nTỷ lệ đúng: ${datum.percent}%'),
+            title: Text('Chi tiết lần làm bài', style: Theme.of(context).textTheme.bodyLarge,),
+            content: Text('Ngày làm: $formattedDate\n \nTỷ lệ đúng: ${datum.percent}%', style: Theme.of(context).textTheme.bodyMedium,),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: Text('OK', style: Theme.of(context).textTheme.bodySmall,),
               ),
             ],
           );

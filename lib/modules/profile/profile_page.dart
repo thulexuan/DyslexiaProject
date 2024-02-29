@@ -28,13 +28,13 @@ class _ProfilePageState extends State<ProfilePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Bạn muốn đăng xuất khỏi ứng dụng?'),
+            content: Text('Bạn muốn đăng xuất khỏi ứng dụng?', style: Theme.of(context).textTheme.bodyMedium,),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Có'),
+                child: Text('Có', style: Theme.of(context).textTheme.bodySmall,),
                 onPressed: () {
                   signInController.signOut();
                   Get.to(Login());
@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextButton.styleFrom(
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
-                child: const Text('Không'),
+                child: Text('Không', style: Theme.of(context).textTheme.bodySmall),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text('Cài đặt'), automaticallyImplyLeading: false,),
+      appBar: AppBar(title: Text('Cài đặt', style: Theme.of(context).textTheme.labelSmall,), automaticallyImplyLeading: false, toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,8 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            Obx(() => Text(userController.fullName.value)),
-            Obx(() => Text(userController.email.value)),
+            Obx(() => Text(userController.fullName.value, style: Theme.of(context).textTheme.bodyMedium)),
+            Obx(() => Text(userController.email.value, style: Theme.of(context).textTheme.bodyMedium)),
 
             Divider(),
 
@@ -99,17 +99,18 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () {
                 Get.to(EditProfilePage());
               },
-              leading: const Icon(
+              leading: Icon(
                 Icons.person,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
-              title: const Text(
+              title: Text(
                 'Chỉnh sửa thông tin cá nhân',
+                  style: Theme.of(context).textTheme.bodyMedium
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
             ),
@@ -120,17 +121,18 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () {
                 Get.to(DoExamProcess(email: userController.email.value,));
               },
-              leading: const Icon(
+              leading: Icon(
                 Icons.school,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
-              title: const Text(
+              title: Text(
                 'Bài kiểm tra đã làm',
+                  style: Theme.of(context).textTheme.bodyMedium
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
             ),
@@ -141,17 +143,18 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () {
                 Get.to(ChangePasswordPage(email: userController.email.value,));
               },
-              leading: const Icon(
+              leading: Icon(
                 Icons.change_circle_outlined,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
-              title: const Text(
+              title: Text(
                 'Đổi mật khẩu',
+                  style: Theme.of(context).textTheme.bodyMedium
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
             ),
@@ -160,17 +163,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
             ListTile(
               onTap: () => showDialogSignOut(context),
-              leading: const Icon(
+              leading: Icon(
                 Icons.logout,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
-              title: const Text(
+              title: Text(
                 'Đăng xuất',
+                  style: Theme.of(context).textTheme.bodyMedium
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right,
-                size: 25,
+                size: MediaQuery.of(context).size.width / 16,
                 color: Colors.blue,
               ),
             ),

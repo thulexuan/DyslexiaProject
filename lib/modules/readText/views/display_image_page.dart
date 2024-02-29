@@ -24,7 +24,8 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ảnh được chọn'),),
+      appBar: AppBar(title: Text('Ảnh được chọn', style: Theme.of(context).textTheme.labelSmall,),
+          toolbarHeight: MediaQuery.of(context).size.height / 12),
       body: Stack(
         children: [
           Column(
@@ -32,10 +33,10 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
               SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  height: MediaQuery.of(context).size.height - 220,
+                  height: MediaQuery.of(context).size.height * 4 / 5,
                   child: Obx(() =>
                   controller.selectedImagePath.value==''?
-                  const Center(child: Text("Chụp ảnh hoặc chọn ảnh từ thư viện"))
+                  Center(child: Text("Chụp ảnh hoặc chọn ảnh từ thư viện", style: Theme.of(context).textTheme.bodyLarge,))
                       :
                   Image.file(
                     File(controller.selectedImagePath.value),
@@ -53,9 +54,9 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
                       onPressed: () async {
                         await controller.cropImage(controller.selectedImagePath.value);
                       },
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Cắt ảnh', style: TextStyle(fontSize: 20),),
+                        child: Text('Cắt ảnh', style: Theme.of(context).textTheme.labelSmall,),
                       )
                   ),
                   ElevatedButton(
@@ -75,9 +76,9 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
                           MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
                         );
                       },
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Đọc văn bản', style: TextStyle(fontSize: 20)),
+                        child: Text('Đọc văn bản', style: Theme.of(context).textTheme.labelSmall),
                       ))
                 ],
               )

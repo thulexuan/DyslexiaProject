@@ -36,37 +36,31 @@ class _ResultPageState extends State<ResultPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text('Kết quả'),),
+      appBar: AppBar(title: Text('Kết quả', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
+      ),
       body: Column(
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 20),
               child: CircularPercentIndicator(
-                radius: 80.0,
+                radius: MediaQuery.of(context).size.width / 6,
                 lineWidth: 10.0,
                 percent: widget.numCorrectAns / widget.totalQues,
                 center: RichText(
                   text: TextSpan(
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: "Tỷ lệ đúng ",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const TextSpan(
                         text: "\n"
                       ),
                       TextSpan(
                         text: "${((widget.numCorrectAns / widget.totalQues) * 100).ceil()}%",
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -77,8 +71,8 @@ class _ResultPageState extends State<ResultPage> {
             ),
           ),
 
-          Text('Tổng số câu : ' + widget.totalQues.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
-          Text('Số câu đúng : ' + widget.numCorrectAns.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+          Text('Tổng số câu : ' + widget.totalQues.toString(), style: Theme.of(context).textTheme.bodyLarge,),
+          Text('Số câu đúng : ' + widget.numCorrectAns.toString(), style: Theme.of(context).textTheme.bodyLarge,),
           ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -86,7 +80,10 @@ class _ResultPageState extends State<ResultPage> {
                 });
                 print(isViewResultDetail);
               },
-              child: Text('Xem chi tiết đáp án')
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Xem chi tiết đáp án', style: Theme.of(context).textTheme.labelSmall,),
+              )
           ),
           isViewResultDetail == true ? Expanded(
             child: Obx(() => ListView.builder(
@@ -101,12 +98,17 @@ class _ResultPageState extends State<ResultPage> {
             )
             ),
           ) : Container(),
+          SizedBox(height: MediaQuery.of(context).size.height / 40,),
           ElevatedButton(
               onPressed: () {
                 Get.to(OverviewPage());
               },
-              child: Text('Thoát')
-          )
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Thoát', style: Theme.of(context).textTheme.labelSmall,),
+              )
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height / 40,),
         ],
       )
 

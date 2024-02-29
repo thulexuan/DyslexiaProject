@@ -66,15 +66,16 @@ class _ViewCreatedExamState extends State<ViewCreatedExam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Bài kiểm tra được tạo'),),
+      appBar: AppBar(title: Text('Bài kiểm tra được tạo', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Bài kiểm tra mã ${widget.examCode}', style: TextStyle(fontWeight: FontWeight.bold,)),
-              Text('Văn bản', style: TextStyle(fontWeight: FontWeight.bold,),),
+              Text('Bài kiểm tra mã ${widget.examCode}', style: Theme.of(context).textTheme.bodyLarge),
+              Text('Văn bản', style: Theme.of(context).textTheme.bodyLarge,),
               Container(
                 padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -83,12 +84,12 @@ class _ViewCreatedExamState extends State<ViewCreatedExam> {
                   ),
                   child: Row(
                     children: [
-                      Expanded(child: Text(text)),
+                      Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium,)),
 
                     ],
                   )
               ),
-              Text('Câu hỏi', style: TextStyle(fontWeight: FontWeight.bold),),
+              Text('Câu hỏi', style: Theme.of(context).textTheme.bodyLarge),
               for (var i=0;i<totalQues;i++)
                 Column(
                   children: [
@@ -103,7 +104,7 @@ class _ViewCreatedExamState extends State<ViewCreatedExam> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(questions[i]['questionDetail']),
+                                Text(questions[i]['questionDetail'], style: Theme.of(context).textTheme.bodyMedium,),
                                 // GestureDetector(
                                 //     onTap: () {
                                 //       showDialog(
@@ -145,9 +146,9 @@ class _ViewCreatedExamState extends State<ViewCreatedExam> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.radio_button_checked),
+                                    Icon(Icons.radio_button_checked, size: MediaQuery.of(context).size.width / 16,),
                                     SizedBox(width: 20,),
-                                    Text(questions[i]['options'][j]),
+                                    Text(questions[i]['options'][j], style: Theme.of(context).textTheme.bodyMedium,),
 
                                   ],
                                 ),

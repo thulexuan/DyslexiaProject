@@ -19,8 +19,15 @@ class _SignUpPageState extends State<SignUpPage> {
   final signinController = Get.put(SignInController());
   late var isHiddenPassword;
 
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController roleController = TextEditingController(text: 'Học sinh');
+
   List<String> list = <String>['Học sinh', 'Giáo viên'];
-  var role;
+  late String role;
 
 
 
@@ -32,25 +39,37 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    signUpController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // final orientation = MediaQuery.of(context).orientation;
+    // print(orientation);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 8, MediaQuery.of(context).size.width / 10, 20),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width / 10, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: Text('Đăng ký', style: TextStyle(color: Colors.black, fontSize: 33),),
+                    child: Text('Đăng ký', style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
                   // fullname field
                   Obx(() => TextField(
-                    controller: signUpController.fullnameController,
-                    style: TextStyle(color: Colors.black),
+                    controller: fullnameController,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.person),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.person, size: MediaQuery.of(context).size.width / 16,),
+                        ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
                         hintText: "Tên",
@@ -62,14 +81,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   ),
 
-                  SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
 
                   // email field
                   Obx(() => TextField(
-                    controller: signUpController.emailController,
-                    style: TextStyle(color: Colors.black),
+                    controller: emailController,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.width / 16,),
+                        ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
                         hintText: "Email",
@@ -81,22 +103,28 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   ),
 
-                  SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
 
                   // password field
                   Obx(() => TextField(
-                    controller: signUpController.passwordController,
-                    style: TextStyle(color: Colors.black),
+                    controller: passwordController,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     obscureText: isHiddenPassword ? true : false,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isHiddenPassword = !isHiddenPassword;
-                            });
-                          },
-                          child: isHiddenPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.width / 16,),
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isHiddenPassword = !isHiddenPassword;
+                              });
+                            },
+                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,),
+                          ),
                         ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -109,22 +137,28 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   ),
 
-                  SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
 
                   // confirm password field
                   Obx(() => TextField(
-                    controller: signUpController.confirmPasswordController,
-                    style: TextStyle(color: Colors.black),
+                    controller: confirmPasswordController,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     obscureText: isHiddenPassword ? true : false,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isHiddenPassword = !isHiddenPassword;
-                            });
-                          },
-                          child: isHiddenPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.width / 16,),
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isHiddenPassword = !isHiddenPassword;
+                              });
+                            },
+                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,),
+                          ),
                         ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -137,13 +171,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   ),
 
-                  SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
 
                   Obx(() => TextField(
-                    controller: signUpController.phoneNumberController,
-                    style: TextStyle(color: Colors.black),
+                    controller: phoneNumberController,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.phone_android_outlined),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.phone_android_outlined, size: MediaQuery.of(context).size.width / 16,),
+                        ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
                         hintText: "Số điện thoại",
@@ -155,10 +192,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   ),
 
-                  SizedBox(height: 18,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
 
                   DropdownMenu<String>(
                       initialSelection: list.first,
+                      textStyle: Theme.of(context).textTheme.bodyMedium,
                       width: MediaQuery.of(context).size.width * 0.8,
                       inputDecorationTheme: InputDecorationTheme(
                         border: OutlineInputBorder(
@@ -167,45 +205,49 @@ class _SignUpPageState extends State<SignUpPage> {
                         fillColor: Colors.grey.shade100,
                         filled: true
                       ),
-                      controller: signUpController.roleController,
-                      label: const Text('Vai trò', style: TextStyle(fontSize: 20),),
+                      controller: roleController,
+                      label: Text('Vai trò', style: Theme.of(context).textTheme.bodyMedium),
                       onSelected: (String? newRole) {
                         setState(() {
-                          role = newRole;
-                          signUpController.roleController.text = newRole!;
-                          print(signUpController.roleController.text);
+                          role = newRole!;
+                          roleController.text = newRole!;
                         });
+
                       },
                       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-                        return DropdownMenuEntry<String>(value: value, label: value);
+                        return DropdownMenuEntry<String>(value: value, label: value,
+                            style: ButtonStyle(
+                              textStyle: MaterialStateProperty.all<TextStyle>(
+                                TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width / 20
+                                )
+                              ),
+                            )
+                        );
                       }).toList(),
                   ),
-                  
 
-                  SizedBox(height: 10,),
+
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 56,
+                      height: MediaQuery.of(context).size.height / 12,
                       child: ElevatedButton(
-                        onPressed: () => signUpController.signUp(context),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.blue),
-                            shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.blue)))),
-                        child: const Text(
+                        onPressed: () {
+                          signUpController.signUp(fullnameController.text, emailController.text, passwordController.text, confirmPasswordController.text, phoneNumberController.text, roleController.text);
+                        },
+                        style: Theme.of(context).elevatedButtonTheme.style,
+                        child: Text(
                           'Đăng ký',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 40,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,11 +256,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           Get.to(() => Login());
                         },
-                        child: Text('Đã có tài khoản'),
+                        child: Text('Đã có tài khoản', style: Theme.of(context).textTheme.bodySmall,),
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text('Quên mật khẩu'),
+                        child: Text('Quên mật khẩu', style: Theme.of(context).textTheme.bodySmall,),
                       ),
                     ],
                   )
@@ -230,3 +272,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+

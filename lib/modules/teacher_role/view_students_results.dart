@@ -39,28 +39,29 @@ class _ViewAllStudentsResultsState extends State<ViewAllStudentsResults> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Xem kết quả của học sinh'),),
+      appBar: AppBar(title: Text('Xem kết quả của học sinh', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Tên học sinh', style: TextStyle(fontWeight: FontWeight.bold),),
-                Text('Kết quả', style: TextStyle(fontWeight: FontWeight.bold),)
+              children: [
+                Text('Tên học sinh', style: Theme.of(context).textTheme.bodyLarge),
+                Text('Kết quả', style: Theme.of(context).textTheme.bodyLarge)
               ],
             ),
             for (var i=0; i < emailOfAllUsers.length; i++)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(fullnameOfAllUsers[i]),
+                  Text(fullnameOfAllUsers[i], style: Theme.of(context).textTheme.bodyMedium),
                   TextButton(
                       onPressed: () {
                         Get.to(DoExamProcess(email: emailOfAllUsers.elementAt(i)));
                       },
-                      child: Text('Xem')
+                      child: Text('Xem', style: Theme.of(context).textTheme.bodySmall)
                   )
                 ],
               )
