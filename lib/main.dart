@@ -17,14 +17,16 @@ Future<void> main() async {
   final MediaQueryData mediaQueryData = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
   final double deviceHeight = mediaQueryData.size.height;
   final double deviceWidth = mediaQueryData.size.width;
-  runApp(MyApp(deviceHeight: deviceHeight, deviceWidth: deviceWidth,));
+  Orientation deviceOrientation = mediaQueryData.orientation;
+  runApp(MyApp(deviceHeight: deviceHeight, deviceWidth: deviceWidth, deviceOrientation: deviceOrientation, ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.deviceHeight, required this.deviceWidth,});
+  const MyApp({super.key, required this.deviceHeight, required this.deviceWidth, required this.deviceOrientation,});
 
   final double deviceHeight;
   final double deviceWidth;
+  final Orientation deviceOrientation;
 
   // This widget is the root of your application.
   @override
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: AppTheme.customThemeData(deviceWidth, deviceHeight),
+      theme: AppTheme.customThemeData(deviceWidth, deviceHeight, deviceOrientation),
       home: Login()
     );
   }

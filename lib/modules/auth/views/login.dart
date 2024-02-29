@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width / 10, 20),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.height / 15, MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.height / 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                   decoration: InputDecoration(
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.width / 16,),
+                        child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.height / 16,),
                       ),
                       fillColor: Colors.grey.shade100,
                       filled: true,
@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
                     decoration: InputDecoration(
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.password, size: MediaQuery.of(context).size.width / 16,),
+                        child: Icon(Icons.password, size: MediaQuery.of(context).size.height / 16,),
                       ),
                       suffixIcon: GestureDetector(
                           onTap: () {
@@ -77,8 +77,8 @@ class _LoginState extends State<Login> {
                           },
                           child: isHiddenPassword ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,),
-                          ) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,)
+                            child: Icon(Icons.visibility_off, size: MediaQuery.of(context).size.height / 16,),
+                          ) : Icon(Icons.visibility, size: MediaQuery.of(context).size.height / 16,)
                       ),
                       fillColor: Colors.grey.shade100,
                       filled: true,
@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                       style: Theme.of(context).elevatedButtonTheme.style,
                       child: Text(
                         'Đăng nhập',
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, color: Colors.white),
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.height / 20, color: Colors.white),
                       ),
                     ),
                   ),

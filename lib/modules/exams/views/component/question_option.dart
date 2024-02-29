@@ -24,7 +24,7 @@ class QuestionOption extends StatelessWidget {
           padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
           child: Row(
             children: [
-              Icon(isSelected == true ? Icons.radio_button_checked : Icons.radio_button_off, size: MediaQuery.of(context).size.width / 16,),
+              Icon(isSelected == true ? Icons.radio_button_checked : Icons.radio_button_off, size: Theme.of(context).iconTheme.size,),
               SizedBox(width: 8,),
               Padding(
                 padding: const EdgeInsets.all(8.0),

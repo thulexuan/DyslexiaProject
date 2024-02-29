@@ -27,7 +27,8 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
     SoundFunction().stopSpeaking();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tùy chỉnh'),
+        title: Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall,),
+        toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
       body: Column(
         children: [
@@ -40,12 +41,18 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
               labelColor: Colors.teal,
               unselectedLabelColor: Colors.black,
               indicatorColor: Colors.teal,
-              tabs: const [
-                Tab(child: Text('Văn bản',
-                  style: TextStyle(fontSize: 18,),)
+              tabs: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Tab(child: Text('Văn bản',
+                    style: Theme.of(context).textTheme.bodyMedium)
+                  ),
                 ),
-                Tab(child: Text('Âm thanh',
-                  style: TextStyle(fontSize: 18,),),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Tab(child: Text('Âm thanh',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                  ),
                 ),
               ],
             ),

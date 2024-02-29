@@ -146,7 +146,7 @@ class _ViewCreatedExamState extends State<ViewCreatedExam> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.radio_button_checked, size: MediaQuery.of(context).size.width / 16,),
+                                    Icon(Icons.radio_button_checked, size: Theme.of(context).iconTheme.size,),
                                     SizedBox(width: 20,),
                                     Text(questions[i]['options'][j], style: Theme.of(context).textTheme.bodyMedium,),
 

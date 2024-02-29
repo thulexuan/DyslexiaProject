@@ -35,21 +35,21 @@ class QuestionItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/pointing.gif', width: 60, height: 60,),
+                Image.asset('assets/images/pointing.gif', width: Theme.of(context).iconTheme.size, height: Theme.of(context).iconTheme.size,),
                 IconButton(
                     onPressed: () {
                       SoundFunction().speak(question, 1.0, 0.5, 0.8, 'vi-vn-x-gft-network');
                     },
-                    icon: const Icon(Icons.volume_up, size: 50, color: Colors.white,)
+                    icon: Icon(Icons.volume_up, size: Theme.of(context).iconTheme.size, color: Colors.white,)
                 ),
               ],
             ),
             const SizedBox(height: 10,),
             Row(
               children: [
-                Icon(Icons.question_mark, size: 35, color: Colors.white,),
+                Icon(Icons.question_mark, size: Theme.of(context).iconTheme.size, color: Colors.white,),
                 Flexible(
-                    child: Text(question, style: TextStyle(fontSize: 20, color: Colors.white),)
+                    child: Text(question, style: Theme.of(context).textTheme.labelSmall,)
                 )
               ],
             )

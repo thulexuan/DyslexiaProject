@@ -21,11 +21,12 @@ class _ReadOptionsState extends State<ReadOptions> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     SoundFunction().stopSpeaking();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Đọc văn bản', style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),), automaticallyImplyLeading: false,
+        title: Text('Đọc văn bản', style: Theme.of(context).textTheme.labelSmall,), automaticallyImplyLeading: false,
         toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
       body: SafeArea(
@@ -38,7 +39,7 @@ class _ReadOptionsState extends State<ReadOptions> {
               child: Image.asset('assets/images/read_book.jpg', fit: BoxFit.contain,),
             ),
             Container(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
+              padding: EdgeInsets.all(orientation == Orientation.landscape ? MediaQuery.of(context).size.height / 10 : MediaQuery.of(context).size.width / 10),
               child: Text('Chọn văn bản cần đọc bằng một trong các cách sau',
                 style: Theme.of(context).textTheme.bodyLarge
               ),
@@ -55,7 +56,7 @@ class _ReadOptionsState extends State<ReadOptions> {
                         MaterialPageRoute(builder: (context) =>  DisplayImagePage()),
                       );
                     },
-                    child: ReadOptionWidget(description: "Chụp ảnh", icon: Icon(Icons.camera_alt_sharp, size: MediaQuery.of(context).size.width / 10,))
+                    child: ReadOptionWidget(description: "Chụp ảnh", icon: Icon(Icons.camera_alt_sharp, size: MediaQuery.of(context).size.height / 10,))
                 ),
                 GestureDetector(
                     onTap: () {
@@ -66,7 +67,7 @@ class _ReadOptionsState extends State<ReadOptions> {
                         MaterialPageRoute(builder: (context) =>  DisplayImagePage()),
                       );
                     },
-                    child: ReadOptionWidget(description: "Chọn ảnh từ thư viện ảnh", icon: Icon(Icons.image_sharp, size: MediaQuery.of(context).size.width / 10,))
+                    child: ReadOptionWidget(description: "Chọn ảnh từ thư viện ảnh", icon: Icon(Icons.image_sharp, size: MediaQuery.of(context).size.height / 10,))
                 ),
               ],
             )

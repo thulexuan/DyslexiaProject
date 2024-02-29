@@ -53,16 +53,17 @@ class _OverviewPageState extends State<OverviewPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     SoundFunction().stopSpeaking();
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedFontSize: MediaQuery.of(context).size.width / 20,
-        unselectedFontSize: MediaQuery.of(context).size.width / 20,
-        selectedIconTheme: IconThemeData(size: MediaQuery.of(context).size.width / 20),
-        unselectedIconTheme: IconThemeData(size: MediaQuery.of(context).size.width / 20),
+        selectedFontSize: orientation == Orientation.landscape ? MediaQuery.of(context).size.height / 30 : MediaQuery.of(context).size.width / 20,
+        unselectedFontSize: orientation == Orientation.landscape ? MediaQuery.of(context).size.height / 30 : MediaQuery.of(context).size.width / 20,
+        selectedIconTheme: IconThemeData(size: orientation == Orientation.landscape ? MediaQuery.of(context).size.height / 25 : MediaQuery.of(context).size.width / 20),
+        unselectedIconTheme: IconThemeData(size: orientation == Orientation.landscape ? MediaQuery.of(context).size.height / 25 : MediaQuery.of(context).size.width / 20),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.import_contacts),

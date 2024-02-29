@@ -59,8 +59,8 @@ class _TestPageState extends State<TestPage> {
             },
             child: Row(
               children: [
-                Text('Tiếp tục'),
-                Icon(Icons.keyboard_double_arrow_right)
+                Text('Tiếp tục', style: Theme.of(context).textTheme.labelSmall,),
+                Icon(Icons.keyboard_double_arrow_right, size: Theme.of(context).iconTheme.size,)
               ],
             ),
           )

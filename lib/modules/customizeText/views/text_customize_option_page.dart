@@ -29,6 +29,7 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     print(textCustomizeController.backgroundColorSelectedIndex.value);
     return Container(
       color: Colors.white,
@@ -38,7 +39,7 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
             Obx(() => Container(
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               width: MediaQuery.of(context).size.width,
-              height: 170,
+              height: MediaQuery.of(context).size.height / 4,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
@@ -64,7 +65,7 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
               ),
             ),
             ),
-            const SizedBox(height: 10,),
+            SizedBox(height: MediaQuery.of(context).size.height / 40,),
             Expanded(
               child: ListView(
                 children: [
@@ -122,9 +123,9 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                         child: Text('Màu nền', style: TextStyle(fontWeight: FontWeight.bold))
                     ),
                   ),
-                  const SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
                   Container(
-                      height: 50,
+                      height: orientation == Orientation.portrait ? 50 : 100,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
@@ -155,9 +156,9 @@ class _TextCustomizeOptionPageState extends State<TextCustomizeOptionPage> {
                         child: Text('Màu chữ', style: TextStyle(fontWeight: FontWeight.bold))
                     ),
                   ),
-                  const SizedBox(height: 10,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40,),
                   Container(
-                      height: 50,
+                      height: orientation == Orientation.portrait ? 50 : 100,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {

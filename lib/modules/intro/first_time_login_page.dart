@@ -24,40 +24,40 @@ class FirstTimeLoginPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Text('Bạn có muốn làm bài test?', style: TextStyle(fontSize: 20),),
+              child: Text('Bạn có muốn làm bài test?', style: Theme.of(context).textTheme.bodyMedium,),
             ),
             SizedBox(
-              width: 210,
-              height: 50,
+              width: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.height / 10,
               child: ElevatedButton(
                   onPressed: () {
                     Get.to(const TestPage());
                   },
                   child: Row(
-                    children: const [
-                      Icon(Icons.check, size: 30,),
+                    children: [
+                      Icon(Icons.check, size: Theme.of(context).iconTheme.size,),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text('Làm bài', style: TextStyle(fontSize: 24),),
+                        child: Text('Làm bài', style: Theme.of(context).textTheme.labelSmall),
                       ),
                     ],
                   ),
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(height: MediaQuery.of(context).size.height / 40,),
             SizedBox(
-              width: 210,
-              height: 50,
+              width: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.height / 10,
               child: ElevatedButton(
                 onPressed: () {
                   Get.to(const OverviewPage());
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.close, size: 30,),
+                  children: [
+                    Icon(Icons.close, size: Theme.of(context).iconTheme.size,),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Không làm', style: TextStyle(fontSize: 24),),
+                      child: Text('Không làm', style: Theme.of(context).textTheme.labelSmall),
                     ),
                   ],
                 ),

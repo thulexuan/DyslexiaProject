@@ -14,10 +14,11 @@ class ReadOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Center(
       child: Container(
         padding: const EdgeInsets.all(8),
-        width: MediaQuery.of(context).size.height / 4,
+        width: orientation == Orientation.landscape ? MediaQuery.of(context).size.width / 4 : MediaQuery.of(context).size.height / 4,
         height: MediaQuery.of(context).size.height / 4,
         decoration: BoxDecoration(
           color: Color.fromRGBO(255, 253, 208, 1),
@@ -35,11 +36,10 @@ class ReadOptionWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               icon,
-              SizedBox(width: 20,),
               Container(
                   padding: EdgeInsets.all(0),
                   child: Text(description, textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20))
+                    style: Theme.of(context).textTheme.bodyMedium)
               ),
             ],
           ),

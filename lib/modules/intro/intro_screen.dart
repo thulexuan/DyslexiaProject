@@ -24,9 +24,9 @@ class _IntroScreenState extends State<IntroScreen> {
           SplashItem(title: 'Làm bài test', body: 'Thực hiện bài test để có trải nghiệm tốt nhất ngay từ đầu', imageUrl: 'take_test_splash_page_1.jfif',),
         ],
         showSkipButton: true,
-        skip: const Icon(Icons.skip_next),
-        next: const Text("Tiếp"),
-        done: const Text("Xong", style: TextStyle(fontWeight: FontWeight.w700)),
+        skip: Icon(Icons.skip_next, size: MediaQuery.of(context).size.width / 16,),
+        next: Text("Tiếp", style: Theme.of(context).textTheme.bodySmall,),
+        done: Text("Xong", style: Theme.of(context).textTheme.bodySmall,),
         onDone: () {
           // On Done button pressed
           Get.to(const FirstTimeLoginPage());

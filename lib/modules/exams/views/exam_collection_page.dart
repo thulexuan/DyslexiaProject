@@ -40,14 +40,14 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(toolbarHeight: MediaQuery.of(context).size.height / 12,
-        title: Text('Bài kiểm tra', style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),), automaticallyImplyLeading: false,
+        title: Text('Bài kiểm tra', style: Theme.of(context).textTheme.labelSmall), automaticallyImplyLeading: false,
       ),
       body: GridView.count(
         padding: EdgeInsets.all(20.0),
-        crossAxisCount: 2,
+        crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
         childAspectRatio: 4/5,
         crossAxisSpacing: 20,
         mainAxisSpacing: 30,

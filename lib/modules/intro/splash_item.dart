@@ -25,11 +25,11 @@ class SplashItem extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-            child: Text(title, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+            child: Text(title, style: Theme.of(context).textTheme.bodyLarge),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Text(body, style: TextStyle(fontSize: 24,), textAlign: TextAlign.center,),
+            child: Text(body, style: Theme.of(context).textTheme.bodyMedium),
           )
         ],
       ),

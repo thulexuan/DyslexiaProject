@@ -12,9 +12,10 @@ class BackgroundOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Container(
-      width: 50,
-      height: 50,
+      width: orientation == Orientation.portrait ? 50 : 100,
+      height: orientation == Orientation.portrait ? 50 : 100,
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.all(Radius.circular(25)),

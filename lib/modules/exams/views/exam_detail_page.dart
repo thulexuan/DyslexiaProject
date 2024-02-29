@@ -115,7 +115,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
                 children: [
                   Text('Trả lời các câu hỏi sau', style: Theme.of(context).textTheme.bodyMedium,),
                   Container(
-                    height: MediaQuery.of(context).size.height / 3,
+                    height: MediaQuery.of(context).size.height / 3.2,
                     child: Obx(() => PageView.builder(
                       controller: controller,
                       // onPageChanged: (int page) {
@@ -134,12 +134,12 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
                     children: [
                       ElevatedButton(
                           onPressed: () => previousPage(),
-                          child: Icon(Icons.keyboard_double_arrow_left, size: MediaQuery.of(context).size.width / 16)
+                          child: Icon(Icons.keyboard_double_arrow_left, size: Theme.of(context).iconTheme.size)
                       ),
                       SizedBox(width: 10,),
                       ElevatedButton(
                           onPressed: () => nextPage(),
-                          child: Icon(Icons.keyboard_double_arrow_right, size: MediaQuery.of(context).size.width / 16,)
+                          child: Icon(Icons.keyboard_double_arrow_right, size: Theme.of(context).iconTheme.size,)
                       ),
                     ],
                   )

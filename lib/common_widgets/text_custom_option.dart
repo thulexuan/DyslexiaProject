@@ -28,7 +28,7 @@ class _TextCustomOptionState extends State<TextCustomOption> {
           padding: const EdgeInsets.all(8.0),
           child: Align(child: Text(widget.option, style: TextStyle(fontWeight: FontWeight.bold),), alignment: Alignment.topLeft,),
         ),
-        SizedBox(height: 10,),
+        SizedBox(height: MediaQuery.of(context).size.height / 40,),
         Container(
           color: Colors.grey.shade200,
           child: Row(

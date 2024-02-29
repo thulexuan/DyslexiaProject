@@ -25,6 +25,7 @@ class _CreateExamPageState extends State<CreateExamPage> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -53,7 +54,7 @@ class _CreateExamPageState extends State<CreateExamPage> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2,
+                height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height / 2 : MediaQuery.of(context).size.height / 2.5,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5.0),

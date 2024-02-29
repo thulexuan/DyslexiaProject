@@ -18,7 +18,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
            context: context,
            builder: (context) {
              return AlertDialog(
-               content: Text('Gửi thành công. Vui lòng kiểm tra email để lấy lại mật khẩu'),
+               content: Text('Gửi thành công. Vui lòng kiểm tra email để lấy lại mật khẩu', style: Theme.of(context).textTheme.bodyMedium,),
              );
            }
        );
@@ -28,7 +28,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
            context: context,
            builder: (context) {
              return AlertDialog(
-               content: Text('Email không đúng. Vui lòng kiểm tra lại'),
+               content: Text('Email không đúng. Vui lòng kiểm tra lại', style: Theme.of(context).textTheme.bodyMedium,),
              );
            }
        );
@@ -39,22 +39,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Text('Lấy lại mật khẩu'),),
+      appBar: AppBar(title: Text('Lấy lại mật khẩu', style: Theme.of(context).textTheme.labelSmall,)
+        ,toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Image.asset('assets/images/reset_password.png'),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text('Vui lòng điền địa chỉ email để tạo mật khẩu mới', style: TextStyle(fontSize: 20), textAlign: TextAlign.justify,),
+              child: Text('Vui lòng điền địa chỉ email để tạo mật khẩu mới', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.justify,),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextField(
                 controller: emailController,
-                style: TextStyle(color: Colors.black),
+                style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email_outlined),
+                    prefixIcon: Icon(Icons.email_outlined, size: Theme.of(context).iconTheme.size,),
                     fillColor: Colors.grey.shade100,
                     filled: true,
                     hintText: "Nhập email",
@@ -70,9 +71,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 onPressed: () {
                   passwordReset();
                 },
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Text('Gửi', style: TextStyle(fontSize: 20),),
+                  child: Text('Gửi', style: Theme.of(context).textTheme.labelSmall),
                 ),
               ),
             )

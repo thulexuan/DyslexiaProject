@@ -23,6 +23,7 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(title: Text('Ảnh được chọn', style: Theme.of(context).textTheme.labelSmall,),
           toolbarHeight: MediaQuery.of(context).size.height / 12),
@@ -33,7 +34,7 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
               SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  height: MediaQuery.of(context).size.height * 4 / 5,
+                  height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 4 / 5 : MediaQuery.of(context).size.height * 3 / 4,
                   child: Obx(() =>
                   controller.selectedImagePath.value==''?
                   Center(child: Text("Chụp ảnh hoặc chọn ảnh từ thư viện", style: Theme.of(context).textTheme.bodyLarge,))

@@ -45,6 +45,7 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(title: Text('Cài đặt', style: Theme.of(context).textTheme.labelSmall,),
         toolbarHeight: MediaQuery.of(context).size.height / 12),
@@ -54,7 +55,7 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Icon(Icons.logout, size: MediaQuery.of(context).size.width / 16,),
+                Icon(Icons.logout, size: Theme.of(context).iconTheme.size,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () => showDialogSignOut(context),
@@ -68,7 +69,7 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Icon(Icons.book, size: MediaQuery.of(context).size.width / 16,),
+                Icon(Icons.book, size: Theme.of(context).iconTheme.size,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () {
@@ -84,7 +85,7 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Icon(Icons.book, size: MediaQuery.of(context).size.width / 16,),
+                Icon(Icons.book, size: Theme.of(context).iconTheme.size,),
                 const SizedBox(width: 30,),
                 GestureDetector(
                     onTap: () {

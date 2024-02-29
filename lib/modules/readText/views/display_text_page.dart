@@ -52,8 +52,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-
-
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -66,7 +65,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Text('Highlight chữ gương'),
+                      Text('Highlight chữ gương', ),
                       StatefulBuilder(builder:
                           (BuildContext context, StateSetter setState) {
                         return Switch(
@@ -85,7 +84,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Text('Hiển thị hình ảnh'),
+                      Text('Hiển thị hình ảnh',),
                       StatefulBuilder(builder:
                           (BuildContext context, StateSetter setState) {
                         return Switch(
@@ -110,9 +109,9 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
           children: [
             Obx(() =>
                 controller.extractedText.value.isEmpty?
-                const Center(child: Text("Không đọc được văn bản")) :
+                Center(child: Text("Không đọc được văn bản", style: Theme.of(context).textTheme.bodyMedium,)) :
                 Container(
-                  height: MediaQuery.of(context).size.height * 5 / 6,
+                  height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 5 / 6 : MediaQuery.of(context).size.height * 2 / 3,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -132,12 +131,18 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                           labelColor: Colors.teal,
                           unselectedLabelColor: Colors.black,
                           indicatorColor: Colors.teal,
-                          tabs: const [
-                            Tab(child: Text('Văn bản',
-                              style: TextStyle(fontSize: 18,),)
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Tab(child: Text('Văn bản',
+                                style: Theme.of(context).textTheme.bodyMedium,)
+                              ),
                             ),
-                            Tab(child: Text('Ảnh',
-                              style: TextStyle(fontSize: 18,),),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Tab(child: Text('Ảnh',
+                                style: Theme.of(context).textTheme.bodyMedium,),
+                              ),
                             ),
                           ],
                         ),
@@ -246,7 +251,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.headphones, size: MediaQuery.of(context).size.width / 16,),
+                          Icon(Icons.headphones, size: Theme.of(context).iconTheme.size,),
                           Text('Nghe văn bản', style: Theme.of(context).textTheme.labelSmall,),
                         ],
                       ),
@@ -264,7 +269,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(Icons.tune, size: MediaQuery.of(context).size.width / 16),
+                            Icon(Icons.tune, size: Theme.of(context).iconTheme.size),
                             Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall),
                           ],
                         ),
@@ -288,7 +293,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.home, size: MediaQuery.of(context).size.width / 16),
+                          Icon(Icons.home, size: Theme.of(context).iconTheme.size),
                           Text('Về trang chủ', style: Theme.of(context).textTheme.labelSmall),
                         ],
                       ),
@@ -306,7 +311,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.image, size: MediaQuery.of(context).size.width / 16),
+                          Icon(Icons.image, size: Theme.of(context).iconTheme.size),
                           Text('Chọn lại ảnh', style: Theme.of(context).textTheme.labelSmall),
                         ],
                       ),
@@ -314,9 +319,8 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                   ),
                 )
               ],
-            )
-
-
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 80,),
           ],
         ),
       ),

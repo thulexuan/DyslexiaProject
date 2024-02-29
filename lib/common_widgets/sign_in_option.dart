@@ -11,7 +11,7 @@ class SignInOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(30),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(16),
@@ -19,7 +19,7 @@ class SignInOption extends StatelessWidget {
       ),
       child: Image.asset(
         'assets/images/' + image_path,
-        height: MediaQuery.of(context).size.width / 15,
+        height: MediaQuery.of(context).size.height / 15,
       ),
     );
   }

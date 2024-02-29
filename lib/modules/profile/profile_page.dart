@@ -69,118 +69,120 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(title: Text('Cài đặt', style: Theme.of(context).textTheme.labelSmall,), automaticallyImplyLeading: false, toolbarHeight: MediaQuery.of(context).size.height / 12,),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(height: 10,),
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.teal,
-                border: Border.all(
-                  color: Colors.white
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(height: 10,),
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  border: Border.all(
+                    color: Colors.white
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(50)),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Image.asset('assets/images/avatar_default.png', fit: BoxFit.contain,),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Image.asset('assets/images/avatar_default.png', fit: BoxFit.contain,),
-              ),
-            ),
 
-            Obx(() => Text(userController.fullName.value, style: Theme.of(context).textTheme.bodyMedium)),
-            Obx(() => Text(userController.email.value, style: Theme.of(context).textTheme.bodyMedium)),
+              Obx(() => Text(userController.fullName.value, style: Theme.of(context).textTheme.bodyMedium)),
+              Obx(() => Text(userController.email.value, style: Theme.of(context).textTheme.bodyMedium)),
 
-            Divider(),
+              Divider(),
 
-            ListTile(
-              onTap: () {
-                Get.to(EditProfilePage());
-              },
-              leading: Icon(
-                Icons.person,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
+              ListTile(
+                onTap: () {
+                  Get.to(EditProfilePage());
+                },
+                leading: Icon(
+                  Icons.person,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  'Chỉnh sửa thông tin cá nhân',
+                    style: Theme.of(context).textTheme.bodyMedium
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
               ),
-              title: Text(
-                'Chỉnh sửa thông tin cá nhân',
-                  style: Theme.of(context).textTheme.bodyMedium
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
-              ),
-            ),
 
-            const Divider(),
+              const Divider(),
 
-            ListTile(
-              onTap: () {
-                Get.to(DoExamProcess(email: userController.email.value,));
-              },
-              leading: Icon(
-                Icons.school,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
+              ListTile(
+                onTap: () {
+                  Get.to(DoExamProcess(email: userController.email.value,));
+                },
+                leading: Icon(
+                  Icons.school,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  'Bài kiểm tra đã làm',
+                    style: Theme.of(context).textTheme.bodyMedium
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
               ),
-              title: Text(
-                'Bài kiểm tra đã làm',
-                  style: Theme.of(context).textTheme.bodyMedium
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
-              ),
-            ),
 
-            Divider(),
+              Divider(),
 
-            ListTile(
-              onTap: () {
-                Get.to(ChangePasswordPage(email: userController.email.value,));
-              },
-              leading: Icon(
-                Icons.change_circle_outlined,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
+              ListTile(
+                onTap: () {
+                  Get.to(ChangePasswordPage(email: userController.email.value,));
+                },
+                leading: Icon(
+                  Icons.change_circle_outlined,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  'Đổi mật khẩu',
+                    style: Theme.of(context).textTheme.bodyMedium
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
               ),
-              title: Text(
-                'Đổi mật khẩu',
-                  style: Theme.of(context).textTheme.bodyMedium
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
-              ),
-            ),
 
-            const Divider(),
+              const Divider(),
 
-            ListTile(
-              onTap: () => showDialogSignOut(context),
-              leading: Icon(
-                Icons.logout,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
+              ListTile(
+                onTap: () => showDialogSignOut(context),
+                leading: Icon(
+                  Icons.logout,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  'Đăng xuất',
+                    style: Theme.of(context).textTheme.bodyMedium
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  size: Theme.of(context).iconTheme.size,
+                  color: Colors.blue,
+                ),
               ),
-              title: Text(
-                'Đăng xuất',
-                  style: Theme.of(context).textTheme.bodyMedium
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-                size: MediaQuery.of(context).size.width / 16,
-                color: Colors.blue,
-              ),
-            ),
 
-            const Divider()
-          ],
+              const Divider()
+            ],
+          ),
         ),
       ),
     );

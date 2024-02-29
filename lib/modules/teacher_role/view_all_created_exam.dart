@@ -54,14 +54,14 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      child: Icon(Icons.launch, size: MediaQuery.of(context).size.width / 16,),
+                      child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size),
                       onTap: () {
                         Get.to(ViewCreatedExam(examCode: examCode,));
                       },
                     ),
                     Text('Bài kiểm tra mã ${examCode}', style: Theme.of(context).textTheme.bodyLarge,),
                     GestureDetector(
-                      child: Icon(Icons.delete, size: MediaQuery.of(context).size.width / 16),
+                      child: Icon(Icons.delete, size: Theme.of(context).iconTheme.size),
                       onTap: () {
                         showDialogDeleteExam(context, examCode);
                       },

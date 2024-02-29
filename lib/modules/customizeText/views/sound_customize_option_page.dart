@@ -35,6 +35,7 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
         children: [
            TextField(
             controller: textEditingController,
+            style: Theme.of(context).textTheme.bodyMedium,
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -118,8 +119,8 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
           const Divider(thickness: 2.0,),
           Center(
             child: SizedBox(
-              height: 50,
-              width: 200,
+              height: MediaQuery.of(context).size.height / 15,
+              width: MediaQuery.of(context).size.width / 2.5,
               child: ElevatedButton(
                 onPressed: () {
                   SoundFunction().speak(
@@ -134,9 +135,9 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const Text('Nghe thử', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                      Text('Nghe thử', style: Theme.of(context).textTheme.labelSmall),
                       IconButton(
-                          icon: Icon(Icons.volume_up, size: 35,),
+                          icon: Icon(Icons.volume_up, size: Theme.of(context).iconTheme.size,),
                           onPressed: () {
 
                           },

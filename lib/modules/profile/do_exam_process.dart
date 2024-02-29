@@ -62,7 +62,7 @@ class _DoExamProcessState extends State<DoExamProcess> {
                     onTap: () {
                       Get.to(ExamDetailPage(examCode: doneExam['examCode'],));
                     },
-                    child: Icon(Icons.launch, size: MediaQuery.of(context).size.width / 16,)
+                    child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size,)
                 ),
                 Text('Bài kiểm tra mã ${doneExam['examCode']}', style: Theme.of(context).textTheme.bodyLarge,),
                 TextButton(

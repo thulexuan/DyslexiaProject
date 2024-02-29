@@ -61,28 +61,26 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/pointing.gif', width: 60, height: 60,),
+                      Image.asset('assets/images/pointing.gif', width: Theme.of(context).iconTheme.size, height: Theme.of(context).iconTheme.size,),
                       IconButton(
                           onPressed: () {
                             SoundFunction().speak('Hãy chọn chữ ${widget.letter} mà bạn thấy dễ đọc nhất', 1.0, 0.5, 0.8, 'vi-vn-x-gft-network');
                           },
-                          icon: const Icon(Icons.volume_up, size: 40, color: Colors.white,)
+                          icon: Icon(Icons.volume_up, size: Theme.of(context).iconTheme.size, color: Colors.white,)
                       ),
                     ],
                   ),
                   const SizedBox(height: 10,),
                   Row(
                     children: [
-                      Icon(Icons.question_mark, size: 35, color: Colors.white,),
+                      Icon(Icons.question_mark, size: Theme.of(context).iconTheme.size, color: Colors.white,),
                       Flexible(
                           child: RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(
+                                  TextSpan(
                                     text: 'Chọn chữ  ',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    )
+                                    style: Theme.of(context).textTheme.bodyMedium
                                   ),
                                   TextSpan(
                                     text: widget.letter,
@@ -92,9 +90,9 @@ class _TestMirrorPageState extends State<TestMirrorPage> {
                                       fontWeight: FontWeight.bold
                                     )
                                   ),
-                                  const TextSpan(
+                                  TextSpan(
                                     text: '  mà bạn thấy dễ đọc nhất',
-                                    style: TextStyle(fontSize: 20)
+                                    style: Theme.of(context).textTheme.bodyMedium
                                   )
                                 ]
                               )

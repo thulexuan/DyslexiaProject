@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.person, size: MediaQuery.of(context).size.width / 16,),
+                          child: Icon(Icons.person, size: MediaQuery.of(context).size.height / 16,),
                         ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -90,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.width / 16,),
+                          child: Icon(Icons.email_outlined, size: MediaQuery.of(context).size.height / 16,),
                         ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.width / 16,),
+                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.height / 16,),
                         ),
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -123,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 isHiddenPassword = !isHiddenPassword;
                               });
                             },
-                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,),
+                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.height / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.height / 16,),
                           ),
                         ),
                         fillColor: Colors.grey.shade100,
@@ -147,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.width / 16,),
+                          child: Icon(Icons.lock, size: MediaQuery.of(context).size.height / 16,),
                         ),
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -157,7 +157,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 isHiddenPassword = !isHiddenPassword;
                               });
                             },
-                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.width / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.width / 16,),
+                            child: isHiddenPassword ? Icon(Icons.visibility_off, size: MediaQuery.of(context).size.height / 16,) : Icon(Icons.visibility, size: MediaQuery.of(context).size.height / 16,),
                           ),
                         ),
                         fillColor: Colors.grey.shade100,
@@ -179,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.phone_android_outlined, size: MediaQuery.of(context).size.width / 16,),
+                          child: Icon(Icons.phone_android_outlined, size: MediaQuery.of(context).size.height / 16,),
                         ),
                         fillColor: Colors.grey.shade100,
                         filled: true,
@@ -219,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             style: ButtonStyle(
                               textStyle: MaterialStateProperty.all<TextStyle>(
                                 TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width / 20
+                                  fontSize: MediaQuery.of(context).size.height / 20
                                 )
                               ),
                             )
@@ -241,7 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         style: Theme.of(context).elevatedButtonTheme.style,
                         child: Text(
                           'Đăng ký',
-                          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, color: Colors.white),
+                          style: TextStyle(fontSize: MediaQuery.of(context).size.height / 20, color: Colors.white),
                         ),
                       ),
                     ),

@@ -75,9 +75,10 @@ class _ExamItemState extends State<ExamItem> {
     getDoneExams();
   }
 
+
   @override
   Widget build(BuildContext context) {
-
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return GestureDetector(
       onTap: () {
         Get.to(ExamDetailPage(examCode: widget.examCode,));
@@ -100,26 +101,26 @@ class _ExamItemState extends State<ExamItem> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.width / 4,
+                width: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 4 : MediaQuery.of(context).size.height / 4,
+                height: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 4 : MediaQuery.of(context).size.height / 4,
                 child: Image.asset('assets/images/take_test_1.png', fit: BoxFit.contain,),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: Theme.of(context).textTheme.bodyLarge, overflow: TextOverflow.ellipsis, maxLines: 2,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Mã bài: ' + (widget.examCode), style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 20), overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text('Mã bài: ' + (widget.examCode), style: Theme.of(context).textTheme.bodyLarge, overflow: TextOverflow.ellipsis, maxLines: 2,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-              child: Text('Số câu: ' + totalQues.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 20)),
+              child: Text('Số câu: ' + totalQues.toString(), style: Theme.of(context).textTheme.bodyLarge),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Text(isDone ? 'Đã làm' : 'Chưa làm', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: MediaQuery.of(context).size.width / 20), textAlign: TextAlign.justify,),
+              child: Text(isDone ? 'Đã làm' : 'Chưa làm', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 20 : MediaQuery.of(context).size.height / 20), textAlign: TextAlign.justify,),
             ),
           ],
         ),

@@ -34,7 +34,7 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(title: Text('Kết quả', style: Theme.of(context).textTheme.labelSmall,),
         toolbarHeight: MediaQuery.of(context).size.height / 12,
@@ -43,9 +43,9 @@ class _ResultPageState extends State<ResultPage> {
         children: [
           Center(
             child: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 20),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 100),
               child: CircularPercentIndicator(
-                radius: MediaQuery.of(context).size.width / 6,
+                radius: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 6 : MediaQuery.of(context).size.height / 6,
                 lineWidth: 10.0,
                 percent: widget.numCorrectAns / widget.totalQues,
                 center: RichText(
