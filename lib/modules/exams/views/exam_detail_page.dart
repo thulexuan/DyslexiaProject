@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/models/doneProcess.dart';
 import 'package:dyslexia_project/models/doneExam.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/exams/controllers/each_exam_controller.dart';
 import 'package:dyslexia_project/modules/exams/views/component/oneQuestionItem.dart';
 import 'package:dyslexia_project/modules/exams/views/result_page.dart';
@@ -28,6 +29,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
   final PageController controller = PageController();
   final each_exam_controller = Get.put(EachExamController());
   final userController = Get.put(UserController());
+  final textCustomizeController = Get.put(TextCustomizeController());
 
   String long_text = '';
   List<dynamic> listQuestions = [];
@@ -60,6 +62,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
     // getExamDetail();
     each_exam_controller.getExamDetail(widget.examCode);
     getDoneExams();
+    textCustomizeController.getData();
   }
 
   @override
@@ -95,7 +98,17 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
                 child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Obx(() => Text(each_exam_controller.long_text.value, style: Theme.of(context).textTheme.bodyMedium,)),
+                      child: Obx(() => Text(each_exam_controller.long_text.value,
+                        style: TextStyle(
+                            color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+                            fontSize: textCustomizeController.currentFontSize.value.toDouble(),
+                            fontFamily: textCustomizeController.currentFontStyle.value,
+                            letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+                            wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
+                            height: textCustomizeController.currentLineSpacing.value.toDouble()
+                            ),
+                         )
+                      ),
                     )
                 ),
               ),

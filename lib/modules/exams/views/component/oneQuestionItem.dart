@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/exams/controllers/each_exam_controller.dart';
 import 'package:dyslexia_project/modules/exams/views/component/question_option.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _OneQuestionItemState extends State<OneQuestionItem> with AutomaticKeepAli
 
   int selectedIndex = -1;
   final each_exam_controller = Get.put(EachExamController());
+  final textCustomizeController = Get.put(TextCustomizeController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,16 @@ class _OneQuestionItemState extends State<OneQuestionItem> with AutomaticKeepAli
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(widget.listQuestions[widget.questionNum]['questionDetail'], style: Theme.of(context).textTheme.bodyLarge,),
+            Text(widget.listQuestions[widget.questionNum]['questionDetail'],
+              style: TextStyle(
+                  color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+                  fontSize: textCustomizeController.currentFontSize.value.toDouble(),
+                  fontFamily: textCustomizeController.currentFontStyle.value,
+                  letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
+                  wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(),
+                  height: textCustomizeController.currentLineSpacing.value.toDouble(),
+                  fontWeight: FontWeight.bold
+              ),),
 
             // 3 options here
 
