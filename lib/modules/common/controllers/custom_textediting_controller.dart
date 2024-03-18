@@ -11,6 +11,7 @@ class CustomEditingController extends TextEditingController {
 
   bool highlightMirrorLetterOption;
 
+
   CustomEditingController({String? text, this.highlightMirrorLetterOption = true})
       : super(text: text);
 

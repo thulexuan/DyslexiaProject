@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 
+import '../../../common_widgets/custom_switch.dart';
 import '../../customizeText/controllers/text_customize_controller.dart';
 import '../../customizeText/views/customize_option_page.dart';
 import '../controllers/recognize_text_controller.dart';
@@ -48,7 +49,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
 
   bool highlightMirrorLetterOption = true;
   bool showImageOption = false;
-
+  bool canEdit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +100,82 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                     ],
                   ),
                 ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Text('Sửa văn bản', ),
+                      CustomSwitch(
+                        value: canEdit,
+                        onChanged: (newValue) {
+                          setState(() {
+                            canEdit = newValue;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () async {
+                        SoundFunction().speak(
+                            customTextEditingController.text,
+                            textCustomizeController.current_volume.value,
+                            textCustomizeController.current_rate.value,
+                            textCustomizeController.current_pitch.value,
+                            textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.headphones, color: Colors.blue,),
+                          SizedBox(width: 20,),
+                          Text('Nghe văn bản',),
+                        ],
+                      ),
+                    ),
+                ),
+                PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(const CustomizeOptionPage());
+                      },
+                        child: Row(
+                          children: [
+                            Icon(Icons.tune, color: Colors.blue,),
+                            SizedBox(width: 20,),
+                            Text('Tùy chỉnh',),
+                          ],
+                        ),
+                    )
+                ),
+                PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(const OverviewPage());                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.home, color: Colors.blue,),
+                          SizedBox(width: 20,),
+                          Text('Về trang chủ',),
+                        ],
+                      ),
+                    )
+                ),
+                PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(const ReadOptions());
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.image, color: Colors.blue,),
+                          SizedBox(width: 20,),
+                          Text('Chọn lại ảnh',),
+                        ],
+                      ),
+                    )
+                )
               ];
             },
           ),
@@ -111,7 +188,7 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                 controller.extractedText.value.isEmpty?
                 Center(child: Text("Không đọc được văn bản", style: Theme.of(context).textTheme.bodyMedium,)) :
                 Container(
-                  height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 5 / 6 : MediaQuery.of(context).size.height * 2 / 3,
+                  height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -159,8 +236,12 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
                                 padding: const EdgeInsets.all(15),
                                 color: textCustomizeController.backgroundColor.elementAt(textCustomizeController.backgroundColor_text.indexOf(textCustomizeController.currentBackgroundColor.value)),
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none
+                                  ),
                                   controller: customTextEditingController,
                                   maxLines: null,
+                                  readOnly: !canEdit,
                                   // tap to word for understanding its meaning
                                   contextMenuBuilder: (BuildContext context,
                                       EditableTextState editableTextState) {
@@ -231,96 +312,96 @@ class _DisplayTextPageState extends State<DisplayTextPage> with SingleTickerProv
             ),
             const SizedBox(height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      SoundFunction().speak(
-                          customTextEditingController.text,
-                          textCustomizeController.current_volume.value,
-                          textCustomizeController.current_rate.value,
-                          textCustomizeController.current_pitch.value,
-                          textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.headphones, size: Theme.of(context).iconTheme.size,),
-                          Text('Nghe văn bản', style: Theme.of(context).textTheme.labelSmall,),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.4,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(const CustomizeOptionPage());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(Icons.tune, size: Theme.of(context).iconTheme.size),
-                            Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall),
-                          ],
-                        ),
-                      ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height / 40,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(const OverviewPage());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.home, size: Theme.of(context).iconTheme.size),
-                          Text('Về trang chủ', style: Theme.of(context).textTheme.labelSmall),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.4,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(const ReadOptions());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.image, size: Theme.of(context).iconTheme.size),
-                          Text('Chọn lại ảnh', style: Theme.of(context).textTheme.labelSmall),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height / 80,),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2.2,
+            //       child: ElevatedButton(
+            //         onPressed: () async {
+            //           SoundFunction().speak(
+            //               customTextEditingController.text,
+            //               textCustomizeController.current_volume.value,
+            //               textCustomizeController.current_rate.value,
+            //               textCustomizeController.current_pitch.value,
+            //               textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
+            //           );
+            //         },
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(10.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Icon(Icons.headphones, size: Theme.of(context).iconTheme.size,),
+            //               Text('Nghe văn bản', style: Theme.of(context).textTheme.labelSmall,),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2.4,
+            //       child: ElevatedButton(
+            //           onPressed: () {
+            //             Get.to(const CustomizeOptionPage());
+            //           },
+            //           child: Padding(
+            //             padding: const EdgeInsets.all(10.0),
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: [
+            //                 Icon(Icons.tune, size: Theme.of(context).iconTheme.size),
+            //                 Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall),
+            //               ],
+            //             ),
+            //           ),
+            //       ),
+            //     )
+            //   ],
+            // ),
+            // SizedBox(height: MediaQuery.of(context).size.height / 40,),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2.2,
+            //       child: ElevatedButton(
+            //         onPressed: () {
+            //           Get.to(const OverviewPage());
+            //         },
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Icon(Icons.home, size: Theme.of(context).iconTheme.size),
+            //               Text('Về trang chủ', style: Theme.of(context).textTheme.labelSmall),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2.4,
+            //       child: ElevatedButton(
+            //         onPressed: () {
+            //           Get.to(const ReadOptions());
+            //         },
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Icon(Icons.image, size: Theme.of(context).iconTheme.size),
+            //               Text('Chọn lại ảnh', style: Theme.of(context).textTheme.labelSmall),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // ),
+            // SizedBox(height: MediaQuery.of(context).size.height / 80,),
           ],
         ),
       ),

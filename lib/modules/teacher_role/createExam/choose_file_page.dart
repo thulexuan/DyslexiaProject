@@ -139,7 +139,13 @@ class _CreateExamPageState extends State<CreateExamPage> {
   Future<String> readContentFromFile(String filePath) async {
     try {
       File file = File(filePath);
-      String content = await file.readAsString();
+      List<String> lines = await file.readAsLines();
+      String content = '';
+      for (int i=0;i<lines.length;i++) {
+        content += lines[i];
+        content += '\n';
+      }
+
       return content;
     } catch (e) {
       print('Error reading file: $e');
