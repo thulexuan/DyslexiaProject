@@ -15,7 +15,7 @@ class TestElementItem extends StatefulWidget {
     required this.fontSize,
     required this.letterSpacing,
     required this.wordSpacing,
-    required this.isSelected
+    required this.isSelected,
 });
 
   @override
@@ -42,7 +42,6 @@ class _TestElementItemState extends State<TestElementItem> {
                 letterSpacing: widget.letterSpacing,
                 wordSpacing: widget.wordSpacing,
                 fontWeight: widget.isSelected == true ? FontWeight.bold : FontWeight.normal,
-                color: Colors.black
             ),
             textAlign: TextAlign.center,
           )

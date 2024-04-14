@@ -11,6 +11,7 @@ class User {
   final String fontFamily;
   final String backgroundColor;
   final String textColor;
+  final double opacity;
   final bool isFirstTimeLogin;
   final List<Map<String, dynamic>> doneExams;
   final List<dynamic> resultDoneExams;
@@ -40,7 +41,8 @@ class User {
         required this.voiceName,
         required this.pitch,
         required this.role,
-        required this.examCreated
+        required this.examCreated,
+        required this.opacity
         });
 
   Map<String, dynamic> toJson() => {
@@ -63,7 +65,8 @@ class User {
     "voiceName" : voiceName,
     "pitch" : pitch,
     "role" : role,
-    "examCreated" : examCreated
+    "examCreated" : examCreated,
+    "opacity" : opacity
   };
 
   static User fromJson(Map<String, dynamic> json) => User(
@@ -86,6 +89,7 @@ class User {
       voiceName: json['voiceName'],
       pitch: json['pitch'],
       role: json['role'],
-      examCreated: json['examCreated']
+      examCreated: json['examCreated'],
+      opacity: json['opacity']
   );
 }

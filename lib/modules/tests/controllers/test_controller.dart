@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,8 +20,17 @@ class TestController extends GetxController {
   var wordSpacingExpandFrequency = 0.obs;
   var fontSizeSmall = 0.obs;
   var fontSizeBig = 0.obs;
+  var opacity100 = 0.obs;
+  var opacity25 = 0.obs;
+  var opacity50 = 0.obs;
+  var opacity75 = 0.obs;
 
-  var answers = List.generate(14, (index) => -1);
+  var pair1 = 0.obs;
+  var pair2 = 0.obs;
+  var pair3 = 0.obs;
+  var pair4 = 0.obs;
+
+  var answers = List.generate(24, (index) => -1);
 
   Future<void> process() async {
 
@@ -27,7 +38,7 @@ class TestController extends GetxController {
     List<String> type_1 = ['d', 'b', 'p', 'q'];
     List<String> type_2 = ['m', 'n', 'u'];
 
-    for (int i=0;i<14;i++) {
+    for (int i=0;i<24;i++) {
       // test letter
       if (0 <= i && i <= 2) {
         switch (answers[i]) {
@@ -167,6 +178,48 @@ class TestController extends GetxController {
         }
         
       }
+
+      // test contrast
+
+      if (i >= 14 && i <= 18) {
+
+        switch (answers[i]) {
+          case 0:
+            opacity100++;
+            break;
+          case 1:
+            opacity25++;
+            break;
+          case 2:
+            opacity50++;
+            break;
+          case 3:
+            opacity75++;
+            break;
+        }
+
+      }
+
+      // test background-text pair
+
+      if (i >= 19 && i <= 23) {
+
+        switch (answers[i]) {
+          case 0:
+            pair1++;
+            break;
+          case 1:
+            pair2++;
+            break;
+          case 2:
+            pair3++;
+            break;
+          case 3:
+            pair4++;
+            break;
+        }
+
+      }
     }
     // save to database
 
@@ -200,6 +253,35 @@ class TestController extends GetxController {
 
     if (errorWords.isNotEmpty) {
       textCustomizeController.saveToDb('errorWords', errorWords);
+    }
+
+    // save opacity
+    int maxFrequencyOfOpacity = max(max(max(opacity100.value, opacity75.value), opacity50.value), opacity25.value);
+    if (maxFrequencyOfOpacity == opacity100.value) {
+      textCustomizeController.saveToDb('opacity', 1.0);
+    } else if (maxFrequencyOfOpacity == opacity75.value) {
+      textCustomizeController.saveToDb('opacity', 0.75);
+    } else if (maxFrequencyOfOpacity == opacity50.value) {
+      textCustomizeController.saveToDb('opacity', 0.5);
+    } else if (maxFrequencyOfOpacity == opacity25.value) {
+      textCustomizeController.saveToDb('opacity', 0.25);
+    }
+
+    // save background and text color
+
+    int maxPairFrequency = max(max(max(pair1.value, pair2.value), pair3.value), pair4.value);
+    if (maxPairFrequency == pair1.value) {
+      textCustomizeController.saveToDb('textColor', 'off-black');
+      textCustomizeController.saveToDb('backgroundColor', 'off-white');
+    } else if (maxPairFrequency == pair2.value) {
+      textCustomizeController.saveToDb('textColor', 'black');
+      textCustomizeController.saveToDb('backgroundColor', 'white');
+    } else if (maxPairFrequency == pair3.value) {
+      textCustomizeController.saveToDb('textColor', 'black');
+      textCustomizeController.saveToDb('backgroundColor', 'creme');
+    } else if (maxPairFrequency == pair4.value) {
+      textCustomizeController.saveToDb('textColor', 'blue');
+      textCustomizeController.saveToDb('backgroundColor', 'yellow');
     }
 
   }

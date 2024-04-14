@@ -1,6 +1,8 @@
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
 import 'package:dyslexia_project/modules/tests/views/testTwoWord.dart';
+import 'package:dyslexia_project/modules/tests/views/test_background_page.dart';
+import 'package:dyslexia_project/modules/tests/views/test_contrast.dart';
 import 'package:dyslexia_project/modules/tests/views/test_letter.dart';
 import 'package:dyslexia_project/modules/tests/views/test_mirror_letter.dart';
 import 'package:dyslexia_project/modules/tests/views/test_one_word.dart';
@@ -44,6 +46,16 @@ class _TestPageState extends State<TestPage> {
           TestMirrorPage(letter: 'd', quesNum: 11,),
           TestMirrorPage(letter: 'q', quesNum: 12,),
           TestMirrorPage(letter: 'n', quesNum: 13,),
+          TestContrastPage(letter: 'm', quesNum: 14,),
+          TestContrastPage(letter: 'n', quesNum: 15,),
+          TestContrastPage(letter: 't', quesNum: 16,),
+          TestContrastPage(letter: 'cũ', quesNum: 17,),
+          TestContrastPage(letter: 'xe đạp', quesNum: 18,),
+          TestBackgroundPage(letter: 'ă', quesNum: 19,),
+          TestBackgroundPage(letter: 'tỏ', quesNum: 20,),
+          TestBackgroundPage(letter: 'bông hồng', quesNum: 21,),
+          TestBackgroundPage(letter: 'bông hồng', quesNum: 22,),
+          TestBackgroundPage(letter: 'bông hồng', quesNum: 23,),
         ],
       ),
       bottomNavigationBar: Row(
@@ -70,7 +82,7 @@ class _TestPageState extends State<TestPage> {
   }
 
   Future<void> nextPage() async {
-    if (_pageController.page?.toInt() == 13) {
+    if (_pageController.page?.toInt() == 23) {
       print(testController.answers);
       await testController.process();
       await textCustomizeController.getData();
@@ -89,10 +101,4 @@ class _TestPageState extends State<TestPage> {
 
   }
 
-  // void previousPage(){
-  //   _pageController.previousPage(
-  //       duration: Duration(milliseconds: 400),
-  //       curve: Curves.easeIn
-  //   );
-  //}
 }

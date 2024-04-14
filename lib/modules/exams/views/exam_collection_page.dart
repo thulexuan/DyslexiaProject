@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'component/exam_item.dart';
 
 class ExamCollectionPage extends StatefulWidget {
-  const ExamCollectionPage({Key? key}) : super(key: key);
+
+  String classLevel;
+
+  ExamCollectionPage({
+    required this.classLevel
+});
 
   @override
   State<ExamCollectionPage> createState() => _ExamCollectionPageState();
@@ -17,7 +22,8 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
   List totalQuesOfEachExam = [];
 
   Future<void> getListExams() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection').get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
+    .where('classLevel', isEqualTo: widget.classLevel).get();
     setState(() {
       numOfExams = querySnapshot.docs.length;
     });
@@ -43,7 +49,7 @@ class _ExamCollectionPageState extends State<ExamCollectionPage> {
     final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(toolbarHeight: MediaQuery.of(context).size.height / 12,
-        title: Text('Bài kiểm tra', style: Theme.of(context).textTheme.labelSmall), automaticallyImplyLeading: false,
+        title: Text('Bài kiểm tra', style: Theme.of(context).textTheme.labelSmall),
       ),
       body: GridView.count(
         padding: EdgeInsets.all(20.0),

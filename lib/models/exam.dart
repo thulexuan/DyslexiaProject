@@ -7,6 +7,7 @@ class Exam {
   String text;
   int totalQues;
   String authorName;
+  String classLevel;
 
   Exam({
     // required this.examNumber,
@@ -14,7 +15,8 @@ class Exam {
     required this.questions,
     required this.text,
     required this.totalQues,
-    required this.authorName
+    required this.authorName,
+    required this.classLevel
 });
 
   Map<String, dynamic> toJson() => {
@@ -23,7 +25,8 @@ class Exam {
     "questions" : questions,
     "text" : text,
     "totalQues" : totalQues,
-    "authorName" : authorName
+    "authorName" : authorName,
+    "classLevel" : classLevel
   };
 
   static Exam fromJson(Map<String, dynamic> json) => Exam(
@@ -33,5 +36,6 @@ class Exam {
       text: json['text'],
       totalQues: json['totalQues'],
       authorName: json['authorName'],
+      classLevel: json['classLevel']
   );
 }

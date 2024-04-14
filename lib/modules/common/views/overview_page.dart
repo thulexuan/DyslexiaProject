@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
+import 'package:dyslexia_project/modules/exams/views/exam_collection_by_class.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:dyslexia_project/modules/tests/controllers/test_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../exams/views/exam_collection_page.dart';
 import '../../profile/profile_page.dart';
+import '../../readText/views/listen_text_page.dart';
 
 
 class OverviewPage extends StatefulWidget {
@@ -26,12 +28,8 @@ class _OverviewPageState extends State<OverviewPage> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     ReadOptions(),
-    // const Text(
-    //   'Trang sach noi',
-    //   style: optionStyle,
-    // ),
-    ExamCollectionPage(),
-    ProfilePage()
+    ExamCollectionByClassPage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -49,7 +47,6 @@ class _OverviewPageState extends State<OverviewPage> {
     // TODO: implement initState
     super.initState();
     textCustomizeController.getData();
-    print('----start----');
   }
   @override
   Widget build(BuildContext context) {
@@ -69,10 +66,6 @@ class _OverviewPageState extends State<OverviewPage> {
             icon: Icon(Icons.import_contacts),
             label: 'Đọc',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.library_books),
-          //   label: 'Thư viện sách',
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.quiz),
             label: 'Kiểm tra',

@@ -172,7 +172,8 @@ class SignInController extends GetxController {
             voiceName: 'vi-vn-x-gft-network',
             pitch: 0.8,
             role: 'Học sinh',
-            examCreated: []
+            examCreated: [],
+            opacity: 1
         );
 
         await firestore.collection('users').doc(userCredential.user!.uid).set({
@@ -195,7 +196,8 @@ class SignInController extends GetxController {
           "voiceName" : 'vi-vn-x-gft-network',
           "pitch" : 0.8,
           "role" : "Học sinh",
-          "examCreated" : []
+          "examCreated" : [],
+          "opacity" : 1
         });
 
         res = "success";

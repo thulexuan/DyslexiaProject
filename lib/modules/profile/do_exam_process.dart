@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/exams/views/component/exam_item.dart';
+import 'package:dyslexia_project/modules/exams/views/exam_detail_page_new.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -60,7 +61,7 @@ class _DoExamProcessState extends State<DoExamProcess> {
               children: [
                 GestureDetector(
                     onTap: () {
-                      Get.to(ExamDetailPage(examCode: doneExam['examCode'],));
+                      Get.to(ExamDetailPageNew(examCode: doneExam['examCode'],));
                     },
                     child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size,)
                 ),

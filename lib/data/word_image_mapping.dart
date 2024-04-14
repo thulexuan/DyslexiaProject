@@ -2,5 +2,21 @@ var wordImageMapping = {
   'sách': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k7C6UHu0lddNO1GU9nZtxGHZzBvURTF1Hg&usqp=CAU',
 'cuốn sách': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k7C6UHu0lddNO1GU9nZtxGHZzBvURTF1Hg&usqp=CAU',
 'xuân' : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k7C6UHu0lddNO1GU9nZtxGHZzBvURTF1Hg&usqp=CAU',
-'gà' : 'assets/images/ga.jpg'
+'gà' : 'assets/images/ga.jpg',
+  'cây dây bò lan rộng' : 'assets/images/cay_than_bo.jpg',
+  'cây dây bò' : 'assets/images/cay_than_bo.jpg',
+  'đảo' : 'assets/images/dao_hoang.jpg',
+'đảo hoang' : 'assets/images/dao_hoang.jpg',
+  'tre nứa' : 'assets/images/tre_nua.jpg',
+  'tre' : 'assets/images/tre_nua.jpg',
+  'nứa' : 'assets/images/tre_nua.jpg',
+  'cỏ phơi khô' : 'assets/images/co_kho.jpg',
+'hạt' : 'assets/images/hat.jpg',
+  'bản' : 'assets/images/ban_lang.png',
+  'BẢN' : 'assets/images/ban_lang.png',
+  'ban mai' : 'assets/images/ban_mai_1.jpg',
+  'BAN MAI' : 'assets/images/ban_mai_1.jpg',
+  'ánh lửa' : 'assets/images/lua.jpg',
+  'ánh lửa hồng' : 'assets/images/lua.jpg',
+  'nhà sàn' : 'assets/images/nha_san.jpg'
 };

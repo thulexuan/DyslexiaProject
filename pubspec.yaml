@@ -44,6 +44,16 @@ dependencies:
   fl_chart: ^0.62.0
   charts_flutter: ^0.12.0
   sizer: ^2.0.15
+  flutter_quill: ^6.1.6
+  styled_text: ^8.1.0
+  zefyrka: ^1.4.0
+  formatted_text: ^3.0.0
+  simple_html_css: ^4.0.0
+  flutter_widget_from_html: ^0.14.11
+  audioplayers: ^4.1.0
+
+
+
 
 
 
@@ -70,6 +80,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/sounds/
     - assets/tessdata/
     - assets/test.txt
   fonts:
@@ -100,6 +111,9 @@ flutter:
     - family: Open Dyslexic
       fonts:
         - asset: fonts/open-dyslexic.ttf
+    - family: UTM Avo
+      fonts:
+        - asset: fonts/utm-avo.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

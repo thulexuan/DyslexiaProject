@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/customizeText/controllers/text_customize_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +12,7 @@ class CustomEditingController extends TextEditingController {
 
   bool highlightMirrorLetterOption;
 
-
-  CustomEditingController({String? text, this.highlightMirrorLetterOption = true})
+  CustomEditingController({String? text, this.highlightMirrorLetterOption = true,})
       : super(text: text);
 
   final textCustomizeController = Get.put(TextCustomizeController());
@@ -98,6 +98,28 @@ class CustomEditingController extends TextEditingController {
       'u' : TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: textCustomizeController.currentFontSize.value.toDouble(), fontFamily: textCustomizeController.currentFontStyle.value, letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(), wordSpacing: textCustomizeController.currentWordSpacing.value.toDouble(), height: textCustomizeController.currentLineSpacing.value.toDouble()),
     };
 
+    // String selectedText = value.text.substring(value.selection.start, value.selection.end);
+    // String beforeText = value.text.substring(0, value.selection.start);
+    // String afterText = value.text.substring(value.selection.end, text.length);
+    //
+    // TextSpan beforeSelected = TextSpan(
+    //     text: beforeText,
+    //     style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black)
+    // );
+    // TextSpan selected = TextSpan(
+    //   text: selectedText,
+    //   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)
+    // );
+    // TextSpan afterSelected = TextSpan(
+    //     text: afterText,
+    //     style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black)
+    // );
+    // List<InlineSpan> finalSpans = [];
+    // finalSpans.add(beforeSelected);
+    // finalSpans.add(selected);
+    // finalSpans.add(afterSelected);
+    // return TextSpan(children: finalSpans);
+
 
     List<String> words = text.split(' ');
 
@@ -107,6 +129,11 @@ class CustomEditingController extends TextEditingController {
         if (highlightMirrorLetterOption == true) {
           if (errorWords.contains(letter)) {
             return TextSpan(
+              recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                print('ahiihihihihihd dkm');
+              }
+              ,
               text: letter,
               style: mapping[letter],
             );
@@ -115,7 +142,8 @@ class CustomEditingController extends TextEditingController {
               text: letter,
               style: style?.copyWith(
                 letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
-                color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+                color: textCustomizeController.currentTextColor.value == 'black' ? Colors.black.withOpacity(textCustomizeController.currentOpacity.value)
+                    : textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
               ),
             );
           }
@@ -124,7 +152,8 @@ class CustomEditingController extends TextEditingController {
             text: letter,
             style: style?.copyWith(
               letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),
-              color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
+              color: textCustomizeController.currentTextColor.value == 'black' ? Colors.black.withOpacity(textCustomizeController.currentOpacity.value)
+                  : textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
             ),
           );
         }

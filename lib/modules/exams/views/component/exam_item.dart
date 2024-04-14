@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/exams/controllers/each_exam_controller.dart';
+import 'package:dyslexia_project/modules/exams/views/exam_detail_page_new.dart';
 import 'package:dyslexia_project/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,7 +82,7 @@ class _ExamItemState extends State<ExamItem> {
     final Orientation orientation = MediaQuery.of(context).orientation;
     return GestureDetector(
       onTap: () {
-        Get.to(ExamDetailPage(examCode: widget.examCode,));
+        Get.to(ExamDetailPageNew(examCode: widget.examCode,));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -108,11 +109,7 @@ class _ExamItemState extends State<ExamItem> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Bài kiểm tra số ${widget.examNumber+1}', style: Theme.of(context).textTheme.bodyLarge, overflow: TextOverflow.ellipsis, maxLines: 2,),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-              child: Text('Mã bài: ' + (widget.examCode), style: Theme.of(context).textTheme.bodyLarge, overflow: TextOverflow.ellipsis, maxLines: 2,),
+              child: Text(widget.examCode, style: Theme.of(context).textTheme.bodyLarge, overflow: TextOverflow.ellipsis, maxLines: 2, textAlign: TextAlign.center,),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),

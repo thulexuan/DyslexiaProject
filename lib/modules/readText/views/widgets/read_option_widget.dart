@@ -19,7 +19,7 @@ class ReadOptionWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         width: orientation == Orientation.landscape ? MediaQuery.of(context).size.width / 4 : MediaQuery.of(context).size.height / 4,
-        height: MediaQuery.of(context).size.height / 4,
+        height: MediaQuery.of(context).size.height / 3.5,
         decoration: BoxDecoration(
           color: Color.fromRGBO(255, 253, 208, 1),
           borderRadius: BorderRadius.circular(10),

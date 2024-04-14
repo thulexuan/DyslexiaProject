@@ -23,6 +23,10 @@ class _CreateExamPageState extends State<CreateExamPage> {
   var isCreated = false;
   TextEditingController controller = TextEditingController();
 
+  List<String> list = <String>['Lớp 1', 'Lớp 2'];
+  TextEditingController classLevelController = TextEditingController(text: 'Lớp 1');
+  late String classLevel;
+
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
@@ -37,19 +41,58 @@ class _CreateExamPageState extends State<CreateExamPage> {
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 60,),
-            ElevatedButton(
-                onPressed: () {
-                  pickAndDisplayContent();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Chọn file', style: Theme.of(context).textTheme.labelSmall,),
-                )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      pickAndDisplayContent();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Chọn file', style: Theme.of(context).textTheme.labelSmall,),
+                    )
+                ),
+                DropdownMenu<String>(
+                  initialSelection: list.first,
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  inputDecorationTheme: InputDecorationTheme(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fillColor: Colors.grey.shade100,
+                      filled: true
+                  ),
+                  controller: classLevelController,
+                  label: Text('Lớp', style: Theme.of(context).textTheme.bodyMedium),
+                  onSelected: (String? newClassLevel) {
+                    setState(() {
+                      classLevel = newClassLevel!;
+                      classLevelController.text = newClassLevel!;
+                    });
+
+                  },
+                  dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value,
+                        style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all<TextStyle>(
+                              TextStyle(
+                                  fontSize: MediaQuery.of(context).size.height / 20
+                              )
+                          ),
+                        )
+                    );
+                  }).toList(),
+                ),
+
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Nội dung file', style: Theme.of(context).textTheme.bodyLarge,),
-            ),
+
+            // Padding(
+            //   padding: EdgeInsets.all(8.0),
+            //   child: Text('Nội dung file', style: Theme.of(context).textTheme.bodyLarge,),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -124,7 +167,7 @@ class _CreateExamPageState extends State<CreateExamPage> {
           controller.text = content;
         });
 
-        print(content);
+        // print(content);
 
 
       } else {
@@ -155,114 +198,249 @@ class _CreateExamPageState extends State<CreateExamPage> {
 
   Future<void> createExam(String content) async {
     List<String> lines = content.split('\n');
+
+    String code = lines[0];
     setState(() {
-      examCode = lines[0];
+      examCode = code;
     });
-    String text = '';
-    int marker = 1;
-    for (var i=1;i<lines.length;i++) {
-      if (lines[i].startsWith("Trả lời câu hỏi sau:")) {
-        marker = i;
-        break;
+
+    String eachQuestion = '';
+    List<String> allQuestions = [];
+    for (int i = 2; i < lines.length; i++) {
+      if (lines[i].startsWith('---')) {
+        allQuestions.add(eachQuestion);
+        eachQuestion = '';
       } else {
-        text += lines[i];
+        eachQuestion += lines[i];
+        eachQuestion += '\n';
       }
     }
 
-    // get list of questions
+    String questionDetail = '';
+
+    int answer = -1;
+    String suggestedPara = '';
+    String keySentence = '';
+
     List<Map<String, dynamic>> questionsOfExam = [];
 
-    for (var i = marker + 1; i < lines.length - 4; i++) {
-      String questionDetail = lines[i];
+    for (int i = 0; i < allQuestions.length; i++) {
+
       List<String> options = [];
-      options.add(lines[i+1]);
-      options.add(lines[i+2]);
-      options.add(lines[i+3]);
-      int answer = -1;
-      if (lines[i+4].startsWith('A')) answer = 0;
-      if (lines[i+4].startsWith('B')) answer = 1;
-      if (lines[i+4].startsWith('C')) answer = 2;
+      List<String> temp = allQuestions[i].split('Đoạn văn gợi ý:');
 
-      questionsOfExam.add({
-        'questionsDetail' : questionDetail,
-        'options' : options,
-        'answer' : answer
-      });
+      // process question detail and display options
 
-      i+= 4;
+      List<String> questionAndOption = temp[0].split('\n');
+
+      questionDetail = questionAndOption[0];
+
+      options.add(questionAndOption[1]);
+      options.add(questionAndOption[2]);
+      options.add(questionAndOption[3]);
+
+      if (questionAndOption[4].startsWith('A')) answer = 0;
+      if (questionAndOption[4].startsWith('B')) answer = 1;
+      if (questionAndOption[4].startsWith('C')) answer = 2;
+
+      // process suggestedPara and key Sentence
+
+      List<String> temp_string = temp[1].split('Câu chứa đáp án:');
+      suggestedPara = temp_string[0];
+      keySentence = temp_string[1];
+
+          questionsOfExam.add({
+            'questionsDetail' : questionDetail,
+            'options' : options,
+            'answer' : answer,
+            'suggestedPara' : suggestedPara,
+            'keySentence' : keySentence
+          });
     }
 
-    // save to database
+      List<Map<String, dynamic>> questions = [];
 
-    List<Map<String, dynamic>> questions = [];
-
-    for (var question in questionsOfExam) {
-      Question q = Question(answer: question['answer'], options: question['options'], questionDetail: question['questionsDetail']);
-      Map<String, dynamic> qMap = q.toJson();
-      questions.add(qMap);
-    }
-
-    // add examCode to examCreated of user
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
-        .where('email', isEqualTo: prefs.getString('email')).get();
-
-    final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
-    var examCreated = data != null && data is Map<String, dynamic> ? data['examCreated'] : [];
-    if (!examCreated.contains(examCode)) {
-      examCreated.add(examCode);
-    }
-
-    if (snapshot.docs.isNotEmpty) {
-      await snapshot.docs[0].reference.update({
-        "examCreated" : examCreated
-      });
-    }
-
-    // get authorName
-    setState(() {
-      authorName = data != null && data is Map<String, dynamic> ? data['fullname'] : '';
-    });
-
-    // create exam to save to db
-
-    Exam exam = Exam(questions: questions, text: text, totalQues: questionsOfExam.length, authorName: authorName, examCode: examCode);
-
-    CollectionReference examCollection = FirebaseFirestore.instance.collection('examCollection');
-
-    Map<String, dynamic> examMap = exam.toJson();
-
-    // check if examCode exists. If exist -> update else add to db
-    // get list of examCode
-    QuerySnapshot exams = await FirebaseFirestore.instance.collection('examCollection').get();
-    var examCodeList = [];
-
-    for (QueryDocumentSnapshot exam in exams.docs) {
-      Map<String, dynamic> data = exam.data() as Map<String, dynamic>;
-      examCodeList.add(data['examCode']);
-    }
-
-    print(examCodeList);
-
-    // check if examCode is in examCodeList
-
-    if (examCodeList.contains(examCode)) {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
-          .where("examCode", isEqualTo: examCode).get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        // Get the reference to the first matching document
-        DocumentReference documentReference = querySnapshot.docs.first.reference;
-        // Delete the document
-        await documentReference.delete();
-        print('Document deleted successfully!');
+      for (var question in questionsOfExam) {
+        print(question);
+        Question q = Question(answer: question['answer'], options: question['options'], questionDetail: question['questionsDetail'], suggestedPara: question['suggestedPara'], keySentence: question['keySentence']);
+        Map<String, dynamic> qMap = q.toJson();
+        questions.add(qMap);
       }
-    }
 
-    await examCollection.add(examMap);
-    showDialogAddExam(context, examCode);
-    print('add successfully');
+      // add examCode to examCreated of user
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+          .where('email', isEqualTo: prefs.getString('email')).get();
+
+      final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
+      var examCreated = data != null && data is Map<String, dynamic> ? data['examCreated'] : [];
+      if (!examCreated.contains(examCode)) {
+        examCreated.add(examCode);
+      }
+
+      if (snapshot.docs.isNotEmpty) {
+        await snapshot.docs[0].reference.update({
+          "examCreated" : examCreated
+        });
+      }
+
+      // get authorName
+      setState(() {
+        authorName = data != null && data is Map<String, dynamic> ? data['fullname'] : '';
+      });
+
+      // create exam to save to db
+
+      Exam exam = Exam(questions: questions, text: '', totalQues: questionsOfExam.length, authorName: authorName, examCode: code, classLevel: classLevelController.text);
+
+      CollectionReference examCollection = FirebaseFirestore.instance.collection('examCollection');
+
+      Map<String, dynamic> examMap = exam.toJson();
+
+      // check if examCode exists. If exist -> update else add to db
+      // get list of examCode
+      QuerySnapshot exams = await FirebaseFirestore.instance.collection('examCollection').get();
+      var examCodeList = [];
+
+      for (QueryDocumentSnapshot exam in exams.docs) {
+        Map<String, dynamic> data = exam.data() as Map<String, dynamic>;
+        examCodeList.add(data['examCode']);
+      }
+
+      // print(examCodeList);
+
+      // check if examCode is in examCodeList
+
+      if (examCodeList.contains(examCode)) {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
+            .where("examCode", isEqualTo: examCode).get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+          // Get the reference to the first matching document
+          DocumentReference documentReference = querySnapshot.docs.first.reference;
+          // Delete the document
+          await documentReference.delete();
+          print('Document deleted successfully!');
+        }
+      }
+
+      await examCollection.add(examMap);
+      showDialogAddExam(context, code);
+      print('add successfully');
+
   }
+
+  // Future<void> createExam(String content) async {
+  //   List<String> lines = content.split('\n');
+  //   setState(() {
+  //     examCode = lines[0];
+  //   });
+  //   String text = '';
+  //   int marker = 1;
+  //   for (var i=1;i<lines.length;i++) {
+  //     if (lines[i].startsWith("Trả lời câu hỏi sau:")) {
+  //       marker = i;
+  //       break;
+  //     } else {
+  //       text += lines[i];
+  //       text += '\n';
+  //     }
+  //   }
+  //
+  //   // get list of questions
+  //   List<Map<String, dynamic>> questionsOfExam = [];
+  //
+  //   for (var i = marker + 1; i < lines.length - 4; i++) {
+  //     String questionDetail = lines[i];
+  //     List<String> options = [];
+  //     options.add(lines[i+1]);
+  //     options.add(lines[i+2]);
+  //     options.add(lines[i+3]);
+  //     int answer = -1;
+  //     if (lines[i+4].startsWith('A')) answer = 0;
+  //     if (lines[i+4].startsWith('B')) answer = 1;
+  //     if (lines[i+4].startsWith('C')) answer = 2;
+  //
+  //     questionsOfExam.add({
+  //       'questionsDetail' : questionDetail,
+  //       'options' : options,
+  //       'answer' : answer
+  //     });
+  //
+  //     i+= 4;
+  //   }
+  //
+  //   // save to database
+  //
+  //   List<Map<String, dynamic>> questions = [];
+  //
+  //   for (var question in questionsOfExam) {
+  //     Question q = Question(answer: question['answer'], options: question['options'], questionDetail: question['questionsDetail']);
+  //     Map<String, dynamic> qMap = q.toJson();
+  //     questions.add(qMap);
+  //   }
+  //
+  //   // add examCode to examCreated of user
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+  //       .where('email', isEqualTo: prefs.getString('email')).get();
+  //
+  //   final Object? data = snapshot.docs.isNotEmpty ? snapshot.docs.first.data() : {};
+  //   var examCreated = data != null && data is Map<String, dynamic> ? data['examCreated'] : [];
+  //   if (!examCreated.contains(examCode)) {
+  //     examCreated.add(examCode);
+  //   }
+  //
+  //   if (snapshot.docs.isNotEmpty) {
+  //     await snapshot.docs[0].reference.update({
+  //       "examCreated" : examCreated
+  //     });
+  //   }
+  //
+  //   // get authorName
+  //   setState(() {
+  //     authorName = data != null && data is Map<String, dynamic> ? data['fullname'] : '';
+  //   });
+  //
+  //   // create exam to save to db
+  //
+  //   Exam exam = Exam(questions: questions, text: text, totalQues: questionsOfExam.length, authorName: authorName, examCode: examCode);
+  //
+  //   CollectionReference examCollection = FirebaseFirestore.instance.collection('examCollection');
+  //
+  //   Map<String, dynamic> examMap = exam.toJson();
+  //
+  //   // check if examCode exists. If exist -> update else add to db
+  //   // get list of examCode
+  //   QuerySnapshot exams = await FirebaseFirestore.instance.collection('examCollection').get();
+  //   var examCodeList = [];
+  //
+  //   for (QueryDocumentSnapshot exam in exams.docs) {
+  //     Map<String, dynamic> data = exam.data() as Map<String, dynamic>;
+  //     examCodeList.add(data['examCode']);
+  //   }
+  //
+  //   print(examCodeList);
+  //
+  //   // check if examCode is in examCodeList
+  //
+  //   if (examCodeList.contains(examCode)) {
+  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('examCollection')
+  //         .where("examCode", isEqualTo: examCode).get();
+  //
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       // Get the reference to the first matching document
+  //       DocumentReference documentReference = querySnapshot.docs.first.reference;
+  //       // Delete the document
+  //       await documentReference.delete();
+  //       print('Document deleted successfully!');
+  //     }
+  //   }
+  //
+  //   await examCollection.add(examMap);
+  //   showDialogAddExam(context, examCode);
+  //   print('add successfully');
+  // }
 
   Future<void> showDialogAddExam(BuildContext context, String examCode) {
     return showDialog(

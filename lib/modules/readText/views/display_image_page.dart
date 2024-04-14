@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dyslexia_project/modules/common/controllers/custom_textediting_controller.dart';
+import 'package:dyslexia_project/modules/readText/views/diplay_previous_text.dart';
 import 'package:dyslexia_project/modules/readText/views/read_options_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,8 @@ import '../controllers/recognize_text_controller.dart';
 import 'display_text_page.dart';
 
 class DisplayImagePage extends StatefulWidget {
-   DisplayImagePage({Key? key}) : super(key: key);
+   DisplayImagePage({Key? key, }) : super(key: key);
+
 
   @override
   State<DisplayImagePage> createState() => _DisplayImagePageState();
@@ -22,12 +24,19 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
   CustomEditingController customEditingController = CustomEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(title: Text('Ảnh được chọn', style: Theme.of(context).textTheme.labelSmall,),
           toolbarHeight: MediaQuery.of(context).size.height / 12),
-      body: Stack(
+      body:
+      // widget.option == 0 ?
+      Stack(
         children: [
           Column(
             children: [
@@ -74,13 +83,14 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
                         }
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value)),
+                          MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value,)),
                         );
                       },
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text('Đọc văn bản', style: Theme.of(context).textTheme.labelSmall),
-                      ))
+                      )),
+
                 ],
               )
 
@@ -91,7 +101,9 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
               child: CircularProgressIndicator(),
             ),
         ],
-      ),
+      )
+      // :
+      // Obx(() => DisplayPreviousText(readText: controller.extractedText.value) )
     );
   }
 

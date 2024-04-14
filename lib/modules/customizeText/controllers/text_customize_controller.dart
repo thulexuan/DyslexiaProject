@@ -19,6 +19,7 @@ class TextCustomizeController extends GetxController {
   var fontFamilySelectedIndex = 0.obs;
   var backgroundColorSelectedIndex = 0.obs;
   var textColorSelectedIndex = 0.obs;
+  var currentOpacity = 1.0.obs;
 
 
   var current_volume = 0.5.obs;
@@ -78,6 +79,10 @@ class TextCustomizeController extends GetxController {
         ? data['lineSpacing']
         : 0.0 ;
 
+    var opacity = data != null && data is Map<String, dynamic>
+        ? data['opacity']
+        : 1.0 ;
+
     current_voice_name.value = data != null && data is Map<String, dynamic>
         ? data['voiceName']
         : 'vi-vn-x-vic-network' ;
@@ -86,10 +91,12 @@ class TextCustomizeController extends GetxController {
     currentCharacterSpacing.value = letterSpacing.toDouble();
     currentWordSpacing.value = wordSpacing.toDouble();
     currentLineSpacing.value = lineSpacing.toDouble();
+    currentOpacity.value = opacity.toDouble();
 
     fontFamilySelectedIndex.value = fontFamilyList.indexOf(currentFontStyle.value);
     backgroundColorSelectedIndex.value = backgroundColor_text.indexOf(currentBackgroundColor.value);
     textColorSelectedIndex.value = textColor_text.indexOf(currentTextColor.value);
+
     voiceSelectedIndex.value = voiceNameCodeList.indexOf(current_voice_name.value);
   }
 
@@ -122,12 +129,13 @@ class TextCustomizeController extends GetxController {
     'Courier',
     'Helvetica',
     'Verdana',
-    'Open Dyslexic'
+    'Open Dyslexic',
+    'UTM Avo'
   ];
 
   List<Color> backgroundColor = [
     Colors.white,
-    Color.fromRGBO(255, 255, 259, 1),
+    Color.fromRGBO(255, 255, 229, 1),
     Color.fromRGBO(250, 250, 200, 1),
     Color.fromRGBO(255, 255, 0, 1),
     Color.fromRGBO(237, 209, 176, 1),
@@ -142,6 +150,7 @@ class TextCustomizeController extends GetxController {
     Color.fromRGBO(165, 247, 225, 1),
     Color.fromRGBO(185, 185, 0, 1),
     Color.fromRGBO(160, 160, 0, 1),
+    Colors.black,
   ];
 
   List<String> backgroundColor_text = [
@@ -161,6 +170,7 @@ class TextCustomizeController extends GetxController {
     'turquoise',
     'light mucky green',
     'mucky green',
+    'black'
   ];
 
   List<Color> textColor = [
@@ -169,6 +179,7 @@ class TextCustomizeController extends GetxController {
     Color.fromRGBO(0, 0, 125, 1),
     Color.fromRGBO(30, 30, 0, 1),
     Color.fromRGBO(40, 40, 0, 1),
+    Colors.white,
   ];
 
   List<String> textColor_text = [
@@ -176,7 +187,8 @@ class TextCustomizeController extends GetxController {
     'off-black',
     'blue',
     'dark brown',
-    'brown'
+    'brown',
+    'white'
   ];
 
 }

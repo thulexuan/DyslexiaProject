@@ -11,10 +11,12 @@ class ResultPage extends StatefulWidget {
 
   int totalQues;
   int numCorrectAns;
+  EachExamController controller;
 
   ResultPage({
     required this.totalQues,
-    required this.numCorrectAns
+    required this.numCorrectAns,
+    required this.controller
 });
 
   @override
@@ -39,76 +41,65 @@ class _ResultPageState extends State<ResultPage> {
       appBar: AppBar(title: Text('Kết quả', style: Theme.of(context).textTheme.labelSmall,),
         toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
-      body: Column(
+      body: Row(
         children: [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 100),
-              child: CircularPercentIndicator(
-                radius: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 6 : MediaQuery.of(context).size.height / 6,
-                lineWidth: 10.0,
-                percent: widget.numCorrectAns / widget.totalQues,
-                center: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Tỷ lệ đúng ",
-                        style: Theme.of(context).textTheme.bodySmall,
+          Expanded(
+            flex: 1,
+              child: Column(
+                children: [
+                  SizedBox(height: 100,),
+                  CircularPercentIndicator(
+                      radius: orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 6 : MediaQuery.of(context).size.height / 6,
+                      lineWidth: 10.0,
+                      percent: widget.numCorrectAns / widget.totalQues,
+                      center: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Tỷ lệ đúng ",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const TextSpan(
+                                text: "\n"
+                            ),
+                            TextSpan(
+                              text: "${((widget.numCorrectAns / widget.totalQues) * 100).ceil()}%",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      const TextSpan(
-                        text: "\n"
-                      ),
-                      TextSpan(
-                        text: "${((widget.numCorrectAns / widget.totalQues) * 100).ceil()}%",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                progressColor: Colors.green,
-              ),
-            ),
+                      progressColor: Colors.green,
+                    ),
+                  SizedBox(height: 50,),
+                  Text('Tổng số câu : ' + widget.totalQues.toString(), style: Theme.of(context).textTheme.bodyLarge,),
+                  Text('Số câu đúng : ' + widget.numCorrectAns.toString(), style: Theme.of(context).textTheme.bodyLarge,),
+                  SizedBox(height: 50,),
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.to(OverviewPage());
+                      },
+                      child: Text('Thoát')
+                  )
+                ],
+              )
           ),
+          Expanded(
+              flex: 2,
+              child: ListView.builder(
+                    itemCount: widget.controller.listQuestions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ReviewEachQuestion(
+                          userAnswer: widget.controller.listUserAnswer[index] == -1 ? 'Không trả lời' : widget.controller.listQuestions[index]['options'][widget.controller.listUserAnswer[index]],
+                          correctAnswer: widget.controller.listQuestions[index]['options'][widget.controller.listCorrectAnswer[index]],
+                          questionNum: index, controller: widget.controller,
+                      );
+                    },
+                  )
 
-          Text('Tổng số câu : ' + widget.totalQues.toString(), style: Theme.of(context).textTheme.bodyLarge,),
-          Text('Số câu đúng : ' + widget.numCorrectAns.toString(), style: Theme.of(context).textTheme.bodyLarge,),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isViewResultDetail = !isViewResultDetail;
-                });
-                print(isViewResultDetail);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Xem chi tiết đáp án', style: Theme.of(context).textTheme.labelSmall,),
-              )
-          ),
-          isViewResultDetail == true ? Expanded(
-            child: Obx(() => ListView.builder(
-              itemCount: each_exam_controller.listQuestions.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ReviewEachQuestion(
-                    userAnswer: each_exam_controller.listUserAnswer[index] == -1 ? 'Không trả lời' : each_exam_controller.listQuestions[index]['options'][each_exam_controller.listUserAnswer[index]],
-                    correctAnswer: each_exam_controller.listQuestions[index]['options'][each_exam_controller.listCorrectAnswer[index]],
-                    questionNum: index
-                );
-              },
-            )
-            ),
-          ) : Container(),
-          SizedBox(height: MediaQuery.of(context).size.height / 40,),
-          ElevatedButton(
-              onPressed: () {
-                Get.to(OverviewPage());
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Thoát', style: Theme.of(context).textTheme.labelSmall,),
-              )
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height / 40,),
+
+          )
         ],
       )
 

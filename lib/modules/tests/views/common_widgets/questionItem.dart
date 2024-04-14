@@ -38,7 +38,7 @@ class QuestionItem extends StatelessWidget {
                 Image.asset('assets/images/pointing.gif', width: Theme.of(context).iconTheme.size, height: Theme.of(context).iconTheme.size,),
                 IconButton(
                     onPressed: () {
-                      SoundFunction().speak(question, 1.0, 0.5, 0.8, 'vi-vn-x-gft-network');
+                      SoundFunction().speakFast(question, 1.0, 0.5, 0.8, 'vi-vn-x-gft-network', question.split(' '), 0);
                     },
                     icon: Icon(Icons.volume_up, size: Theme.of(context).iconTheme.size, color: Colors.white,)
                 ),

@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_tts/flutter_tts.dart';
@@ -34,6 +35,52 @@ class RecognizedTextController extends GetxController {
     }
 
 
+  }
+
+  Future<String> readContentFromFile(String filePath) async {
+    try {
+      File file = File(filePath);
+      List<String> lines = await file.readAsLines();
+      String content = '';
+
+      for (int i=0;i<lines.length;i++) {
+        lines[i] += ' ';
+        content += lines[i];
+        content += '\n';
+      }
+
+      return content;
+    } catch (e) {
+      print('Error reading file: $e');
+      return '';
+    }
+  }
+
+  Future<void> readTextFromFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'txt'],
+      );
+
+      if (result != null) {
+        // Handle the picked file
+        PlatformFile file = result.files.first;
+
+        // Analyze the content (replace with your specific analysis logic)
+        String content = await readContentFromFile(file.path!);
+        extractedText.value = content;
+
+        print(content);
+
+
+      } else {
+        // User canceled the picker
+        print('User canceled');
+      }
+    } catch (e) {
+      print('Error picking and analyzing document: $e');
+    }
   }
 
   Future<Map<String, dynamic>> recognizeTextByAPI(String pickedImage) async {

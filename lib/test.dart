@@ -1,49 +1,60 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 
 
+class HomePage extends StatefulWidget {
 
-class DisplayText extends StatefulWidget {
   @override
-  _DisplayTextState createState() => _DisplayTextState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _DisplayTextState extends State<DisplayText> {
-  bool canEdit = false; // Initial state is not editable
-  TextEditingController _controller = TextEditingController();
+class _HomePageState extends State<HomePage> {
+  bool isBold = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Editable Text Field'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text('Toggle Editable:'),
-                Switch(
-                  value: canEdit,
-                  onChanged: (value) {
-                    setState(() {
-                      canEdit = value; // Update editability state
-                    });
-                  },
-                ),
-              ],
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Demo')),
+        body: Center(
+          child: SelectableText.rich(
+            TextSpan(
+              children: <InlineSpan> [
+                for (int i=0; i <5; i++)
+                  WidgetSpan(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isBold = !isBold;
+                        });
+                        print(isBold);
+                      },
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(text: 't', style: isBold ? TextStyle(color: Colors.red) : TextStyle(color: Colors.black)),
+                            TextSpan(text: 'h')
+                          ]
+                        )
+                      ),
+                    ))
+                    ]
+                  ),
+
             ),
-            TextField(
-              controller: _controller,
-              readOnly: !canEdit, // Invert readOnly based on canEdit
-              decoration: InputDecoration(
-                hintText: 'Type something...',
-              ),
-            ),
-          ],
+        )
         ),
-      ),
-    );
+      );
+
   }
 }

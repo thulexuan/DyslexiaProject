@@ -2,7 +2,11 @@
 import 'package:dyslexia_project/modules/common/controllers/sound.dart';
 import 'package:dyslexia_project/modules/customizeText/views/sound_customize_option_page.dart';
 import 'package:dyslexia_project/modules/customizeText/views/text_customize_option_page.dart';
+import 'package:dyslexia_project/modules/readText/controllers/recognize_text_controller.dart';
+import 'package:dyslexia_project/modules/readText/views/display_text_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class CustomizeOptionPage extends StatefulWidget {
   const CustomizeOptionPage({Key? key}) : super(key: key);
@@ -28,6 +32,11 @@ class _CustomizeOptionPageState extends State<CustomizeOptionPage>
     return Scaffold(
       appBar: AppBar(
         title: Text('Tùy chỉnh', style: Theme.of(context).textTheme.labelSmall,),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back), // Use the arrow icon
+        //   onPressed: () {
+        //   },
+        // ),
         toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
       body: Column(

@@ -24,7 +24,7 @@ class _SentenceItemState extends State<SentenceItem> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width / 2 - 200,
         height: 120,
         decoration: BoxDecoration(
             color: widget.isSelected == true ? Colors.yellow : Colors.white,

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../controllers/sound_controller.dart';
 
 class SoundCustomizeOptionPage extends StatefulWidget {
   const SoundCustomizeOptionPage({Key? key}) : super(key: key);
@@ -19,6 +18,8 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
 
   final textEditingController = TextEditingController();
   final textCustomizeController = Get.put(TextCustomizeController());
+
+  int delayBetweenWord = 0;
 
   @override
   void initState() {
@@ -123,12 +124,14 @@ class _SoundCustomizeOptionPageState extends State<SoundCustomizeOptionPage> {
               width: MediaQuery.of(context).size.width / 2.5,
               child: ElevatedButton(
                 onPressed: () {
-                  SoundFunction().speak(
+                  SoundFunction().speakFast(
                       textEditingController.text,
                       textCustomizeController.current_volume.value,
                       textCustomizeController.current_rate.value,
                       textCustomizeController.current_pitch.value,
-                      textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value]
+                      textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value],
+                      textEditingController.text.split(' '),
+                      0
                   );
                 },
                 child: Row(
