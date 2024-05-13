@@ -65,7 +65,7 @@ class _DoExamProcessState extends State<DoExamProcess> {
                     },
                     child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size,)
                 ),
-                Text('Bài kiểm tra mã ${doneExam['examCode']}', style: Theme.of(context).textTheme.bodyLarge,),
+                Text('Bài ${doneExam['examCode']}', style: Theme.of(context).textTheme.bodyLarge,),
                 TextButton(
                     onPressed: () {
                       Get.to(DoneProcessDetailPage(examCode: doneExam['examCode'], doneProcesses: doneExam['doneProcess'],));

@@ -43,33 +43,44 @@ class _ViewAllCreatedExamsState extends State<ViewAllCreatedExams> {
     return Scaffold(
       appBar: AppBar(title: Text('Các bài kiểm tra đã tạo', style: Theme.of(context).textTheme.labelSmall,),
       toolbarHeight: MediaQuery.of(context).size.height / 12,),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            for (var examCode in allExamsCreated)
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size),
-                      onTap: () {
-                        Get.to(ViewCreatedExam(examCode: examCode,));
-                      },
-                    ),
-                    Text('Bài kiểm tra mã ${examCode}', style: Theme.of(context).textTheme.bodyLarge,),
-                    GestureDetector(
-                      child: Icon(Icons.delete, size: Theme.of(context).iconTheme.size),
-                      onTap: () {
-                        showDialogDeleteExam(context, examCode);
-                      },
-                    )
-                  ],
-                ),
-              )
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              for (var examCode in allExamsCreated)
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: GestureDetector(
+                          child: Icon(Icons.launch, size: Theme.of(context).iconTheme.size),
+                          onTap: () {
+                            Get.to(ViewCreatedExam(examCode: examCode,));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Text('Bài ${examCode}', style: Theme.of(context).textTheme.bodyLarge,)
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: GestureDetector(
+                          child: Icon(Icons.delete, size: Theme.of(context).iconTheme.size),
+                          onTap: () {
+                            showDialogDeleteExam(context, examCode);
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                )
+            ],
+          ),
         ),
       ),
     );

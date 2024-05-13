@@ -149,7 +149,7 @@ class _OneQuestionItemState extends State<OneQuestionItem> with AutomaticKeepAli
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.volume_up, color: Colors.blue,), onPressed: () {
+                              icon: Icon(Icons.volume_up, color: Colors.teal,), onPressed: () {
                                 List<String> sentences = suggestedPara.split('\n');
                                 for (int i = 0; i < sentences.length; i++) {
                                   SoundFunction().speakFast(
@@ -164,7 +164,7 @@ class _OneQuestionItemState extends State<OneQuestionItem> with AutomaticKeepAli
                             },
                             ),
                             IconButton(
-                              icon: Icon(Icons.lightbulb, color: Colors.blue,), onPressed: () {
+                              icon: Icon(Icons.lightbulb, color: Colors.teal,), onPressed: () {
                                 setState(() {
                                   isSuggested = !isSuggested;
                                 });

@@ -30,7 +30,7 @@ class _DoneProcessDetailPageState extends State<DoneProcessDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Kết quả bài kiểm tra số ${widget.examCode}', style: Theme.of(context).textTheme.labelSmall,),
+      appBar: AppBar(title: Text('Kết quả bài ${widget.examCode}', style: Theme.of(context).textTheme.labelSmall,),
         toolbarHeight: MediaQuery.of(context).size.height / 12,
       ),
       body: Padding(

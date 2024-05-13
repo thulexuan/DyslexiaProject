@@ -68,6 +68,8 @@ class EachExamController extends GetxController {
   }
 
   Future<void> saveDoneExamToDb(String examCode) async {
+
+    await getDoneExams();
     bool isDone = false;
 
     for (var i=0;i<doneExams.length;i++) {
@@ -113,10 +115,7 @@ class EachExamController extends GetxController {
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final QuerySnapshot snapshot = await FirebaseFirestore.instance
-              .collection('users')
-              .where('email',
-              isEqualTo: prefs.getString('email')) // add your condition here
-              .get();
+              .collection('users').where('email', isEqualTo: prefs.getString('email')).get();
 
           if (snapshot.docs.isNotEmpty) {
             await snapshot.docs[0]

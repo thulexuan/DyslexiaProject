@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/controllers/sound.dart';
 import '../../customizeText/controllers/text_customize_controller.dart';
 
 class ReadEachSentencePage extends StatefulWidget {
@@ -27,7 +28,8 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
   List<String> wordList = [];
 
   List<bool> letterListIsBolded = [];
-  List<List<bool>> isBolded = [];
+  // List<List<bool>> isBolded = [];
+  List<bool> isBolded = [];
 
   void createWordList() {
     setState(() {
@@ -35,18 +37,18 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
     });
   }
 
-  void createLetterList() {
-
-    for (int i = 0; i < wordList.length; i++) {
-      List<bool> temp = [];
-      for (int j = 0; j < wordList[i].length; j++) {
-        temp.add(false);
-      }
-      setState(() {
-        isBolded.add(temp);
-      });
-    }
-  }
+  // void createLetterList() {
+  //
+  //   for (int i = 0; i < wordList.length; i++) {
+  //     List<bool> temp = [];
+  //     for (int j = 0; j < wordList[i].length; j++) {
+  //       temp.add(false);
+  //     }
+  //     setState(() {
+  //       isBolded.add(temp);
+  //     });
+  //   }
+  // }
 
   Map<String, Color> mapping = {
     'b' : Colors.blue,
@@ -64,7 +66,12 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
     // TODO: implement initState
     super.initState();
     createWordList();
-    createLetterList();
+    // createLetterList();
+    for (int i = 0; i < wordList.length; i++) {
+      setState(() {
+        isBolded.add(false);
+      });
+    }
 
   }
   @override
@@ -75,6 +82,38 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
       toolbarHeight: MediaQuery.of(context).size.height / 12,),
       body: Obx(() => Center(
         child: SelectableText.rich(
+            onSelectionChanged: (TextSelection selection, _) {
+              String selected_text = widget.content.substring(selection.baseOffset, selection.extentOffset);
+              SoundFunction().speakFast(
+                  selected_text,
+                  widget.textCustomizeController.current_volume.value,
+                  widget.textCustomizeController.current_rate.value - 0.1,
+                  widget.textCustomizeController.current_pitch.value,
+                  widget.textCustomizeController.current_voice_name.value,
+                  selected_text.split(' '),
+                  0);
+            },
+            contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
+              final List<ContextMenuButtonItem> buttonItems = editableTextState.contextMenuButtonItems;
+
+              buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                return buttonItem.type == ContextMenuButtonType.cut;
+              });
+              buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                return buttonItem.type == ContextMenuButtonType.copy;
+              });
+              buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                return buttonItem.type == ContextMenuButtonType.selectAll;
+              });
+              buttonItems.removeWhere((ContextMenuButtonItem buttonItem) {
+                return buttonItem.type == ContextMenuButtonType.paste;
+              });
+
+              return AdaptiveTextSelectionToolbar.buttonItems(
+                anchors: editableTextState.contextMenuAnchors,
+                buttonItems: buttonItems,
+              );
+            },
             TextSpan(
                 children: <TextSpan> [
                   for (int i = 0; i < wordList.length; i++)
@@ -85,14 +124,18 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   setState(() {
-                                    isBolded[i][j] = !isBolded[i][j];
+                                    isBolded[i] = !isBolded[i];
                                     // isErrorWord[i][j] = !isErrorWord[i][j];
                                   });
                                 },
                               text: wordList[i][j],
-                              style: isBolded[i][j] ? TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
+                              style: isBolded[i] ? TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: widget.textCustomizeController.currentTextColor.value == 'black' ? Colors.black.withOpacity(widget.textCustomizeController.currentOpacity.value)
+                                      : widget.textCustomizeController.textColor.elementAt(widget.textCustomizeController.textColor_text.indexOf(widget.textCustomizeController.currentTextColor.value)),
+                                  fontWeight: FontWeight.w900,
+                                  color: widget.textCustomizeController.currentTextColor.value == 'black' ? Colors.black.withOpacity(widget.textCustomizeController.currentOpacity.value)
+                                      : widget.textCustomizeController.textColor.elementAt(widget.textCustomizeController.textColor_text.indexOf(widget.textCustomizeController.currentTextColor.value)),
                                   fontSize: widget.textCustomizeController.currentFontSize.value.toDouble(),
                                   fontFamily: widget.textCustomizeController.currentFontStyle.value,
                                   letterSpacing: widget.textCustomizeController.currentCharacterSpacing.value.toDouble(),
@@ -141,7 +184,20 @@ class _ReadEachSentencePageState extends State<ReadEachSentencePage> {
             )
         ),
       ),
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          SoundFunction().speakFast(
+              widget.content,
+              widget.textCustomizeController.current_volume.value,
+              widget.textCustomizeController.current_rate.value - 0.1,
+              widget.textCustomizeController.current_pitch.value,
+              widget.textCustomizeController.current_voice_name.value,
+              widget.content.split(' '),
+              0);
+        },
+        child: Icon(Icons.volume_up),
+      ),
     );
   }
 }

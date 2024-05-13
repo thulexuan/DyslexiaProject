@@ -18,5 +18,17 @@ var wordImageMapping = {
   'BAN MAI' : 'assets/images/ban_mai_1.jpg',
   'ánh lửa' : 'assets/images/lua.jpg',
   'ánh lửa hồng' : 'assets/images/lua.jpg',
-  'nhà sàn' : 'assets/images/nha_san.jpg'
+  'nhà sàn' : 'assets/images/nha_san.jpg',
+  'mịt mù' : 'assets/images/mit_mu.jpg',
+  'ao' : 'assets/images/dam.jpg',
+  'hồ' : 'assets/images/dam.jpg',
+  'đầm' : 'assets/images/dam.jpg',
+  'ao, hồ, đầm' : 'assets/images/dam.jpg',
+  'tòa nhà cao vút' : 'assets/images/toa_nha.png',
+  'con đường cao tốc' : 'assets/images/duong_cao_toc.png',
+  'nhà máy' : 'assets/images/nha_may.jpg',
+  'cánh đồng' : 'assets/images/canh_dong.jpg',
+  'cò' : 'assets/images/canh_co.png',
+  'cánh cò' : 'assets/images/canh_co.png',
+
 };

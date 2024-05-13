@@ -102,7 +102,7 @@ class _ListenTextPageState extends State<ListenTextPage> {
                             ),
                             selectedStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue,
+                                color: textCustomizeController.textColor.elementAt(textCustomizeController.textColor_text.indexOf(textCustomizeController.currentTextColor.value)),
                                 fontSize: textCustomizeController.currentFontSize.value.toDouble() + 20,
                                 fontFamily: textCustomizeController.currentFontStyle.value,
                                 letterSpacing: textCustomizeController.currentCharacterSpacing.value.toDouble(),

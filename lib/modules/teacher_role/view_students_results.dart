@@ -16,6 +16,7 @@ class _ViewAllStudentsResultsState extends State<ViewAllStudentsResults> {
 
   List<dynamic> fullnameOfAllUsers = [];
 
+
   Future<void> getAllUsers() async {
     // get all users that are students
     QuerySnapshot querySnapshotUsers = await FirebaseFirestore.instance.collection('users').get(); // get all users
@@ -49,22 +50,38 @@ class _ViewAllStudentsResultsState extends State<ViewAllStudentsResults> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Tên học sinh', style: Theme.of(context).textTheme.bodyLarge),
+                Text('Email', style: Theme.of(context).textTheme.bodyLarge),
                 Text('Kết quả', style: Theme.of(context).textTheme.bodyLarge)
               ],
             ),
-            for (var i=0; i < emailOfAllUsers.length; i++)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(fullnameOfAllUsers[i], style: Theme.of(context).textTheme.bodyMedium),
-                  TextButton(
-                      onPressed: () {
-                        Get.to(DoExamProcess(email: emailOfAllUsers.elementAt(i)));
-                      },
-                      child: Text('Xem', style: Theme.of(context).textTheme.bodySmall)
-                  )
-                ],
-              )
+            Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      for (var i=0; i < emailOfAllUsers.length; i++)
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(fullnameOfAllUsers[i], style: Theme.of(context).textTheme.bodyMedium),
+                                Text(emailOfAllUsers[i], style: Theme.of(context).textTheme.bodyMedium),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.to(DoExamProcess(email: emailOfAllUsers.elementAt(i)));
+                                    },
+                                    child: Text('Xem', style: Theme.of(context).textTheme.bodySmall)
+                                )
+                              ],
+                            ),
+                            Divider(thickness: 1,)
+                          ],
+                        )
+                    ],
+                  ),
+                )
+            )
+
 
           ],
         ),
