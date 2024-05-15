@@ -1,3 +1,4 @@
+import 'package:dyslexia_project/modules/teacher_role/create_image_page.dart';
 import 'package:dyslexia_project/modules/teacher_role/view_all_created_exam.dart';
 import 'package:dyslexia_project/modules/teacher_role/view_students_results.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,22 @@ class SettingPage extends StatelessWidget {
                       Get.to( ViewAllStudentsResults());
                     },
                     child: const Text('Xem kết quả làm bài của học sinh')
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Icon(Icons.image, size: Theme.of(context).iconTheme.size,),
+                const SizedBox(width: 30,),
+                GestureDetector(
+                    onTap: () {
+                      Get.to( CreateImagePage());
+                    },
+                    child: const Text('Tạo ảnh')
                 ),
               ],
             ),

@@ -154,12 +154,12 @@ class TextCustomizeController extends GetxController {
   ];
 
   List<String> backgroundColor_text = [
-    'white',
-    'off-white',
-    'creme',
-    'yellow',
-    'peach',
-    'orange',
+    'white', //
+    'off-white', //
+    'creme', //
+    'yellow', //
+    'peach', //
+    'orange', //
     'yellowAccent',
     'blue',
     'blue grey',
@@ -169,7 +169,7 @@ class TextCustomizeController extends GetxController {
     'red',
     'turquoise',
     'light mucky green',
-    'mucky green',
+    'mucky green', //
     'black'
   ];
 

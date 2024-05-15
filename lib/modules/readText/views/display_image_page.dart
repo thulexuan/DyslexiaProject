@@ -83,7 +83,7 @@ class _DisplayImagePageState extends State<DisplayImagePage> {
                         }
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  DisplayTextPage(text: controller.extractedText.value,)),
+                          MaterialPageRoute(builder: (context) =>  DisplayPreviousText(readText: controller.extractedText.value,)),
                         );
                       },
                       child: Padding(

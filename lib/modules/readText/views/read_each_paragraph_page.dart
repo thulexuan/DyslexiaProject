@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dyslexia_project/modules/readText/views/read_each_sentence_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,7 @@ class _ReadEachParagraphPageState extends State<ReadEachParagraphPage> {
     processText();
     createSentenceListByPoem();
     createSentenceListByPara();
+    getAllWordImageMapping();
     tts.setLanguage('vi-VN');
     tts.setPitch(0.8);
     tts.setSpeechRate(0.5);
@@ -404,17 +406,39 @@ class _ReadEachParagraphPageState extends State<ReadEachParagraphPage> {
     );
   }
 
-  Future<void> showImage(String text) async {
-    String? imageUrl;
-    if (wordImageMapping.containsKey(text)) {
-      imageUrl = wordImageMapping["${text}"];
+  Map<dynamic, List<dynamic>> allWordsImageMapping = {};
+
+  Future<void> getAllWordImageMapping() async {
+    // get all users that are students
+    QuerySnapshot allPairs = await FirebaseFirestore.instance.collection('imageToExplainCollection').get(); // get all users
+    for (var pair in allPairs.docs) {// for từng pair
+      for (var word in pair['mappingWords']) {
+        if (allWordsImageMapping.containsKey(word)) {
+          setState(() {
+            allWordsImageMapping[word]!.addAll(pair['imageUrl']);
+          });
+        } else {
+          setState(() {
+            allWordsImageMapping[word] = pair['imageUrl'];
+          });
+        }
+      }
     }
+  }
+
+  Future<void> showImage(dynamic text) async {
+
+    List<dynamic>? imageUrlList;
+    if (allWordsImageMapping.containsKey(text)) {
+      imageUrlList = allWordsImageMapping[text];
+    }
+
     _showDialog(
-        context, imageUrl, text
+        context, imageUrlList, text
     );
   }
 
-  void _showDialog(BuildContext context, String? imageUrl, String word) {
+  void _showDialog(BuildContext context, List<dynamic>? imageUrlList, dynamic word) {
     Navigator.of(context).push(
       DialogRoute<void>(
           context: context,
@@ -428,7 +452,12 @@ class _ReadEachParagraphPageState extends State<ReadEachParagraphPage> {
                         Container(
                             width: 400,
                             height: 400,
-                            child: imageUrl != null ? Image.asset(imageUrl!) : Image.asset('assets/images/no_image.png')
+                            child: PageView.builder(
+                                  itemCount: imageUrlList == null ? 1 : imageUrlList.length,
+                                itemBuilder: (context, index) {
+                                  return imageUrlList == null ? Image.asset("assets/images/no_image.png") : Image.network(imageUrlList[index]);
+                                }
+                            ),
                         ),
                         Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),),
                         SizedBox(height: 20,),
@@ -453,4 +482,54 @@ class _ReadEachParagraphPageState extends State<ReadEachParagraphPage> {
       ),
     );
   }
+
+  // Future<void> showImage(String text) async {
+  //   String? imageUrl;
+  //   if (wordImageMapping.containsKey(text)) {
+  //     imageUrl = wordImageMapping["${text}"];
+  //   }
+  //   _showDialog(
+  //       context, imageUrl, text
+  //   );
+  // }
+  //
+  // void _showDialog(BuildContext context, String? imageUrl, String word) {
+  //   Navigator.of(context).push(
+  //     DialogRoute<void>(
+  //         context: context,
+  //         builder: (BuildContext context) =>
+  //             Dialog(
+  //                 child: Container(
+  //                   height: 600,
+  //                   width: 600,
+  //                   child: Column(
+  //                     children: [
+  //                       Container(
+  //                           width: 400,
+  //                           height: 400,
+  //                           child: imageUrl != null ? Image.asset(imageUrl!) : Image.asset('assets/images/no_image.png')
+  //                       ),
+  //                       Text(word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),),
+  //                       SizedBox(height: 20,),
+  //                       IconButton(
+  //                         onPressed: () {
+  //                           SoundFunction().speakFast(
+  //                               word,
+  //                               textCustomizeController.current_volume.value,
+  //                               textCustomizeController.current_rate.value,
+  //                               textCustomizeController.current_pitch.value,
+  //                               textCustomizeController.voiceNameCodeList[textCustomizeController.voiceSelectedIndex.value],
+  //                               word.split(' '),
+  //                               0
+  //                           );
+  //                         },
+  //                         icon: Icon(Icons.volume_up, size: Theme.of(context).iconTheme.size,),
+  //                       )
+  //                     ],
+  //                   ),
+  //                 )
+  //             )
+  //     ),
+  //   );
+  // }
 }
